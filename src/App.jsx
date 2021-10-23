@@ -6,8 +6,10 @@ import theme from './mui';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
 import AuthContext from './context';
 import './App.css';
+import SignupRoutes from './components/signup/SignupRoutes';
 
 function App() {
   // This is the entry into the app, so we have this bad boy making sure we import certain files
@@ -31,11 +33,13 @@ function App() {
             <div className="app">
               <Navbar />
               <Switch>
-                <Route path="/login">
+                <PublicRoute path="/login">
                   <Login />
-                </Route>
+                </PublicRoute>
 
-                <Route path="/signup">{window.largeLorem}</Route>
+                <PublicRoute path="/signup">
+                  <SignupRoutes />
+                </PublicRoute>
 
                 {/* /home is for logged in users */}
                 <PrivateRoute path="/home">{window.largeLorem}</PrivateRoute>

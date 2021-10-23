@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}

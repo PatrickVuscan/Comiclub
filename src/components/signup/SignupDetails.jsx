@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,19 +9,21 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Button } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import styles from './Login.module.css';
-import AuthContext from '../context';
+import SignupContext from './SignupContext';
+import styles from './SignupDetails.module.css';
 
-const acceptedUsersAndPasswords = {
+const existingUsers = {
   user: 'user',
   admin: 'admin',
 };
 
-const Login = () => {
-  const { setAuthState } = useContext(AuthContext);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const SignupDetails = () => {
+  const {
+    signupState: { name, username, password },
+    setSignupState,
+  } = useContext(SignupContext);
   const [showPassword, setShowPassword] = useState(false);
+
   const history = useHistory();
 
   const handleClickShowPassword = () => {
@@ -38,12 +40,11 @@ const Login = () => {
     // Make some call to backend here!
     // foo(username, password) etc
 
-    if (acceptedUsersAndPasswords[username] && acceptedUsersAndPasswords[username] === password) {
-      setAuthState({
-        loggedIn: true,
-        user: username, // Might need to replace eventually with a userID
-      });
-      history.push('/');
+    if (existingUsers[username]) {
+      // Tell them the username is taken
+      console.log('Username is taken!');
+    } else {
+      history.push('/signup/suggestions');
     }
   };
 
@@ -52,11 +53,26 @@ const Login = () => {
       <div className={styles.form}>
         <TextField
           className={styles.input}
+          id="name"
+          label="Name"
+          value={name}
+          onChange={(e) => {
+            setSignupState((prevState) => ({
+              ...prevState,
+              name: e.target.value,
+            }));
+          }}
+        />
+        <TextField
+          className={styles.input}
           id="username"
           label="Username"
           value={username}
           onChange={(e) => {
-            setUsername(e.target.value);
+            setSignupState((prevState) => ({
+              ...prevState,
+              username: e.target.value,
+            }));
           }}
         />
         <FormControl className={styles.input}>
@@ -67,7 +83,10 @@ const Login = () => {
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => {
-              setPassword(e.target.value);
+              setSignupState((prevState) => ({
+                ...prevState,
+                password: e.target.value,
+              }));
             }}
             endAdornment={
               <InputAdornment position="end">
@@ -84,11 +103,11 @@ const Login = () => {
           />
         </FormControl>
         <Button variant="outlined" color="primary" size="large" className={styles.input} onClick={submit}>
-          Log In
+          Sign Up
         </Button>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignupDetails;
