@@ -17,22 +17,28 @@ const theme = createTheme({
       'sans-serif',
     ].join(','),
     button: {
+      fontSize: 20,
+      color: 'black !important',
       textTransform: 'capitalize',
     },
   },
   palette: {
     primary: {
-      main: '#fff',
-      contrastText: '#186ed1',
-    },
-    secondary: {
       main: '#186ed1',
       contrastText: '#fff',
     },
-    // contrast: {
-    //   main: '#ffffff',
-    // },
+    secondary: {
+      main: '#fff',
+      contrastText: '#186ed1',
+    },
   },
+  // overrides: {
+  //   MuiButton: {
+  //     textSizeLarge: {
+  //       fontSize: '100px',
+  //     },
+  //   },
+  // },
 });
 
 export default theme;
