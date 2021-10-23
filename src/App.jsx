@@ -13,7 +13,7 @@ function App() {
   // This is the entry into the app, so we have this bad boy making sure we import certain files
   // only when we're in the development mode
   const [loadedScripts, setLoadedScripts] = useState(false);
-  if (process.env.NODE_ENV === 'development') {
+  if (!loadedScripts && process.env.NODE_ENV === 'development') {
     import('./random').then(() => setLoadedScripts(!loadedScripts));
   }
 
