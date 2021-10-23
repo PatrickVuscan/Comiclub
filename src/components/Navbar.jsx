@@ -10,9 +10,10 @@ import styles from './Navbar.module.css';
 import AuthContext from '../context';
 
 const Navbar = () => {
-  const { authState } = useContext(AuthContext);
-  const { loggedIn } = authState;
-  console.log({ loggedIn });
+  const {
+    authState: { loggedIn },
+  } = useContext(AuthContext);
+
   return (
     <>
       <nav className={styles.navbar}>
@@ -33,24 +34,24 @@ const Navbar = () => {
 
           {/* Search Bar */}
           <li className={`${styles.navbarItem} ${styles.searchbar}`}>
-            <Autocomplete
+            {/* <Autocomplete
               filterOptions={(x) => x}
               sx={{ width: 300 }}
               getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
               renderInput={(params) => <TextField {...params} label="Add a location" fullWidth />}
-            />
+            /> */}
           </li>
 
           {/* Profile and Notifications */}
           {loggedIn && (
             <>
               <li className={styles.navbarItem}>
-                <Link to="/xyz">SIGN UP</Link>
+                <Link to="/xyz">Hi</Link>
               </li>
               <li className={styles.navbarItem}>
                 <Link to="/xyz">
                   <AccountCircleIcon />
-                  SIGN UP
+                  YOU ARE LOGGED IN
                 </Link>
               </li>
             </>
@@ -60,10 +61,10 @@ const Navbar = () => {
           {!loggedIn && (
             <>
               <li className={styles.navbarItem}>
-                <Link to="/xyz">
+                <Link to="/signup">
                   <Button
                     variant="outlined"
-                    color="primary"
+                    color="secondary"
                     size="small"
                     sx={{ marginRight: '1rem', fontSize: '1.2rem', lineHeight: '2rem' }}
                   >
@@ -71,12 +72,12 @@ const Navbar = () => {
                   </Button>
                 </Link>
 
-                <Link to="/xyz">
+                <Link to="/login">
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     size="small"
-                    sx={{ marginRight: '1rem', fontSize: '1.2rem', lineHeight: '2rem' }}
+                    sx={{ fontSize: '1.2rem', lineHeight: '2rem' }}
                   >
                     Log In
                   </Button>

@@ -27,6 +27,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx'] }],
+    'react/prop-types': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

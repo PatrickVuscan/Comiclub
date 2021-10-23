@@ -1,21 +1,21 @@
 import { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material/styles';
-
-import './App.css';
-import Navbar from './components/Navbar';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import theme from './mui';
+import Navbar from './components/Navbar';
+import Login from './components/Login';
+import PrivateRoute from './components/PrivateRoute';
 import AuthContext from './context';
-
-// This is the entry into the app, so we have this bad boy making sure we import certain files
-// only when we're in the development mode
-if (process.env.NODE_ENV === 'development') {
-  import('./random').then(() => console.log('loaded in random'));
-}
+import './App.css';
 
 function App() {
-  console.log(process.env);
+  // This is the entry into the app, so we have this bad boy making sure we import certain files
+  // only when we're in the development mode
+  const [loadedScripts, setLoadedScripts] = useState(false);
+  if (process.env.NODE_ENV === 'development') {
+    import('./random').then(() => setLoadedScripts(!loadedScripts));
+  }
 
   const [authState, setAuthState] = useState({
     loggedIn: false,
@@ -24,18 +24,31 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AuthContext.Provider value={{ authState, setAuthState }}>
-        <Router>
-          <div className="app">
-            <Navbar />
-            <Switch>
-              <Route path="/abc">{window.largeLorem}</Route>
-              <Route path="/xyz">{window.largeLorem}</Route>
-              <Route path="/">You are on the home page</Route>
-            </Switch>
-          </div>
-        </Router>
-      </AuthContext.Provider>
+      {/* This is used to make sure our CSS takes priority over Mui */}
+      <StyledEngineProvider injectFirst>
+        <AuthContext.Provider value={{ authState, setAuthState }}>
+          <Router>
+            <div className="app">
+              <Navbar />
+              <Switch>
+                <Route path="/login">
+                  <Login />
+                </Route>
+
+                <Route path="/signup">{window.largeLorem}</Route>
+
+                {/* /home is for logged in users */}
+                <PrivateRoute path="/home">{window.largeLorem}</PrivateRoute>
+
+                {/* empty / is for non-logged in users */}
+                <Route exact path="/">
+                  {authState.loggedIn ? <Redirect to="/home" /> : <>You are not logged in, this is the home page</>}
+                </Route>
+              </Switch>
+            </div>
+          </Router>
+        </AuthContext.Provider>
+      </StyledEngineProvider>
     </ThemeProvider>
   );
 }
