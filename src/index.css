@@ -4,7 +4,7 @@
   --lightblue: #96c7ff;
   --darkblue:#004ea7;
 
-  font-size: 16px;
+  font-size: calc(10px + 0.5vmin);
 
   /* Pretty scrollbar firefox */
   scrollbar-color: var(--blue) var(--lightblue);
@@ -39,8 +39,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
 
