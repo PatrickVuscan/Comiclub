@@ -1,0 +1,59 @@
+.navbar {
+  width: 100vw;
+  height: 4rem;
+  position: fixed;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+
+  background-color: var(--blue);
+
+  /* fonts */
+  color: white;
+  font-size: 1.5rem;
+}
+
+/* Ensures that content does not INITIALLY appear under navbar.
+   When scrolling, it'll scroll under it. */
+.navbarDisplacement {
+  height: 4rem;
+}
+
+.navbarNav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  max-width: 1400px;
+  /* justify-content: center; */
+}
+
+.navbarItem {
+  padding: 1px;
+  min-width: 2rem;
+  margin: 0 1.5rem;
+}
+
+.logo {
+  font-size: 2rem;
+  font-style: italic;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.searchbar {
+  margin: 0 auto;
+}
+
+/* Remove underlines except when hovered */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover
+{
+  text-decoration: underline;
+}

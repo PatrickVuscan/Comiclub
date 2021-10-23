@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
-// import Navbar from './components/Navbar';
+import Navbar from './components/Navbar';
 import theme from './mui';
 
 // This is the entry into the app, so we have this bad boy making sure we import certain files
@@ -17,7 +17,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <div className="app">
-          {/* <Navbar /> */}
+          <Navbar />
           <Switch>
             <Route path="/abc">{window.largeLorem}</Route>
             <Route path="/xyz">{window.largeLorem}</Route>
