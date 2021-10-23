@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -7,9 +7,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 import styles from './Navbar.module.css';
+import AuthContext from '../context';
 
 const Navbar = () => {
-  const loggedIn = false;
+  const { authState } = useContext(AuthContext);
+  const { loggedIn } = authState;
+  console.log({ loggedIn });
   return (
     <>
       <nav className={styles.navbar}>
