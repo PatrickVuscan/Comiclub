@@ -10,9 +10,10 @@ import styles from './Navbar.module.css';
 import AuthContext from '../context';
 
 const Navbar = () => {
-  const { authState } = useContext(AuthContext);
-  const { loggedIn } = authState;
-  console.log({ loggedIn });
+  const {
+    authState: { loggedIn },
+  } = useContext(AuthContext);
+
   return (
     <>
       <nav className={styles.navbar}>
@@ -33,12 +34,12 @@ const Navbar = () => {
 
           {/* Search Bar */}
           <li className={`${styles.navbarItem} ${styles.searchbar}`}>
-            <Autocomplete
+            {/* <Autocomplete
               filterOptions={(x) => x}
               sx={{ width: 300 }}
               getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
               renderInput={(params) => <TextField {...params} label="Add a location" fullWidth />}
-            />
+            /> */}
           </li>
 
           {/* Profile and Notifications */}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -10,6 +10,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Button } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import styles from './Login.module.css';
+import AuthContext from '../context';
 
 const acceptedUsersAndPasswords = {
   user: 'user',
@@ -17,10 +18,15 @@ const acceptedUsersAndPasswords = {
 };
 
 const Login = () => {
+  const { authState, setAuthState } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const history = useHistory();
+
+  if (authState.loggedIn) {
+    history.push('/');
+  }
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -37,6 +43,10 @@ const Login = () => {
     // foo(username, password) etc
 
     if (acceptedUsersAndPasswords[username] && acceptedUsersAndPasswords[username] === password) {
+      setAuthState({
+        loggedIn: true,
+        user: username, // Might need to replace eventually with a userID
+      });
       history.push('/');
     }
   };
