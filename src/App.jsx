@@ -1,10 +1,11 @@
-import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { useState } from 'react';
-import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import theme from './mui';
+import Navbar from './components/Navbar';
 import Login from './components/Login';
+import AuthContext from './context';
 
 function App() {
   // This is the entry into the app, so we have this bad boy making sure we import certain files
@@ -14,22 +15,29 @@ function App() {
     import('./random').then(() => setLoadedScripts(true));
   }
 
+  const [authState, setAuthState] = useState({
+    loggedIn: false,
+    user: null,
+  });
+
   return (
     <ThemeProvider theme={theme}>
       {/* This is used to make sure our CSS takes priority over Mui */}
       <StyledEngineProvider injectFirst>
-        <Router>
-          <div className="app">
-            <Navbar />
-            <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/signup">{window.largeLorem}</Route>
-              <Route path="/">You are on the home page</Route>
-            </Switch>
-          </div>
-        </Router>
+        <AuthContext.Provider value={{ authState, setAuthState }}>
+          <Router>
+            <div className="app">
+              <Navbar />
+              <Switch>
+                <Route path="/login">
+                  <Login />
+                </Route>
+                <Route path="/signup">{window.largeLorem}</Route>
+                <Route path="/">You are on the home page</Route>
+              </Switch>
+            </div>
+          </Router>
+        </AuthContext.Provider>
       </StyledEngineProvider>
     </ThemeProvider>
   );
