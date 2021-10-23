@@ -18,7 +18,7 @@ const acceptedUsersAndPasswords = {
 };
 
 const Login = () => {
-  const { setAuthState } = useContext(AuthContext);
+  const { setAuthState, fetchAuthState } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -39,10 +39,11 @@ const Login = () => {
     // foo(username, password) etc
 
     if (acceptedUsersAndPasswords[username] && acceptedUsersAndPasswords[username] === password) {
-      setAuthState({
-        loggedIn: true,
-        user: username, // Might need to replace eventually with a userID
-      });
+      localStorage.setItem('LOGGED_IN_USERNAME', username);
+      setAuthState(fetchAuthState());
+      // TO LOG OUT:
+      // localStorage.removeItem('LOGGED_IN_USERNAME');
+      // setAuthState(fetchAuthState());
       history.push('/');
     }
   };
