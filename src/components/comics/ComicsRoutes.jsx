@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 
-import Comic from './Comic';
-import ComicReader from './ComicReader';
+import ComicsSummary from './ComicsSummary';
+import ComicsReader from './ComicsReader';
 
 const ComicsRoutes = () => {
   const { path } = useRouteMatch();
@@ -10,10 +10,10 @@ const ComicsRoutes = () => {
   return (
     <Switch>
       <Route path={`${path}/:comicId`} exact>
-        <Comic />
+        <ComicsSummary />
       </Route>
       <Route path={`${path}/:comicId/:episodeId`} exact>
-        <ComicReader />
+        <ComicsReader />
       </Route>
       <Redirect to={`${path}/`} />
     </Switch>

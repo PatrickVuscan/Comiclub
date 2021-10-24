@@ -1,0 +1,26 @@
+.coverImage {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.body {
+  padding: 5vw 5vw 5vw 5vw;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comicSnapshot {
+  display: flex;
+}
+
+.metadata {
+  margin-right: 5vw;
+}
+
+.description {
+  width: 30vw;
+}
