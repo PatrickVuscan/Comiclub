@@ -11,6 +11,7 @@ import AuthContext from './context';
 import './App.css';
 import SignupRoutes from './components/signup/SignupRoutes';
 import ComicsRoutes from './components/comics/ComicsRoutes';
+import Dashboard from './components/dashboard/Dashboard';
 
 export function fetchAuthState() {
   const username = localStorage.getItem('LOGGED_IN_USERNAME');
@@ -57,6 +58,10 @@ function App() {
 
                 <PrivateRoute path="/comics">
                   <ComicsRoutes />
+                </PrivateRoute>
+
+                <PrivateRoute path="/dashboard">
+                  <Dashboard />
                 </PrivateRoute>
               </Switch>
             </div>
