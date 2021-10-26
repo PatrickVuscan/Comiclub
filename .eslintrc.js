@@ -15,7 +15,7 @@ module.exports = {
   plugins: ['react', 'react-hooks', 'prettier'],
   rules: {
     eqeqeq: 'warn',
-    'prettier/prettier': 'error',
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'no-unused-vars': 'warn',
     'react/jsx-curly-brace-presence': 'warn',
     'react/no-unescaped-entities': 'warn',
