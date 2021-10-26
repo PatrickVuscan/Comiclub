@@ -1,24 +1,22 @@
 import { useContext } from 'react';
 import IconButton from '@mui/material/IconButton';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Button } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { useHistory } from 'react-router-dom';
 import SignupContext from './SignupContext';
 import styles from './SignupSuggestions.module.css';
+
+// Images used for suggestions
+import actionImage from './images/action.png';
+import comedyImage from './images/comedy.png';
+import dramaImage from './images/drama.png';
+import fantasyImage from './images/fantasy.png';
+import mysteryImage from './images/mystery.png';
+import scifiImage from './images/scifi.png';
 
 const SignupSuggestions = () => {
   const {
@@ -42,27 +40,27 @@ const SignupSuggestions = () => {
 
   const itemData = [
     {
-      img: '/action.png',
+      img: actionImage,
       title: 'Action',
     },
     {
-      img: '/comedy.png',
+      img: comedyImage,
       title: 'Comedy',
     },
     {
-      img: '/drama.png',
+      img: dramaImage,
       title: 'Drama',
     },
     {
-      img: '/fantasy.png',
+      img: fantasyImage,
       title: 'Fantasy',
     },
     {
-      img: '/mystery.png',
+      img: mysteryImage,
       title: 'Mystery',
     },
     {
-      img: '/scifi.png',
+      img: scifiImage,
       title: 'Sci-Fi',
     },
   ];
