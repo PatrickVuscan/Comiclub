@@ -44,13 +44,6 @@ const SignupSuggestions = () => {
     }));
   };
 
-  const Img = styled('img')({
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
-  });
-
   const itemData = [
     {
       img: actionImage,
