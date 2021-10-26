@@ -10,7 +10,7 @@ const SignupRoutes = () => {
     name: '',
     username: '',
     password: '',
-    favourites: [],
+    favourites: {},
   });
 
   return (
