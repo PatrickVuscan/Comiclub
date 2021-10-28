@@ -1,18 +1,83 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import { outlinedInputClasses } from '@mui/material/OutlinedInput';
+import { inputLabelClasses } from '@mui/material/InputLabel';
+import { svgIconClasses } from '@mui/material/SvgIcon';
 
 import styles from './Navbar.module.css';
 import AuthContext from '../context';
+
+const SearchOptions = [
+  {
+    title: 'Batman Origins',
+    id: 1,
+  },
+  {
+    title: 'One Piece',
+    id: 2,
+  },
+  {
+    title: 'Naruto',
+    id: 3,
+  },
+  {
+    title: 'Jacksaw Rip',
+    id: 4,
+  },
+  {
+    title: 'Marvel',
+    id: 5,
+  },
+];
+
+// The way I achieved a white autocomplete field
+// From https://stackoverflow.com/a/58963947
+const StyledTextField = styled(TextField)({
+  [`& .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
+    borderColor: 'white',
+  },
+  [`&:hover .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
+    borderColor: 'white',
+  },
+  [`& .${outlinedInputClasses.root}.${outlinedInputClasses.focused} .${outlinedInputClasses.notchedOutline}`]: {
+    borderColor: 'white',
+  },
+  [`& .${outlinedInputClasses.input}`]: {
+    color: 'white',
+  },
+  [`&:hover .${outlinedInputClasses.input}`]: {
+    color: 'white',
+  },
+  [`& .${outlinedInputClasses.root}.${outlinedInputClasses.focused} .${outlinedInputClasses.input}`]: {
+    color: 'white',
+  },
+  [`& .${inputLabelClasses.outlined}`]: {
+    color: 'white',
+  },
+  [`&:hover .${inputLabelClasses.outlined}`]: {
+    color: 'white',
+  },
+  [`& .${inputLabelClasses.outlined}.${inputLabelClasses.focused}`]: {
+    color: 'white',
+  },
+  [`& .${svgIconClasses.root}`]: {
+    color: 'white',
+  },
+});
 
 const Navbar = () => {
   const {
     authState: { loggedIn },
   } = useContext(AuthContext);
+
+  const [searchValue, setSearchValue] = useState('');
+  const [searchOption, setSearchOption] = useState(null);
 
   return (
     <>
@@ -34,12 +99,37 @@ const Navbar = () => {
 
           {/* Search Bar */}
           <li className={`${styles.navbarItem} ${styles.searchbar}`}>
-            {/* <Autocomplete
-              filterOptions={(x) => x}
-              sx={{ width: 300 }}
-              getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
-              renderInput={(params) => <TextField {...params} label="Add a location" fullWidth />}
-            /> */}
+            <Autocomplete
+              sx={{ width: '100%', maxWidth: '400px', margin: 'auto', color: 'white', borderColor: 'white' }}
+              value={searchOption}
+              onChange={(e, newOption) => {
+                // This happens on selecting an option or pressing enter
+                setSearchOption(newOption);
+                // Call the search functionality, basically
+              }}
+              inputValue={searchValue}
+              onInputChange={(e, newInputValue) => {
+                // Happens on each input change (but not enter), or option select
+                setSearchValue(newInputValue);
+              }}
+              // The below must be uncommented, once we start doing our own filtering.
+              // filterOptions={(x) => x}
+              freeSolo
+              selectOnFocus
+              autoHighlight
+              options={SearchOptions}
+              getOptionLabel={(option) => (typeof option === 'string' ? option : option.title)}
+              renderInput={(params) => (
+                <StyledTextField
+                  {...params}
+                  label="Search"
+                  size="small"
+                  variant="outlined"
+                  InputProps={{ ...params.InputProps, type: 'search' }}
+                  color="secondary"
+                />
+              )}
+            />
           </li>
 
           {/* Profile and Notifications */}
