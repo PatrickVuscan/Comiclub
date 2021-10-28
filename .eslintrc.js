@@ -17,6 +17,8 @@ module.exports = {
     eqeqeq: 'warn',
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'no-unused-vars': 'warn',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
     'react/jsx-curly-brace-presence': 'warn',
     'react/no-unescaped-entities': 'warn',
     'no-use-before-define': 'off',

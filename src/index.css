@@ -7,11 +7,11 @@
   font-size: calc(10px + 0.5vmin);
 
   /* Pretty scrollbar firefox */
-  scrollbar-color: var(--blue) var(--lightblue);
+  /* scrollbar-color: var(--blue) var(--lightblue); */
 }
 
 /* Pretty scrollbars, on all other browsers */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 0.5rem;
 }
 
@@ -28,7 +28,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--blue);
   border: 1px solid var(--darkblue);
-}
+} */
 
 body {
   margin: 0;
