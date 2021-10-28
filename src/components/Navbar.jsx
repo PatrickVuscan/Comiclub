@@ -17,6 +17,7 @@ import { svgIconClasses } from '@mui/material/SvgIcon';
 
 import styles from './Navbar.module.css';
 import AuthContext from '../context';
+import NotificationsMenu from './NotificationsMenu';
 
 const SearchOptions = [
   {
@@ -83,15 +84,22 @@ const Navbar = () => {
 
   const [searchValue, setSearchValue] = useState('');
   const [searchOption, setSearchOption] = useState(null);
-  const [notificationsOpened, setNotificationsOpened] = useState(false);
+
+  // Dropdown state
+  const [showNotificationsDropdown, setShowNotificationsDropdown] = useState(false);
+  const [showAccountDropdown, setShowAccountDropdown] = useState(false);
   const [newNotification, setNewNotification] = useState(true);
 
   const onNotificationIconClick = () => {
-    setNotificationsOpened((prevOpened) => !prevOpened);
+    setShowNotificationsDropdown((prevOpened) => !prevOpened);
 
     // For now this is to show the new notifications icon,
     // but normally once viewed, we do not set back to true
     setNewNotification((prevNew) => !prevNew);
+  };
+
+  const onAccountIconClick = () => {
+    setShowAccountDropdown((prevOpened) => !prevOpened);
   };
 
   return (
@@ -152,7 +160,7 @@ const Navbar = () => {
           {/* Profile and Notifications */}
           {loggedIn && (
             <>
-              <li className={`${styles.navbarItem} ${styles.flexCenter}`}>
+              <li className={`${styles.navbarItem} ${styles.flexCenter}`} style={{ position: 'relative' }}>
                 <Link to="/dashboard" className={styles.flexCenter}>
                   <AddCircleOutlineIcon fontSize="large" className={styles.iconButton} />
                 </Link>
@@ -172,10 +180,11 @@ const Navbar = () => {
                     className={styles.iconButton}
                   />
                 )}
-                <Link to="/xyz" className={`${styles.flexCenter} ${styles.hoverable}`}>
+                {showNotificationsDropdown && <NotificationsMenu />}
+                <div className={`${styles.flexCenter} ${styles.hoverable}`} onClick={onAccountIconClick}>
                   <AccountCircleIcon fontSize="large" style={{ margin: '2px 2px 0 0' }} />
                   Account
-                </Link>
+                </div>
               </li>
             </>
           )}
