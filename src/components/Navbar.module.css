@@ -3,8 +3,6 @@
   height: 4rem;
   position: fixed;
   top: 0px;
-  display: flex;
-  justify-content: center;
 
   background-color: var(--blue);
 
@@ -27,14 +25,12 @@
   width: 100%;
   display: flex;
   align-items: center;
-  max-width: 1400px;
-  /* justify-content: center; */
 }
 
 .navbarItem {
   padding: 1px;
-  min-width: 2rem;
   margin: 0 1.5rem;
+  min-width: max-content;
 }
 
 .logo {
@@ -48,7 +44,9 @@
 }
 
 .searchbar {
+  width: 100%;
   margin: 0 auto;
+
 }
 
 /* Remove underlines except when hovered */
