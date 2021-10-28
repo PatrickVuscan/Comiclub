@@ -55,7 +55,24 @@ a {
   color: inherit;
 }
 
-a:hover
-{
-  text-decoration: underline;
+.iconButton {
+  margin: 2px 1rem 0 0;
+  transition: filter 300ms;
+}
+
+.iconButton:hover {
+  filter: brightness(0.8);
+}
+
+.hoverable {
+  transition: filter 300ms;
+}
+
+.hoverable:hover {
+  filter: brightness(0.8);
+}
+
+.flexCenter {
+  display: flex;
+  align-items: center;
 }

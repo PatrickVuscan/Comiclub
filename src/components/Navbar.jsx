@@ -106,10 +106,12 @@ const Navbar = () => {
           </li>
 
           <li className={styles.navbarItem}>
-            <Link to="/xyz">XXXXXX</Link>
-          </li>
-          <li className={styles.navbarItem}>
-            <Link to="/xyz">YYYYYY</Link>
+            <Link to="/xyz" className={styles.hoverable} style={{ marginRight: '1rem' }}>
+              XXXXXX
+            </Link>
+            <Link to="/xyz" className={styles.hoverable}>
+              YYYYYY
+            </Link>
           </li>
 
           {/* Search Bar */}
@@ -150,28 +152,28 @@ const Navbar = () => {
           {/* Profile and Notifications */}
           {loggedIn && (
             <>
-              <li className={styles.navbarItem} style={{ display: 'flex', alignItems: 'center' }}>
-                <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center' }}>
-                  <AddCircleOutlineIcon fontSize="large" style={{ margin: '2px 1rem 0 0' }} />
+              <li className={`${styles.navbarItem} ${styles.flexCenter}`}>
+                <Link to="/dashboard" className={styles.flexCenter}>
+                  <AddCircleOutlineIcon fontSize="large" className={styles.iconButton} />
                 </Link>
-                <Link to="/home" style={{ display: 'flex', alignItems: 'center' }}>
-                  <FavoriteBorderIcon fontSize="large" style={{ margin: '2px 1rem 0 0' }} />
+                <Link to="/home" className={styles.flexCenter}>
+                  <FavoriteBorderIcon fontSize="large" className={styles.iconButton} />
                 </Link>
                 {newNotification ? (
                   <NotificationsActiveOutlinedIcon
                     onClick={onNotificationIconClick}
                     fontSize="large"
-                    style={{ margin: '2px 1rem 0 0', cursor: 'pointer' }}
+                    className={styles.iconButton}
                   />
                 ) : (
                   <NotificationsNoneOutlinedIcon
                     onClick={onNotificationIconClick}
                     fontSize="large"
-                    style={{ margin: '2px 1rem 0 0', cursor: 'pointer' }}
+                    className={styles.iconButton}
                   />
                 )}
-                <Link to="/xyz" style={{ display: 'flex', alignItems: 'center' }}>
-                  <AccountCircleIcon fontSize="large" style={{ margin: '2px 5px 0 0' }} />
+                <Link to="/xyz" className={`${styles.flexCenter} ${styles.hoverable}`}>
+                  <AccountCircleIcon fontSize="large" style={{ margin: '2px 2px 0 0' }} />
                   Account
                 </Link>
               </li>
@@ -187,7 +189,7 @@ const Navbar = () => {
                     variant="outlined"
                     color="secondary"
                     size="small"
-                    sx={{ marginRight: '1rem', fontSize: '1.2rem', lineHeight: '2rem' }}
+                    sx={{ marginRight: '1rem', fontSize: '1.2rem' }}
                   >
                     Sign Up
                   </Button>
