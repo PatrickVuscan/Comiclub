@@ -2,11 +2,13 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import TextField from '@mui/material/TextField';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 
 import { styled } from '@mui/material/styles';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
@@ -149,14 +151,20 @@ const Navbar = () => {
           {loggedIn && (
             <>
               <li className={styles.navbarItem} style={{ display: 'flex', alignItems: 'center' }}>
+                <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center' }}>
+                  <AddCircleOutlineIcon fontSize="large" style={{ margin: '2px 1rem 0 0' }} />
+                </Link>
+                <Link to="/home" style={{ display: 'flex', alignItems: 'center' }}>
+                  <FavoriteBorderIcon fontSize="large" style={{ margin: '2px 1rem 0 0' }} />
+                </Link>
                 {newNotification ? (
-                  <NotificationsActiveIcon
+                  <NotificationsActiveOutlinedIcon
                     onClick={onNotificationIconClick}
                     fontSize="large"
                     style={{ margin: '2px 1rem 0 0', cursor: 'pointer' }}
                   />
                 ) : (
-                  <NotificationsIcon
+                  <NotificationsNoneOutlinedIcon
                     onClick={onNotificationIconClick}
                     fontSize="large"
                     style={{ margin: '2px 1rem 0 0', cursor: 'pointer' }}
