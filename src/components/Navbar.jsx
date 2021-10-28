@@ -103,18 +103,22 @@ const Navbar = () => {
               sx={{ width: '100%', maxWidth: '400px', margin: 'auto', color: 'white', borderColor: 'white' }}
               value={searchOption}
               onChange={(e, newOption) => {
+                // This happens on selecting an option or pressing enter
                 setSearchOption(newOption);
+                // Call the search functionality, basically
               }}
               inputValue={searchValue}
               onInputChange={(e, newInputValue) => {
+                // Happens on each input change (but not enter), or option select
                 setSearchValue(newInputValue);
               }}
               // The below must be uncommented, once we start doing our own filtering.
               // filterOptions={(x) => x}
               freeSolo
               selectOnFocus
+              autoHighlight
               options={SearchOptions}
-              getOptionLabel={(option) => option.title}
+              getOptionLabel={(option) => (typeof option === 'string' ? option : option.title)}
               renderInput={(params) => (
                 <StyledTextField
                   {...params}
