@@ -5,6 +5,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+
 import { styled } from '@mui/material/styles';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { inputLabelClasses } from '@mui/material/InputLabel';
@@ -78,6 +81,16 @@ const Navbar = () => {
 
   const [searchValue, setSearchValue] = useState('');
   const [searchOption, setSearchOption] = useState(null);
+  const [notificationsOpened, setNotificationsOpened] = useState(false);
+  const [newNotification, setNewNotification] = useState(true);
+
+  const onNotificationIconClick = () => {
+    setNotificationsOpened((prevOpened) => !prevOpened);
+
+    // For now this is to show the new notifications icon,
+    // but normally once viewed, we do not set back to true
+    setNewNotification((prevNew) => !prevNew);
+  };
 
   return (
     <>
@@ -135,13 +148,23 @@ const Navbar = () => {
           {/* Profile and Notifications */}
           {loggedIn && (
             <>
-              <li className={styles.navbarItem}>
-                <Link to="/xyz">Hi</Link>
-              </li>
-              <li className={styles.navbarItem}>
-                <Link to="/xyz">
-                  <AccountCircleIcon />
-                  YOU ARE LOGGED IN
+              <li className={styles.navbarItem} style={{ display: 'flex', alignItems: 'center' }}>
+                {newNotification ? (
+                  <NotificationsActiveIcon
+                    onClick={onNotificationIconClick}
+                    fontSize="large"
+                    style={{ margin: '2px 1rem 0 0', cursor: 'pointer' }}
+                  />
+                ) : (
+                  <NotificationsIcon
+                    onClick={onNotificationIconClick}
+                    fontSize="large"
+                    style={{ margin: '2px 1rem 0 0', cursor: 'pointer' }}
+                  />
+                )}
+                <Link to="/xyz" style={{ display: 'flex', alignItems: 'center' }}>
+                  <AccountCircleIcon fontSize="large" style={{ margin: '2px 5px 0 0' }} />
+                  Account
                 </Link>
               </li>
             </>
