@@ -18,6 +18,7 @@ import { svgIconClasses } from '@mui/material/SvgIcon';
 import styles from './Navbar.module.css';
 import AuthContext from '../context';
 import NotificationsMenu from './NotificationsMenu';
+import AccountMenu from './AccountMenu';
 
 const SearchOptions = [
   {
@@ -185,6 +186,7 @@ const Navbar = () => {
                   <AccountCircleIcon fontSize="large" style={{ margin: '2px 2px 0 0' }} />
                   Account
                 </div>
+                {showAccountDropdown && <AccountMenu closeMenu={() => setShowAccountDropdown(false)} />}
               </li>
             </>
           )}
