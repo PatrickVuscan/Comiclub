@@ -5,6 +5,7 @@ import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import theme from './mui';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import HomeLoggedIn from './components/home/HomeLoggedIn';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import AuthContext, { fetchAuthState } from './context';
@@ -45,7 +46,9 @@ function App() {
                 </PublicRoute>
 
                 {/* /home is for logged in users */}
-                <PrivateRoute path="/home">{window.largeLorem}</PrivateRoute>
+                <PrivateRoute path="/home">
+                  <HomeLoggedIn />
+                </PrivateRoute>
 
                 <PrivateRoute path="/comics">
                   <ComicsRoutes />
