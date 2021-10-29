@@ -18,10 +18,6 @@ const DashboardComicCard = () => {
     <Card sx={{ display: 'flex' }}>
       <CardMedia component="img" sx={{ height: 200, width: 300 }} image={comicCoverImg} alt="placeholder" />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Comic - The Title of the Comic.
-        </Typography>
-        <Divider />
         <Box sx={{ m: 2 }}>
           <Typography variant="body2" color="text.secondary" sx={{ width: 600 }}>
             This is the description for Comic Abby. It is a good comic.
