@@ -1,14 +1,12 @@
 import { useContext } from 'react';
 import IconButton from '@mui/material/IconButton';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { useHistory } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import AuthContext from '../../context';
 import styles from './HomeLoggedIn.module.css';
 
@@ -27,6 +25,18 @@ const HomeLoggedIn = () => {
     authState: { user },
   } = useContext(AuthContext);
   const history = useHistory();
+
+  const muiTheme = useTheme();
+  const mediaQueries = [
+    useMediaQuery(muiTheme.breakpoints.up('xs')),
+    useMediaQuery(muiTheme.breakpoints.up('sm')),
+    useMediaQuery(muiTheme.breakpoints.up('md')),
+    useMediaQuery(muiTheme.breakpoints.up('lg')),
+    useMediaQuery(muiTheme.breakpoints.up('xl')),
+  ];
+  const cols = mediaQueries.reduce((prev, curr) => {
+    return curr ? prev + 1 : prev;
+  }, 0);
 
   const itemData = [
     {
@@ -64,10 +74,14 @@ const HomeLoggedIn = () => {
             color: 'var(--blue)',
             fontWeight: 'bold',
             margin: '0',
+            textAlign: 'center',
+            // These following things are used for it to ensure that the \n is converted into an actual newline
+            wordWrap: 'break-word',
+            whiteSpace: 'pre-wrap',
           }}
-        >{`Welcome, ${user}! Here are some of your Subscriptions`}</p>
+        >{`Welcome, ${user}!\nHere are some of your Subscriptions`}</p>
 
-        <ImageList sx={{ width: 1000, height: 1000 }} cols={3} rowHeight={475} gap={50}>
+        <ImageList sx={{ width: '90vw' }} cols={cols} gap={50}>
           {itemData.map((item) => (
             <ImageListItem key={item.img}>
               <img
