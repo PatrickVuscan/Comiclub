@@ -3,14 +3,13 @@
   height: 4rem;
   position: fixed;
   top: 0px;
-  display: flex;
-  justify-content: center;
 
   background-color: var(--blue);
 
   /* fonts */
   color: white;
   font-size: 1.5rem;
+  z-index: 300;
 }
 
 /* Ensures that content does not INITIALLY appear under navbar.
@@ -22,19 +21,18 @@
 .navbarNav {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
-  max-width: 1400px;
-  /* justify-content: center; */
+  max-width: 1500px;
 }
 
 .navbarItem {
   padding: 1px;
-  min-width: 2rem;
   margin: 0 1.5rem;
+  min-width: max-content;
 }
 
 .logo {
@@ -48,7 +46,9 @@
 }
 
 .searchbar {
+  width: 100%;
   margin: 0 auto;
+
 }
 
 /* Remove underlines except when hovered */
@@ -57,7 +57,26 @@ a {
   color: inherit;
 }
 
-a:hover
-{
-  text-decoration: underline;
+.iconButton {
+  margin: 2px 1rem 0 0;
+  transition: filter 300ms;
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  filter: brightness(0.8);
+}
+
+.hoverable {
+  transition: filter 300ms;
+  cursor: pointer;
+}
+
+.hoverable:hover {
+  filter: brightness(0.8);
+}
+
+.flexCenter {
+  display: flex;
+  align-items: center;
 }

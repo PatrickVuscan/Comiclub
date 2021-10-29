@@ -8,5 +8,6 @@
 .suggestions {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  align-items: center;
+  width: 600px;
 }

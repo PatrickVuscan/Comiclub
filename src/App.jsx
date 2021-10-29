@@ -5,20 +5,13 @@ import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import theme from './mui';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import HomeLoggedIn from './components/home/HomeLoggedIn';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
-import AuthContext from './context';
+import AuthContext, { fetchAuthState } from './context';
 import './App.css';
 import SignupRoutes from './components/signup/SignupRoutes';
 import ComicsRoutes from './components/comics/ComicsRoutes';
-
-export function fetchAuthState() {
-  const username = localStorage.getItem('LOGGED_IN_USERNAME');
-  return {
-    loggedIn: username !== null,
-    user: username, // Might need to replace eventually with a userID
-  };
-}
 
 function App() {
   // This is the entry into the app, so we have this bad boy making sure we
@@ -53,7 +46,9 @@ function App() {
                 </PublicRoute>
 
                 {/* /home is for logged in users */}
-                <PrivateRoute path="/home">{window.largeLorem}</PrivateRoute>
+                <PrivateRoute path="/home">
+                  <HomeLoggedIn />
+                </PrivateRoute>
 
                 <PrivateRoute path="/comics">
                   <ComicsRoutes />

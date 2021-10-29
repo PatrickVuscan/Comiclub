@@ -1,0 +1,55 @@
+.coverScroll {
+  position: absolute;
+  top: 50px;
+  width: 300px;
+  max-height: 45vh;
+  transform: translate(-60%);
+
+  background-color: gray;
+  border: 1px solid darkgray;
+  border-radius: 1rem;
+  margin: 0;
+  overflow: hidden;
+  scrollbar-width: "1px";
+}
+
+.dropdown {
+  padding: 1rem;
+  top: 50px;
+  max-height: calc(45vh - 2rem);
+  overflow-y: auto;
+  scrollbar-width: "1px";
+}
+
+.dropdown::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  min-height: 50px;
+  display: flex;
+  align-items: flex-start;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  flex-direction: column;
+  position: relative;
+  background-color: rgb(145, 145, 145);
+  margin-bottom: 1rem;
+}
+
+.item:last-child{
+  margin-bottom: 0;
+}
+
+.X {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  cursor: pointer;
+  transition: background-color 300ms;
+  border-radius: 50%;
+}
+
+.X:hover {
+  background-color: rgb(204, 204, 204);
+}
