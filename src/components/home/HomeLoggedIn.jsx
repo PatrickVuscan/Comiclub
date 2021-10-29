@@ -67,7 +67,7 @@ const HomeLoggedIn = () => {
           }}
         >{`Welcome, ${user}! Here are some of your Subscriptions`}</p>
 
-        <ImageList sx={{ width: 800, height: 900 }} cols={3} rowHeight={440}>
+        <ImageList sx={{ width: 1000, height: 1000 }} cols={3} rowHeight={475} gap={50}>
           {itemData.map((item) => (
             <ImageListItem key={item.img}>
               <img
