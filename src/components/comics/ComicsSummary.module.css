@@ -6,6 +6,7 @@
 
 .body {
   padding: 5vw 5vw 5vw 5vw;
+  font-size: 24px;
 }
 
 .summary {
@@ -15,12 +16,23 @@
 
 .comicSnapshot {
   display: flex;
+  align-items: flex-start;
 }
 
 .metadata {
   margin-right: 5vw;
 }
 
+.headerMargin {
+  margin-block-start: 10px;
+}
+
 .description {
-  width: 30vw;
+  width: 40vw;
+}
+
+.comicList {
+  display: flex;
+  justify-content: stretch;
+  flex-direction: column;
 }
