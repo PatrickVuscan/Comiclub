@@ -12,6 +12,7 @@ import AuthContext, { fetchAuthState } from './context';
 import './App.css';
 import SignupRoutes from './components/signup/SignupRoutes';
 import ComicsRoutes from './components/comics/ComicsRoutes';
+import Dashboard from './components/dashboard/Dashboard';
 
 function App() {
   // This is the entry into the app, so we have this bad boy making sure we
@@ -52,6 +53,10 @@ function App() {
 
                 <PrivateRoute path="/comics">
                   <ComicsRoutes />
+                </PrivateRoute>
+
+                <PrivateRoute path="/dashboard">
+                  <Dashboard />
                 </PrivateRoute>
               </Switch>
             </div>

@@ -46,3 +46,9 @@ window.largeLorem = `Lorem ipsum dolor sit amet consectetur, adipisicing elit. N
             nam temporibus sed, a perspiciatis accusantium, quos alias laboriosam dolores provident fugit!Lorem ipsum
             dolor sit amet consectetur, adipisicing elit. Neque error possimus saepe magnam similique impedit ut facere
             nemo nam temporibus sed, a perspiciatis accusantium, quos alias laboriosam dolores provident fugit!`;
+
+window.smallLorem = `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque error possimus saepe magnam similique
+            impedit ut facere nemo nam temporibus sed, a perspiciatis accusantium, quos alias laboriosam dolores
+            provident fugit!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque error possimus saepe magnam
+            similique impedit ut facere nemo nam temporibus sed, a perspiciatis accusantium, quos alias laboriosam
+            dolores provident fugit!Lorem ipsum dolor sit amet consectetur, adipisicing elit.`;
