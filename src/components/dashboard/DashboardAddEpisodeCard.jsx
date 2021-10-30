@@ -9,7 +9,8 @@ const DashboardAddEpisodeCard = () => {
     <Card
       style={{
         height: 140,
-        backgroundColor: 'lightgrey',
+        backgroundColor: 'lightblue',
+        color: 'white',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

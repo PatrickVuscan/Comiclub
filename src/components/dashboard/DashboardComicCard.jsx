@@ -10,46 +10,71 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-
+import Tooltip from '@mui/material/Tooltip';
 import comicCoverImg from '../../assets/comicCover.jpg';
 
+function fetchComicFromDB(comicId) {
+  return {
+    title: 'Comic Title Placeholder',
+    cover: comicCoverImg,
+    publishDate: '09/09/09',
+    updateDate: '12/12/12',
+    episodeCount: 10,
+    viewCount: 100364,
+    likeCount: 42124,
+    commentCount: 2341,
+    description: window.smallLorem,
+  };
+}
 const DashboardComicCard = () => {
+  const { title, cover, publishDate, updateDate, episodeCount, viewCount, likeCount, commentCount, description } =
+    fetchComicFromDB(null, null);
   return (
     <Card sx={{ display: 'flex' }}>
-      <CardMedia component="img" sx={{ height: 200, width: 300 }} image={comicCoverImg} alt="placeholder" />
-      <CardContent>
+      <CardMedia component="img" sx={{ height: 200, width: 300 }} image={cover} alt="placeholder" />
+      <CardContent sx={{ width: '50%' }}>
         <Box sx={{ m: 2 }}>
-          <Typography variant="body2" color="text.secondary" sx={{ width: 600 }}>
-            This is the description for Comic Abby. It is a good comic.
+          <Typography variant="body2" color="text.secondary">
+            {description}
           </Typography>
         </Box>
       </CardContent>
-      <Box sx={{ m: 2 }}>
+      <Divider orientation="vertical" flexItem />
+      <Box sx={{ m: 2, minWidth: 100 }}>
         <Typography gutterBottom variant="h7" color="text.primary" component="div">
           Statistics.
         </Typography>
         <Stack spacing={0.25}>
           <Typography variant="body2" color="text.secondary" component="div">
-            Published: 09/09/09
+            Published: {publishDate}
           </Typography>
           <Typography variant="body2" color="text.secondary" component="div">
-            Episodes: 10
+            Updated: {updateDate}
           </Typography>
           <Typography variant="body2" color="text.secondary" component="div">
-            Views: 1000
+            Episodes: {episodeCount}
           </Typography>
           <Typography variant="body2" color="text.secondary" component="div">
-            Likes: 1000
+            Views: {viewCount}
           </Typography>
           <Typography variant="body2" color="text.secondary" component="div">
-            Comments: 100
+            Likes: {likeCount}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" component="div">
+            Comments: {commentCount}
           </Typography>
         </Stack>
       </Box>
       <CardActions>
-        <VisibilityIcon />
-        <CreateIcon />
-        <DeleteIcon />
+        <Tooltip title="View">
+          <VisibilityIcon />
+        </Tooltip>
+        <Tooltip title="Edit">
+          <CreateIcon />
+        </Tooltip>
+        <Tooltip title="Delete">
+          <DeleteIcon />
+        </Tooltip>
       </CardActions>
     </Card>
   );

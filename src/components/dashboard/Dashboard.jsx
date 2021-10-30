@@ -8,7 +8,7 @@ import DashboardComicSection from './DashboardComicSection';
 const Dashboard = () => {
   return (
     <div>
-      <Stack spacing={5} m={10} pt={3}>
+      <Stack spacing={5} m={10} pt={3} sx={{ minWidth: 800 }}>
         <Stack spacing={1}>
           <Typography gutterBottom variant="h3" component="div">
             Welcome to your Dashboard, Artist User!
