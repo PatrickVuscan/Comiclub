@@ -1,9 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import styles from './ComicsSummary.module.css';
 import comicCoverImg from '../../assets/comicCover.jpg';
 import formatMetric from '../../utilities';
+import ComicEpisodeCard from './ComicEpisodeCard';
 
 function fetchComicFromDB(comicId) {
   const comicDB = {
@@ -36,21 +39,23 @@ const ComicsSummary = () => {
         <div className={styles.summary}>
           <div className={styles.comicSnapshot}>
             <div className={styles.metadata}>
-              <h2>{comicName}</h2>
-              <p>{formatMetric(numEpisodes, 'Episode')}</p>
-              <p>{formatMetric(views, 'View')}</p>
-              <p>{formatMetric(subs, 'Subscriber')}</p>
+              <h2 className={styles.headerMargin}>{comicName.toUpperCase()}</h2>
+              <p>
+                {formatMetric(numEpisodes, 'Episode')} <br />
+                {formatMetric(views, 'View')} <br />
+                {formatMetric(subs, 'Subscriber')}
+              </p>
             </div>
-            <h2>
-              Like
-              <br />
-              Button
-            </h2>
+            <IconButton sx={{ color: 'black' }} aria-label={`heart ${comicName}`}>
+              <FavoriteBorderIcon style={{ fontSize: '50px' }} />
+            </IconButton>
           </div>
           <div className={styles.description}>
             <p>{description}</p>
           </div>
         </div>
+        <h2 className={styles.headerMargin}>EPISODES</h2>
+        <div className={styles.comicList}>{episodes && episodes.map((i) => <ComicEpisodeCard episode={i} />)}</div>
       </div>
     </div>
   );
