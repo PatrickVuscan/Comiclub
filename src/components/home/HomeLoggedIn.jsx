@@ -17,6 +17,7 @@ import narutoImage from './images/naruto.png';
 import aotImage from './images/aot.png';
 import togImage from './images/tog.png';
 import marvelImage from './images/marvel.png';
+import ironmanImage from './images/ironman.png';
 
 // Images for Recommendations
 
@@ -38,6 +39,24 @@ const HomeLoggedIn = () => {
     return curr ? prev + 1 : prev;
   }, 0);
 
+  const submit = (e) => {
+    e.preventDefault();
+
+    // Find image name and redirect accordingly
+    const path = comicId[e.target.alt];
+    history.push(path);
+  };
+
+  const comicId = {
+    'Batman Origins': '/comics/batman',
+    'One Piece': '/comics/op',
+    'Naruto ': '/comics/naruto',
+    'Attack on Titan': '/comics/aot',
+    'Tower of God': '/comics/tog',
+    'Marvel ': '/comics/marvel',
+    'Iron Man: The First Edition': '/comics/ironman1',
+  };
+
   const itemData = [
     {
       img: batmanImage,
@@ -49,7 +68,7 @@ const HomeLoggedIn = () => {
     },
     {
       img: narutoImage,
-      title: 'Naruto',
+      title: 'Naruto ',
     },
     {
       img: aotImage,
@@ -61,7 +80,11 @@ const HomeLoggedIn = () => {
     },
     {
       img: marvelImage,
-      title: 'Marvel',
+      title: 'Marvel ',
+    },
+    {
+      img: ironmanImage,
+      title: 'Iron Man: The First Edition',
     },
   ];
 
@@ -83,7 +106,7 @@ const HomeLoggedIn = () => {
 
         <ImageList sx={{ width: '90vw' }} cols={cols} gap={50}>
           {itemData.map((item) => (
-            <ImageListItem key={item.img}>
+            <ImageListItem key={item.img} onClick={submit}>
               <img
                 src={`${item.img}?w=350&h=400&fit=crop&auto=format`}
                 srcSet={`${item.img}?w=350&h=400&fit=crop&auto=format&dpr=2 2x`}
