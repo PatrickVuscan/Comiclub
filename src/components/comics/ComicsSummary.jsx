@@ -14,6 +14,13 @@ function fetchComicFromDB(comicId) {
     ironman2: 'Ironman: The Second Edition',
     tokyo: 'Tokyo Ghoul',
     deathnote: 'Death Note',
+    aot: 'Attack on Titan',
+    batman: 'Batman Origins',
+    marvel: 'Marvel',
+    naruto: 'Naruto',
+    op: 'One Piece',
+    tog: 'Tower of God',
+    goh: 'God of High School',
   };
 
   const episodes = ['a', 'b', 'c', 'd', 'a', 'b', 'c', 'd', 'a', 'b', 'c', 'd'];
