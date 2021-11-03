@@ -1,10 +1,11 @@
-import React from 'react';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+import React from 'react';
+
+import DashboardAddEpisodeCard from './DashboardAddEpisodeCard';
 import DashboardComicCard from './DashboardComicCard';
 import DashboardEpisodeCard from './DashboardEpisodeCard';
-import DashboardAddEpisodeCard from './DashboardAddEpisodeCard';
 
 const DashboardComicSection = () => {
   return (

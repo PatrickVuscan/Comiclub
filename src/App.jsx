@@ -1,18 +1,19 @@
+import './App.css';
+
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
-import theme from './mui';
-import Navbar from './components/Navbar';
-import Login from './components/Login';
-import HomeLoggedIn from './components/home/HomeLoggedIn';
-import PrivateRoute from './components/PrivateRoute';
-import PublicRoute from './components/PublicRoute';
-import AuthContext, { fetchAuthState } from './context';
-import './App.css';
-import SignupRoutes from './components/signup/SignupRoutes';
 import ComicsRoutes from './components/comics/ComicsRoutes';
 import Dashboard from './components/dashboard/Dashboard';
+import HomeLoggedIn from './components/home/HomeLoggedIn';
+import Login from './components/Login';
+import Navbar from './components/Navbar';
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
+import SignupRoutes from './components/signup/SignupRoutes';
+import AuthContext, { fetchAuthState } from './context';
+import theme from './mui';
 
 function App() {
   // This is the entry into the app, so we have this bad boy making sure we

@@ -1,8 +1,7 @@
-import React from 'react';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import React from 'react';
+
 import DashboardComicSection from './DashboardComicSection';
 
 const Dashboard = () => {

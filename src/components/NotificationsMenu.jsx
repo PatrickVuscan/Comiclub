@@ -1,7 +1,7 @@
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import styles from './NotificationsMenu.module.css';
 import useComponentVisible from './useComponentVisible';

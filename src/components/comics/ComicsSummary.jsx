@@ -1,12 +1,11 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import IconButton from '@mui/material/IconButton';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import IconButton from '@mui/material/IconButton';
+import { useParams } from 'react-router-dom';
 
-import styles from './ComicsSummary.module.css';
 import comicCoverImg from '../../assets/comicCover.jpg';
 import formatMetric from '../../utilities';
 import ComicEpisodeCard from './ComicEpisodeCard';
+import styles from './ComicsSummary.module.css';
 
 function fetchComicFromDB(comicId) {
   const comicDB = {

@@ -1,8 +1,9 @@
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './AccountMenu.module.css';
+
 import AuthContext, { fetchAuthState } from '../context';
+import styles from './AccountMenu.module.css';
 import useComponentVisible from './useComponentVisible';
 
 const AccountMenu = ({ callback }) => {

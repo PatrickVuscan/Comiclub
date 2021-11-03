@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { useState } from 'react';
+import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+
 import SignupContext from './SignupContext';
 import SignupDetails from './SignupDetails';
 import SignupSuggestions from './SignupSuggestions';

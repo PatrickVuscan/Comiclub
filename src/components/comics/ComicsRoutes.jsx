@@ -1,8 +1,7 @@
-import React from 'react';
-import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 
-import ComicsSummary from './ComicsSummary';
 import ComicsReader from './ComicsReader';
+import ComicsSummary from './ComicsSummary';
 
 const ComicsRoutes = () => {
   const { path } = useRouteMatch();

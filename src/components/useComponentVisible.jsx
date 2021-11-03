@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // This entire functionality was copied and then barely modified from
 // https://stackoverflow.com/a/45323523 - god bless stack overflow

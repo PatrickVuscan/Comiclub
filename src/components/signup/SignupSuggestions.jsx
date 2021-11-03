@@ -1,24 +1,22 @@
-import { useContext } from 'react';
-import IconButton from '@mui/material/IconButton';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import SignupContext from './SignupContext';
-import styles from './SignupSuggestions.module.css';
 
-// Images used for suggestions
+import AuthContext from '../../context';
 import actionImage from './images/action.png';
 import comedyImage from './images/comedy.png';
 import dramaImage from './images/drama.png';
 import fantasyImage from './images/fantasy.png';
 import mysteryImage from './images/mystery.png';
 import scifiImage from './images/scifi.png';
-import AuthContext from '../../context';
+import SignupContext from './SignupContext';
+import styles from './SignupSuggestions.module.css';
 
 const SignupSuggestions = () => {
   const { signupState, setSignupState } = useContext(SignupContext);

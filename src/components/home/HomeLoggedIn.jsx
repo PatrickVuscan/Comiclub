@@ -1,23 +1,23 @@
-import { useContext } from 'react';
-import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import IconButton from '@mui/material/IconButton';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-import { useHistory } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import AuthContext from '../../context';
 import styles from './HomeLoggedIn.module.css';
-
 // Images for Subscriptions
-import batmanImage from './images/batman.png';
-import opImage from './images/op.png';
-import narutoImage from './images/naruto.png';
 import aotImage from './images/aot.png';
-import togImage from './images/tog.png';
-import marvelImage from './images/marvel.png';
+import batmanImage from './images/batman.png';
 import ironmanImage from './images/ironman.png';
+import marvelImage from './images/marvel.png';
+import narutoImage from './images/naruto.png';
+import opImage from './images/op.png';
+import togImage from './images/tog.png';
 
 // Images for Recommendations
 

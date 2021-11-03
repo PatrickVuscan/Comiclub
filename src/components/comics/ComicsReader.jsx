@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import styles from './ComicsSummary.module.css';
+// import styles from './ComicsSummary.module.css';
 
 const ComicsReader = () => {
   const { comicId, episodeId } = useParams();
