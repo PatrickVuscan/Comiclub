@@ -12,7 +12,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', 'prettier'],
+  plugins: ['react', 'react-hooks', 'prettier', 'simple-import-sort', 'import'],
   rules: {
     eqeqeq: 'warn',
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
@@ -31,6 +31,11 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx'] }],
     'react/prop-types': 'off',
+    'simple-import-sort/exports': 'error',
+    'simple-import-sort/imports': 'error',
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+    'import/no-duplicates': 'error',
     'import/extensions': [
       'error',
       'ignorePackages',

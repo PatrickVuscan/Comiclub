@@ -1,7 +1,10 @@
-import { Typography } from '@mui/material';
-import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import React, { useState } from 'react';
+
 import styles from './NotificationsMenu.module.css';
+import useComponentVisible from './useComponentVisible';
 
 const staticNotifications = [
   {
@@ -37,8 +40,9 @@ const staticNotifications = [
   },
 ];
 
-const NotificationsMenu = () => {
+const NotificationsMenu = ({ callback }) => {
   const [notifications, setNotifications] = useState(staticNotifications);
+  const { ref, isComponentVisible } = useComponentVisible(true, callback);
 
   // Update the status of favourited or not
   const deleteNotification = (n) => (e) => {
@@ -48,29 +52,40 @@ const NotificationsMenu = () => {
     setNotifications((prevNotifications) => prevNotifications.filter((notif) => notif !== n));
   };
 
+  const deleteAllNotifications = (e) => {
+    e.preventDefault();
+
+    // Do some stuff to delete notification
+    setNotifications([]);
+  };
+
   return (
-    <div className={styles.coverScroll}>
-      <div className={styles.dropdown}>
-        <Typography
-          variant="h4"
-          gutterBottom
-          component="div"
-          style={{ padding: '0.5rem', borderBottom: '1px solid white' }}
-        >
-          Notifications
-        </Typography>
-        {notifications.map((notification) => (
-          <div className={styles.item}>
-            <Typography variant="h6" gutterBottom component="div">
-              {notification.title}
-            </Typography>
-            <Typography variant="body1" gutterBottom component="div">
-              {notification.details}
-            </Typography>
-            <CloseIcon size="small" className={styles.X} onClick={deleteNotification(notification)} />
+    <div ref={ref}>
+      {isComponentVisible && (
+        <div className={styles.coverScroll}>
+          <div className={styles.dropdown}>
+            <div className={styles.header}>
+              <Typography variant="h5" component="div" style={{ padding: '0.5rem', fontWeight: 'bold' }}>
+                Notifications
+              </Typography>
+              <Button sx={{ lineHeight: '1rem', height: 'min-content' }} onClick={deleteAllNotifications}>
+                Clear All
+              </Button>
+            </div>
+            {notifications.map((notification) => (
+              <div className={styles.item}>
+                <Typography variant="h6" component="div">
+                  {notification.title}
+                </Typography>
+                <Typography variant="body1" component="div">
+                  {notification.details}
+                </Typography>
+                <CloseIcon size="small" className={styles.X} onClick={deleteNotification(notification)} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

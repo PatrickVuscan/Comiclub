@@ -5,8 +5,12 @@
   max-height: 45vh;
   transform: translate(-60%);
 
-  background-color: gray;
-  border: 1px solid darkgray;
+  background-color: white;
+  -webkit-box-shadow: 0px 6px 20px 5px #000000;
+  box-shadow: 0px 6px 20px 5px #000000;
+
+  color: black;
+
   border-radius: 1rem;
   margin: 0;
   overflow: hidden;
@@ -25,6 +29,14 @@
   display: none;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid gray;
+  margin-bottom: 0.5rem;
+}
+
 .item {
   min-height: 50px;
   display: flex;
@@ -33,7 +45,7 @@
   padding: 0.5rem;
   flex-direction: column;
   position: relative;
-  background-color: rgb(145, 145, 145);
+  background-color: rgb(224, 224, 224);
   margin-bottom: 1rem;
 }
 

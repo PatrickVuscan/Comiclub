@@ -18,9 +18,11 @@ import dramaImage from './images/drama.png';
 import fantasyImage from './images/fantasy.png';
 import mysteryImage from './images/mystery.png';
 import scifiImage from './images/scifi.png';
+import AuthContext from '../../context';
 
 const SignupSuggestions = () => {
   const { signupState, setSignupState } = useContext(SignupContext);
+  const { setAuthState, fetchAuthState } = useContext(AuthContext);
 
   const history = useHistory();
 
@@ -28,6 +30,10 @@ const SignupSuggestions = () => {
     e.preventDefault();
 
     // Push this data and the completed profile to the server
+
+    localStorage.setItem('LOGGED_IN_USERNAME', signupState.username);
+    setAuthState(fetchAuthState());
+
     history.push('/');
   };
 

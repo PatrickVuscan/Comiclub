@@ -1,24 +1,23 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import Autocomplete from '@mui/material/Autocomplete';
+import Button from '@mui/material/Button';
+import { inputLabelClasses } from '@mui/material/InputLabel';
+import { outlinedInputClasses } from '@mui/material/OutlinedInput';
+import { styled } from '@mui/material/styles';
+import { svgIconClasses } from '@mui/material/SvgIcon';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import Autocomplete from '@mui/material/Autocomplete';
-import Button from '@mui/material/Button';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import TextField from '@mui/material/TextField';
-import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
-import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
-
-import { styled } from '@mui/material/styles';
-import { outlinedInputClasses } from '@mui/material/OutlinedInput';
-import { inputLabelClasses } from '@mui/material/InputLabel';
-import { svgIconClasses } from '@mui/material/SvgIcon';
-
-import styles from './Navbar.module.css';
 import AuthContext from '../context';
-import NotificationsMenu from './NotificationsMenu';
 import AccountMenu from './AccountMenu';
+import styles from './Navbar.module.css';
+import NotificationsMenu from './NotificationsMenu';
 
 const SearchOptions = [
   {
@@ -162,31 +161,44 @@ const Navbar = () => {
           {loggedIn && (
             <>
               <li className={`${styles.navbarItem} ${styles.flexCenter}`} style={{ position: 'relative' }}>
+                {/* Dashboard Button */}
                 <Link to="/dashboard" className={styles.flexCenter}>
-                  <AddCircleOutlineIcon fontSize="large" className={styles.iconButton} />
+                  <Tooltip title="Artist Dashboard">
+                    <AddCircleOutlineIcon fontSize="large" className={styles.iconButton} />
+                  </Tooltip>
                 </Link>
+
+                {/* Favourites Button */}
                 <Link to="/home" className={styles.flexCenter}>
-                  <FavoriteBorderIcon fontSize="large" className={styles.iconButton} />
+                  <Tooltip title="Favourites">
+                    <FavoriteBorderIcon fontSize="large" className={styles.iconButton} />
+                  </Tooltip>
                 </Link>
-                {newNotification ? (
-                  <NotificationsActiveOutlinedIcon
-                    onClick={onNotificationIconClick}
-                    fontSize="large"
-                    className={styles.iconButton}
-                  />
-                ) : (
-                  <NotificationsNoneOutlinedIcon
-                    onClick={onNotificationIconClick}
-                    fontSize="large"
-                    className={styles.iconButton}
-                  />
-                )}
-                {showNotificationsDropdown && <NotificationsMenu />}
+
+                {/* Notifications */}
+                <Tooltip title="Notifications">
+                  {newNotification ? (
+                    <NotificationsActiveOutlinedIcon
+                      onClick={onNotificationIconClick}
+                      fontSize="large"
+                      className={styles.iconButton}
+                    />
+                  ) : (
+                    <NotificationsNoneOutlinedIcon
+                      onClick={onNotificationIconClick}
+                      fontSize="large"
+                      className={styles.iconButton}
+                    />
+                  )}
+                </Tooltip>
+                {showNotificationsDropdown && <NotificationsMenu callback={onNotificationIconClick} />}
+
+                {/* Account */}
                 <div className={`${styles.flexCenter} ${styles.hoverable}`} onClick={onAccountIconClick}>
                   <AccountCircleIcon fontSize="large" style={{ margin: '2px 2px 0 0' }} />
                   Account
                 </div>
-                {showAccountDropdown && <AccountMenu closeMenu={() => setShowAccountDropdown(false)} />}
+                {showAccountDropdown && <AccountMenu callback={onAccountIconClick} />}
               </li>
             </>
           )}

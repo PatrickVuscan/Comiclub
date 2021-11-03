@@ -17,8 +17,8 @@ const theme = createTheme({
       'sans-serif',
     ].join(','),
     button: {
-      fontSize: 20,
-      color: 'black !important',
+      fontSize: '1rem',
+      color: 'black',
       textTransform: 'capitalize',
     },
   },
@@ -32,13 +32,19 @@ const theme = createTheme({
       contrastText: '#186ed1',
     },
   },
-  // overrides: {
-  //   MuiButton: {
-  //     textSizeLarge: {
-  //       fontSize: '100px',
-  //     },
-  //   },
-  // },
+  components: {
+    MuiTooltip: {
+      defaultProps: {
+        enterDelay: 500,
+        arrow: true,
+      },
+      styleOverrides: {
+        tooltip: {
+          fontSize: '1rem',
+        },
+      },
+    },
+  },
 });
 
 export default theme;
