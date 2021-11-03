@@ -160,7 +160,10 @@ const Navbar = () => {
           {/* Profile and Notifications */}
           {loggedIn && (
             <>
-              <li className={`${styles.navbarItem} ${styles.flexCenter}`} style={{ position: 'relative' }}>
+              <li
+                className={`${styles.navbarItem} ${styles.flexCenter}`}
+                style={{ position: 'relative', marginRight: '2.5rem' }}
+              >
                 {/* Dashboard Button */}
                 <Link to="/dashboard" className={styles.flexCenter}>
                   <Tooltip title="Artist Dashboard">

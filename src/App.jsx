@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import ComicsRoutes from './components/comics/ComicsRoutes';
 import Dashboard from './components/dashboard/Dashboard';
+import Footer from './components/Footer';
 import HomeLoggedIn from './components/home/HomeLoggedIn';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
@@ -33,33 +34,36 @@ function App() {
           <Router>
             <div className="app">
               <Navbar />
-              <Switch>
-                <PublicRoute path="/login">
-                  <Login />
-                </PublicRoute>
+              <div className="app-body">
+                <Switch>
+                  <PublicRoute path="/login">
+                    <Login />
+                  </PublicRoute>
 
-                <PublicRoute path="/signup">
-                  <SignupRoutes />
-                </PublicRoute>
+                  <PublicRoute path="/signup">
+                    <SignupRoutes />
+                  </PublicRoute>
 
-                {/* empty / is for non-logged in users */}
-                <PublicRoute exact path="/">
-                  <>You are not logged in, this is the home page</>
-                </PublicRoute>
+                  {/* empty / is for non-logged in users */}
+                  <PublicRoute exact path="/">
+                    <>You are not logged in, this is the home page</>
+                  </PublicRoute>
 
-                {/* /home is for logged in users */}
-                <PrivateRoute path="/home">
-                  <HomeLoggedIn />
-                </PrivateRoute>
+                  {/* /home is for logged in users */}
+                  <PrivateRoute path="/home">
+                    <HomeLoggedIn />
+                  </PrivateRoute>
 
-                <PrivateRoute path="/comics">
-                  <ComicsRoutes />
-                </PrivateRoute>
+                  <PrivateRoute path="/comics">
+                    <ComicsRoutes />
+                  </PrivateRoute>
 
-                <PrivateRoute path="/dashboard">
-                  <Dashboard />
-                </PrivateRoute>
-              </Switch>
+                  <PrivateRoute path="/dashboard">
+                    <Dashboard />
+                  </PrivateRoute>
+                </Switch>
+              </div>
+              <Footer />
             </div>
           </Router>
         </AuthContext.Provider>
