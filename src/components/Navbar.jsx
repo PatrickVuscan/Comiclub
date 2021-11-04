@@ -103,7 +103,7 @@ const Navbar = () => {
   };
 
   return (
-    <>
+    <div id="nav">
       <nav className={styles.navbar}>
         <ul className={styles.navbarNav}>
           {/* Logo */}
@@ -237,7 +237,7 @@ const Navbar = () => {
         </ul>
       </nav>
       <div className={styles.navbarDisplacement} />
-    </>
+    </div>
   );
 };
 

@@ -1,11 +1,12 @@
 .container {
   display: flex;
-  flex-grow: 1;
+  width: 100%;
   align-items: center;
   justify-content: center;
 }
 
 .suggestions {
+  margin: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;

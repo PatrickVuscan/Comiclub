@@ -82,7 +82,7 @@ const Footer = () => {
         </div>
 
         {/* Administrative Panels */}
-        {user == 'admin' && (
+        {user === 'admin' && (
           <div className={styles.column}>
             <Typography variant="h6" gutterBottom>
               Admin
