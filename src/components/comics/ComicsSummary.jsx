@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import formatMetric from '../../utilities';
 import aotImage from '../home/images/aot.png';
 import batmanImage from '../home/images/batman.png';
+import gohImage from '../home/images/goh.png';
 import ironman1Image from '../home/images/ironman.png';
 import marvelImage from '../home/images/marvel.png';
 import narutoImage from '../home/images/naruto.png';
@@ -24,6 +25,7 @@ function fetchComicFromDB(comicId) {
     naruto: 'Naruto',
     op: 'One Piece',
     tog: 'Tower of God',
+    goh: 'God of High School',
   };
 
   const comicPhotoDB = {
@@ -34,6 +36,7 @@ function fetchComicFromDB(comicId) {
     naruto: narutoImage,
     op: opImage,
     tog: togImage,
+    goh: gohImage,
   };
 
   const episodes = ['a', 'b', 'c', 'd', 'a', 'b', 'c', 'd', 'a', 'b', 'c', 'd'];
