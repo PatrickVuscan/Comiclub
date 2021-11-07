@@ -112,6 +112,7 @@ const HomeLoggedIn = () => {
                 srcSet={`${item.img}?w=350&h=400&fit=crop&auto=format&dpr=2 2x`}
                 alt={item.title}
                 loading="lazy"
+                style={{ cursor: 'pointer' }}
               />
               <ImageListItemBar
                 title={item.title}
