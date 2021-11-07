@@ -10,6 +10,7 @@ import ComicsRoutes from './components/comics/ComicsRoutes';
 import Dashboard from './components/dashboard/Dashboard';
 import Footer from './components/Footer';
 import HomeLoggedIn from './components/home/HomeLoggedIn';
+import HomeNotLoggedIn from './components/home/HomeNotLoggedIn';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
@@ -48,7 +49,7 @@ function App() {
 
                   {/* empty / is for non-logged in users */}
                   <PublicRoute exact path="/">
-                    <>You are not logged in, this is the home page</>
+                    <HomeNotLoggedIn />
                   </PublicRoute>
 
                   {/* /home is for logged in users */}
