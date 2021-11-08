@@ -13,6 +13,7 @@ import styles from './HomeLoggedIn.module.css';
 // Images for Subscriptions
 import aotImage from './images/aot.png';
 import batmanImage from './images/batman.png';
+import gohImage from './images/goh.png';
 import ironmanImage from './images/ironman.png';
 import marvelImage from './images/marvel.png';
 import narutoImage from './images/naruto.png';
@@ -55,6 +56,7 @@ const HomeLoggedIn = () => {
     'Tower of God': '/comics/tog',
     'Marvel ': '/comics/marvel',
     'Iron Man: The First Edition': '/comics/ironman1',
+    'God of High School': '/comics/goh',
   };
 
   const itemData = [
@@ -85,6 +87,10 @@ const HomeLoggedIn = () => {
     {
       img: ironmanImage,
       title: 'Iron Man: The First Edition',
+    },
+    {
+      img: gohImage,
+      title: 'God of High School',
     },
   ];
 
