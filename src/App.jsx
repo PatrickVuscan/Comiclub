@@ -9,6 +9,7 @@ import AdminUser from './components/admin/AdminUser';
 import ComicsRoutes from './components/comics/ComicsRoutes';
 import Dashboard from './components/dashboard/Dashboard';
 import Footer from './components/Footer';
+import Genres from './components/genres/Genres';
 import HomeLoggedIn from './components/home/HomeLoggedIn';
 import HomeNotLoggedIn from './components/home/HomeNotLoggedIn';
 import Login from './components/Login';
@@ -70,6 +71,10 @@ function App() {
                   </PrivateRoute>
                   <PrivateRoute path="/adminuser">
                     <AdminUser />
+                  </PrivateRoute>
+
+                  <PrivateRoute path="/genres">
+                    <Genres />
                   </PrivateRoute>
                 </Switch>
               </div>
