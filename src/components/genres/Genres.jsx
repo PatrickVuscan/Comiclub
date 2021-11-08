@@ -67,10 +67,7 @@ const Genres = () => {
     'Tower of God': '/comics/tog',
     'Marvel ': '/comics/marvel',
     'Iron Man: The First Edition': '/comics/ironman1',
-    'Love Advice from the Great Duke of Hell': '/comics/lagdh',
-    'Dr. Frost': '/comics/drf',
-    'Shotgun Boy': '/comics/sb',
-    'Rebirth ': '/comics/rebirth',
+    'God of High School': '/comics/goh',
   };
 
   const actionData = [
