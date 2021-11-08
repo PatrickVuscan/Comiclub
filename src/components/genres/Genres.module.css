@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    flex-grow: 1;
+    align-items: flex-start;
+    margin-top: 75px;
+    margin-bottom: 1rem;
+    justify-content: left;
+    margin-left: 100px;
+  }
+  
+  .subscriptions {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 600px;
+  }

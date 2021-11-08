@@ -117,7 +117,7 @@ const Navbar = () => {
             <Link to="/xyz" className={styles.hoverable} style={{ marginRight: '1rem' }}>
               Popular
             </Link>
-            <Link to="/xyz" className={styles.hoverable}>
+            <Link to="/genres" className={styles.hoverable}>
               Genres
             </Link>
           </li>
