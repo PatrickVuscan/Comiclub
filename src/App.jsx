@@ -76,6 +76,8 @@ function App() {
                   <PrivateRoute path="/genres">
                     <Genres />
                   </PrivateRoute>
+
+                  <PrivateRoute path="/popular">Here are our most popular comics!</PrivateRoute>
                 </Switch>
               </div>
               <Footer />
