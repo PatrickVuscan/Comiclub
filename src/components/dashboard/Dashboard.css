@@ -3,3 +3,8 @@
   height: 200px;
   border-radius: 10px;
 }
+
+.episodeLink {
+  text-decoration: underline;
+  color: blue;
+}

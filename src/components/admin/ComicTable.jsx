@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
 
-import DeleteDialog from './DeleteDialog';
+import DeleteDialog from '../DeleteDialog';
 
 function createComicData(
   comicName,

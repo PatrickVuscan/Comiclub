@@ -11,8 +11,8 @@ import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import DeleteDialog from '../DeleteDialog';
 import styles from './Admin.css';
-import DeleteDialog from './DeleteDialog';
 
 function createUserData(name, joinDate, comicsCount, episodeCount, viewCount, likeCount, commentCount) {
   return { name, joinDate, comicsCount, episodeCount, viewCount, likeCount, commentCount };
