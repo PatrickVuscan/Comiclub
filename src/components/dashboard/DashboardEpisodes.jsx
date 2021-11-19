@@ -2,26 +2,26 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
-import DashboardComicsTable from './DashboardComicsTable';
+import DashboardEpisodesTable from './DashboardEpisodesTable';
 
-const Dashboard = () => {
+const DashboardEpisodes = () => {
   return (
     <div>
       <Stack spacing={5} m={10} pt={3} sx={{ minWidth: 800 }}>
         <Stack spacing={1}>
           <Typography gutterBottom variant="h3" component="div">
-            Dashboard - Comics for Artist User!
+            Dashboard - Episodes for Comic A!
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            In the Artist Dashboard, you can edit your Comics!
+            In the Artist Dashboard (Episodes), you can edit your Episodes!
           </Typography>
         </Stack>
         <Stack spacing={4}>
-          <DashboardComicsTable />
+          <DashboardEpisodesTable />
         </Stack>
       </Stack>
     </div>
   );
 };
 
-export default Dashboard;
+export default DashboardEpisodes;
