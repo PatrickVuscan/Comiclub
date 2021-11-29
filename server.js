@@ -50,9 +50,11 @@ app.use(
     store:
       env === 'production'
         ? MongoStore.create({
-            mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/StudentAPI',
+            mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/ComiclubAPI',
           })
-        : null,
+        : MongoStore.create({
+            mongoUrl: 'mongodb://localhost:27017/ComiclubAPI',
+          }),
   })
 );
 
@@ -80,6 +82,32 @@ const authenticate = (req, res, next) => {
     res.status(401).send('Unauthorized');
   }
 };
+
+/** * API Routes below *********************************** */
+// User API Route
+app.post('/api/users', mongoChecker, async (req, res) => {
+  console.log(req.body);
+
+  // Create a new user
+  const user = new User({
+    email: req.body.email,
+    password: req.body.password,
+  });
+
+  try {
+    // Save the user
+    const newUser = await user.save();
+    res.send(newUser);
+  } catch (error) {
+    if (isMongoError(error)) {
+      // check for if mongo server suddenly disconnected before this request.
+      res.status(500).send('Internal server error');
+    } else {
+      console.log(error);
+      res.status(400).send('Bad Request'); // bad request for changing the student.
+    }
+  }
+});
 
 // A route to login and create a session
 app.post('/api/users/login', (req, res) => {
@@ -127,34 +155,6 @@ app.get('/api/users/check-session', (req, res) => {
     res.send({ currentUser: req.session.email });
   } else {
     res.status(401).send();
-  }
-});
-
-/** ****************************************************** */
-
-/** * API Routes below *********************************** */
-// User API Route
-app.post('/api/users', mongoChecker, async (req, res) => {
-  console.log(req.body);
-
-  // Create a new user
-  const user = new User({
-    email: req.body.email,
-    password: req.body.password,
-  });
-
-  try {
-    // Save the user
-    const newUser = await user.save();
-    res.send(newUser);
-  } catch (error) {
-    if (isMongoError(error)) {
-      // check for if mongo server suddenly disconnected before this request.
-      res.status(500).send('Internal server error');
-    } else {
-      console.log(error);
-      res.status(400).send('Bad Request'); // bad request for changing the student.
-    }
   }
 });
 
@@ -213,6 +213,7 @@ app.get('*', (req, res) => {
   if (!goodPageRoutes.includes(req.url)) {
     // if url not in expected page routes, set status to 404.
     res.status(404);
+    // ! in the future, once we have all of our paths, we may want to make this conclusive?
   }
 
   // send index.html
