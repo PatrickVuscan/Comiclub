@@ -7,8 +7,7 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Admin from './components/admin/Admin';
 import AdminUser from './components/admin/AdminUser';
 import ComicsRoutes from './components/comics/ComicsRoutes';
-import Dashboard from './components/dashboard/Dashboard';
-import DashboardEpisodes from './components/dashboard/DashboardEpisodes';
+import DashboardRoutes from './components/dashboard/DashboardRoutes';
 import Footer from './components/Footer';
 import Genres from './components/genres/Genres';
 import HomeLoggedIn from './components/home/HomeLoggedIn';
@@ -64,16 +63,13 @@ function App() {
                   </PrivateRoute>
 
                   <PrivateRoute path="/dashboard">
-                    <Dashboard />
-                  </PrivateRoute>
-
-                  <PrivateRoute path="/dashboardEpisodes">
-                    <DashboardEpisodes />
+                    <DashboardRoutes />
                   </PrivateRoute>
 
                   <PrivateRoute path="/admin">
                     <Admin />
                   </PrivateRoute>
+
                   <PrivateRoute path="/adminuser">
                     <AdminUser />
                   </PrivateRoute>

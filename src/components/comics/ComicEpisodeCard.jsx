@@ -1,4 +1,4 @@
-import DashboardEpisodeCard from '../dashboard/DashboardEpisodeCard';
+import DashboardEpisodeCard from './DashboardEpisodeCard';
 
 const ComicEpisodeCard = ({ episode }) => {
   console.log(episode);
