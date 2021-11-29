@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import React from 'react';
 import { uid } from 'react-uid';
 
-import { getEpisodesByComic } from '../../actions/ArtistDashboardActions';
+import { getEpisodesByComic } from '../../actions/DashboardActions';
 import DashboardEpisodesRow from './DashboardEpisodesRow';
 
 class DashboardEpisodesTable extends React.Component {

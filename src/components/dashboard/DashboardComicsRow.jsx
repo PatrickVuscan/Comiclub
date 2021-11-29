@@ -9,9 +9,10 @@ import { Link } from 'react-router-dom';
 
 import DeleteDialog from '../DeleteDialog';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class DashboardComicsRow extends React.Component {
   render() {
-    const { comic } = this.state;
+    const { comic } = this.props;
     const { name, description, thumb, publishDate, episodeCount, panelCount, viewCount, likeCount, commentCount } =
       comic;
 
