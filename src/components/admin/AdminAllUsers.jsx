@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 
 import AdminUserTable from './AdminAllUsersTable';
-import ComicTable from './ComicTable';
 
 const AdminAllUsers = () => {
   return (
@@ -14,7 +13,7 @@ const AdminAllUsers = () => {
             Welcome to the Admin Panel!
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            In the Admin Dashboard, you can delete Users and Comics.
+            In the Admin Dashboard, you can delete Users.
           </Typography>
         </Stack>
         <Stack spacing={4}>
@@ -22,10 +21,6 @@ const AdminAllUsers = () => {
             Users
           </Typography>
           <AdminUserTable />
-          {/* <Typography gutterBottom variant="h4" component="div">
-            Comics
-          </Typography>
-          <ComicTable /> */}
         </Stack>
       </Stack>
     </div>
