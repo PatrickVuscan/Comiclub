@@ -4,7 +4,7 @@ import React from 'react';
 
 import DashboardComicsTable from './DashboardComicsTable';
 
-const Dashboard = () => {
+const DashboardComics = () => {
   return (
     <div>
       <Stack spacing={5} m={10} pt={3} sx={{ minWidth: 800 }}>
@@ -24,4 +24,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardComics;

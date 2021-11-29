@@ -4,7 +4,7 @@ import React from 'react';
 
 import DashboardEpisodesTable from './DashboardEpisodesTable';
 
-const DashboardEpisodes = () => {
+const DashboardEpisodes = (comicID) => {
   return (
     <div>
       <Stack spacing={5} m={10} pt={3} sx={{ minWidth: 800 }}>
@@ -17,7 +17,7 @@ const DashboardEpisodes = () => {
           </Typography>
         </Stack>
         <Stack spacing={4}>
-          <DashboardEpisodesTable />
+          <DashboardEpisodesTable comicID={comicID} />
         </Stack>
       </Stack>
     </div>

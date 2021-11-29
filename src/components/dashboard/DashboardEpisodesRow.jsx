@@ -12,7 +12,8 @@ import DeleteDialog from '../DeleteDialog';
 class DashboardEpisodesRow extends React.Component {
   render() {
     const { episode } = this.props;
-    const { name, description, thumb, publishDate, number, panelCount, viewCount, likeCount, commentCount } = episode;
+    const { id, name, description, thumb, publishDate, number, panelCount, viewCount, likeCount, commentCount } =
+      episode;
 
     return (
       <TableRow key={name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

@@ -4,6 +4,7 @@ import episodeThumb from '../assets/episodeCover.png';
 // TODO: replace with server calls
 export const getComicsByUser = (comics) => {
   function createComicData(
+    id,
     name,
     description,
     thumb,
@@ -15,6 +16,7 @@ export const getComicsByUser = (comics) => {
     commentCount
   ) {
     return {
+      id,
       name,
       description,
       thumb,
@@ -33,19 +35,19 @@ export const getComicsByUser = (comics) => {
   const tempComics = [];
 
   tempComics.push(
-    createComicData('Comic Title A', placeholderDescription, comicThumb, '01/01/01', 123, 12, 123, 798, 83)
+    createComicData('comicA', 'Comic Title A', placeholderDescription, comicThumb, '01/01/01', 123, 12, 123, 798, 83)
   );
   tempComics.push(
-    createComicData('Comic Title B', placeholderDescription, comicThumb, '02/02/02', 87, 872, 21, 107, 82)
+    createComicData('comicB', 'Comic Title B', placeholderDescription, comicThumb, '02/02/02', 87, 872, 21, 107, 82)
   );
   tempComics.push(
-    createComicData('Comic Title C', placeholderDescription, comicThumb, '03/03/03', 123, 12, 123, 798, 83)
+    createComicData('comicC', 'Comic Title C', placeholderDescription, comicThumb, '03/03/03', 123, 12, 123, 798, 83)
   );
   tempComics.push(
-    createComicData('Comic Title D', placeholderDescription, comicThumb, '04/04/04', 87, 872, 21, 107, 82)
+    createComicData('comicD', 'Comic Title D', placeholderDescription, comicThumb, '04/04/04', 87, 872, 21, 107, 82)
   );
   tempComics.push(
-    createComicData('Comic Title E', placeholderDescription, comicThumb, '05/05/05', 123, 12, 123, 798, 83)
+    createComicData('comicE', 'Comic Title E', placeholderDescription, comicThumb, '05/05/05', 123, 12, 123, 798, 83)
   );
 
   comics.setState({
@@ -53,8 +55,9 @@ export const getComicsByUser = (comics) => {
   });
 };
 
-export const getEpisodesByComic = (episodes) => {
+export const getEpisodesByComic = (Comic) => {
   function createEpisodeData(
+    id,
     name,
     description,
     thumb,
@@ -66,6 +69,7 @@ export const getEpisodesByComic = (episodes) => {
     commentCount
   ) {
     return {
+      id,
       name,
       description,
       thumb,
@@ -84,22 +88,78 @@ export const getEpisodesByComic = (episodes) => {
   const tempEpisodes = [];
 
   tempEpisodes.push(
-    createEpisodeData('Episode Title E', placeholderDescription, episodeThumb, '01/01/01', 5, 12, 123, 798, 83)
+    createEpisodeData(
+      1,
+      `Comic ${Comic.state.comicID} - Episode Title E`,
+      placeholderDescription,
+      episodeThumb,
+      '01/01/01',
+      5,
+      12,
+      123,
+      798,
+      83
+    )
   );
   tempEpisodes.push(
-    createEpisodeData('Episode Title D', placeholderDescription, episodeThumb, '02/02/02', 4, 872, 21, 107, 82)
+    createEpisodeData(
+      2,
+      `Comic ${Comic.state.comicID} - Episode Title D`,
+      placeholderDescription,
+      episodeThumb,
+      '02/02/02',
+      4,
+      872,
+      21,
+      107,
+      82
+    )
   );
   tempEpisodes.push(
-    createEpisodeData('Episode Title C', placeholderDescription, episodeThumb, '03/03/03', 3, 12, 123, 798, 83)
+    createEpisodeData(
+      3,
+      `Comic ${Comic.state.comicID} - Episode Title C`,
+      placeholderDescription,
+      episodeThumb,
+      '03/03/03',
+      3,
+      12,
+      123,
+      798,
+      83
+    )
   );
   tempEpisodes.push(
-    createEpisodeData('Episode Title B', placeholderDescription, episodeThumb, '04/04/04', 2, 872, 21, 107, 82)
+    createEpisodeData(
+      4,
+      `Comic ${Comic.state.comicID} - Episode Title B`,
+      placeholderDescription,
+      episodeThumb,
+      '04/04/04',
+      2,
+      872,
+      21,
+      107,
+      82
+    )
   );
   tempEpisodes.push(
-    createEpisodeData('Episode Title A', placeholderDescription, episodeThumb, '05/05/05', 1, 12, 123, 798, 89)
+    createEpisodeData(
+      5,
+      `Comic ${Comic.state.comicID} - Episode Title A`,
+      placeholderDescription,
+      episodeThumb,
+      '05/05/05',
+      1,
+      12,
+      123,
+      798,
+      89
+    )
   );
 
-  episodes.setState({
+  Comic.setState({
+    comicID: Comic.comicID,
     episodes: tempEpisodes,
   });
 };

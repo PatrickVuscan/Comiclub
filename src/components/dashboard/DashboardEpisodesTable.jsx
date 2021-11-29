@@ -17,6 +17,7 @@ class DashboardEpisodesTable extends React.Component {
     super(props);
 
     this.state = {
+      comicID: props.comicID,
       episodes: [],
     };
   }
@@ -28,7 +29,9 @@ class DashboardEpisodesTable extends React.Component {
   }
 
   render() {
-    const { episodes } = this.state;
+    const { comicID, episodes } = this.state;
+    console.log(comicID);
+
     return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
