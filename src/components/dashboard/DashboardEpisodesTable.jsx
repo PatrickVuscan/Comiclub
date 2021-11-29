@@ -1,18 +1,16 @@
-import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import React from 'react';
+import { uid } from 'react-uid';
 
-import { getEpisodesByComicID } from '../../actions/ArtistDashboardActions';
-import DeleteDialog from '../DeleteDialog';
+import { getEpisodesByComic } from '../../actions/ArtistDashboardActions';
+import DashboardEpisodesRow from './DashboardEpisodesRow';
 
 class DashboardEpisodesTable extends React.Component {
   constructor(props) {
@@ -25,7 +23,8 @@ class DashboardEpisodesTable extends React.Component {
 
   componentDidMount() {
     // When the component enters the DOM
-    getEpisodesByComicID(this);
+    // get all episodes
+    getEpisodesByComic(this);
   }
 
   render() {
@@ -39,7 +38,7 @@ class DashboardEpisodesTable extends React.Component {
                 <Checkbox color="primary" />
               </TableCell>
               <TableCell align="right">Number</TableCell>
-              <TableCell>Episode</TableCell>
+              <TableCell align="left">Episode</TableCell>
               <TableCell align="left">Description</TableCell>
               <TableCell align="right">Published</TableCell>
               <TableCell align="right">Panels Uploaded</TableCell>
@@ -51,33 +50,7 @@ class DashboardEpisodesTable extends React.Component {
           </TableHead>
           <TableBody>
             {episodes.map((episode) => (
-              <TableRow key={episode.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell>
-                  <Checkbox color="primary" />
-                </TableCell>
-                <TableCell align="right">{episode.number}</TableCell>
-                <TableCell align="right">
-                  <Box component="img" src={episode.thumb} sx={{ width: 200 }} />
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  <Stack>
-                    <Typography gutterBottom variant="h7" color="text.primary" component="div">
-                      Episode {episode.number} - {episode.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" component="div">
-                      {episode.description}
-                    </Typography>
-                  </Stack>
-                </TableCell>
-                <TableCell align="right">{episode.publishDate}</TableCell>
-                <TableCell align="right">{episode.panelCount}</TableCell>
-                <TableCell align="right">{episode.viewCount}</TableCell>
-                <TableCell align="right">{episode.likeCount}</TableCell>
-                <TableCell align="right">{episode.commentCount}</TableCell>
-                <TableCell align="right">
-                  <DeleteDialog />
-                </TableCell>
-              </TableRow>
+              <DashboardEpisodesRow key={uid(episode)} episode={episode} />
             ))}
           </TableBody>
         </Table>
