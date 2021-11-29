@@ -89,7 +89,7 @@ export const getEpisodesByComic = (Comic) => {
   const tempEpisodes = [];
 
   tempEpisodes.push({
-    id: 1,
+    id: 'episodeE',
     name: `ComicID: ${comicID} - Episode Title E`,
     description: placeholderDescription,
     thumb: episodeThumb,
@@ -102,7 +102,7 @@ export const getEpisodesByComic = (Comic) => {
   });
   tempEpisodes.push(
     createEpisodeData(
-      2,
+      'episodeD',
       `ComicID: ${comicID} - Episode Title D`,
       placeholderDescription,
       episodeThumb,
@@ -116,7 +116,7 @@ export const getEpisodesByComic = (Comic) => {
   );
   tempEpisodes.push(
     createEpisodeData(
-      3,
+      'episodeC',
       `ComicID: ${comicID} - Episode Title C`,
       placeholderDescription,
       episodeThumb,
@@ -130,7 +130,7 @@ export const getEpisodesByComic = (Comic) => {
   );
   tempEpisodes.push(
     createEpisodeData(
-      4,
+      'episodeB',
       `ComicID: ${comicID} - Episode Title B`,
       placeholderDescription,
       episodeThumb,
@@ -144,7 +144,7 @@ export const getEpisodesByComic = (Comic) => {
   );
   tempEpisodes.push(
     createEpisodeData(
-      5,
+      'episodeA',
       `ComicID: ${comicID} - Episode Title A`,
       placeholderDescription,
       episodeThumb,
