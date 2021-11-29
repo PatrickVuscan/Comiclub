@@ -2,10 +2,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
-import ComicTable from './ComicTable';
-import UserTable from './UserTable';
+import AdminUserTable from './AdminAllUsersTable';
 
-const Admin = () => {
+const AdminAllUsers = () => {
   return (
     <div>
       <Stack spacing={5} m={10} pt={3} sx={{ minWidth: 800 }}>
@@ -14,22 +13,18 @@ const Admin = () => {
             Welcome to the Admin Panel!
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            In the Admin Dashboard, you can delete Users and Comics.
+            In the Admin Dashboard, you can delete Users.
           </Typography>
         </Stack>
         <Stack spacing={4}>
           <Typography gutterBottom variant="h4" component="div">
             Users
           </Typography>
-          <UserTable />
-          <Typography gutterBottom variant="h4" component="div">
-            Comics
-          </Typography>
-          <ComicTable />
+          <AdminUserTable />
         </Stack>
       </Stack>
     </div>
   );
 };
 
-export default Admin;
+export default AdminAllUsers;
