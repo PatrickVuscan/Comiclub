@@ -19,3 +19,12 @@
 .input:last-child {
   margin-bottom: 0;
 }
+
+.hoverable {
+  transition: filter 300ms;
+  cursor: pointer;
+}
+
+.hoverable:hover {
+  filter: brightness(0.8);
+}

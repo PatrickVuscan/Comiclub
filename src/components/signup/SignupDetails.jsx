@@ -8,7 +8,7 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import SignupContext from './SignupContext';
 import styles from './SignupDetails.module.css';
@@ -52,6 +52,21 @@ const SignupDetails = () => {
   return (
     <div className={styles.container}>
       <div className={styles.form}>
+        <p
+          style={{
+            fontSize: '20px',
+            color: 'var(--blue)',
+            fontWeight: 'bold',
+            margin: '0',
+            textAlign: 'center',
+            // These following things are used for it to ensure that the \n is converted into an actual newline
+            wordWrap: 'break-word',
+            whiteSpace: 'pre-wrap',
+            marginBottom: '2rem',
+          }}
+        >
+          {'Welcome to Comiclub!\nCreate an Account to get started!'}
+        </p>
         <TextField
           className={styles.input}
           id="name"
@@ -106,6 +121,22 @@ const SignupDetails = () => {
         <Button variant="outlined" color="primary" size="large" className={styles.input} onClick={submit}>
           Sign Up
         </Button>
+        <Link to="/login" className={styles.hoverable}>
+          <p
+            style={{
+              fontSize: '14px',
+              color: 'var(--blue)',
+              fontWeight: 'bold',
+              margin: '1rem 0 0 0',
+              textAlign: 'center',
+              // These following things are used for it to ensure that the \n is converted into an actual newline
+              wordWrap: 'break-word',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            {'Already have an account?\nLog In instead!'}
+          </p>
+        </Link>
       </div>
     </div>
   );
