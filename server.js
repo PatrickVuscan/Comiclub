@@ -1,6 +1,6 @@
 /* Server environment setup */
 // To run in development mode, run normally: node server.js
-// To run in development with the test user console.logged in the backend, run: TEST_USER_ON=true node server.js
+// To run in development with the test user logged in the backend, run: TEST_USER_ON=true node server.js
 // To run in production mode, run in terminal: NODE_ENV=production node server.js
 const env = process.env.NODE_ENV; // read the environment variable (will be 'production' in production mode)
 
@@ -81,8 +81,8 @@ const authenticate = (req, res, next) => {
   }
 };
 
-// A route to console.login and create a session
-app.post('/users/console.login', (req, res) => {
+// A route to login and create a session
+app.post('/api/users/login', (req, res) => {
   const { email } = req.body;
   const { password } = req.body;
 
@@ -92,30 +92,31 @@ app.post('/users/console.login', (req, res) => {
   User.findByEmailPassword(email, password)
     .then((user) => {
       // Add the user's id to the session.
-      // We can check later if this exists to ensure we are console.logged in.
+      // We can check later if this exists to ensure we are logged in.
       req.session.user = user._id;
-      req.session.email = user.email; // we will later send the email to the browser when checking if someone is console.logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
+      req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
       res.send({ currentUser: user.email });
     })
     .catch((error) => {
+      console.error(error);
       res.status(400).send();
     });
 });
 
-// A route to console.logout a user
-app.get('/users/console.logout', (req, res) => {
+// A route to logout a user
+app.get('/api/users/logout', (req, res) => {
   // Remove the session
   req.session.destroy((error) => {
     if (error) {
       res.status(500).send(error);
     } else {
-      res.send();
+      res.send('Logged out!');
     }
   });
 });
 
-// A route to check if a user is console.logged in on the session
-app.get('/users/check-session', (req, res) => {
+// A route to check if a user is logged in on the session
+app.get('/api/users/check-session', (req, res) => {
   if (env !== 'production' && USE_TEST_USER) {
     // test user on development environment.
     req.session.user = TEST_USER_ID;
@@ -177,7 +178,7 @@ app.post('/api/users', mongoChecker, async (req, res) => {
 //     const result = await student.save();
 //     res.send(result);
 //   } catch (error) {
-//     console.log(error); // console.log server error to the console, not to the client.
+//     console.log(error); // log server error to the console, not to the client.
 //     if (isMongoError(error)) {
 //       // check for if mongo server suddenly dissconnected before this request.
 //       res.status(500).send('Internal server error');
@@ -210,7 +211,7 @@ app.use(express.static(path.join(__dirname, '/frontend/build')));
 // All routes other than above will go to index.html
 app.get('*', (req, res) => {
   // check for page routes that we expect in the frontend to provide correct status code.
-  const goodPageRoutes = ['/', '/console.login', '/dashboard'];
+  const goodPageRoutes = ['/', '/login', '/dashboard'];
   if (!goodPageRoutes.includes(req.url)) {
     // if url not in expected page routes, set status to 404.
     res.status(404);

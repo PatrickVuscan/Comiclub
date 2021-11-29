@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema({
 // An example of Mongoose middleware.
 // This function will run immediately prior to saving the document
 // in the database.
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function (next) {
   const user = this; // binds this to User document instance
 
   // checks to ensure we don't hash password more than once
