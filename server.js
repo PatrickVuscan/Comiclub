@@ -205,7 +205,7 @@ app.post('/api/users', mongoChecker, async (req, res) => {
 
 /** * Webpage routes below ********************************* */
 // Serve the build
-app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/frontend/build')));
 
 // All routes other than above will go to index.html
 app.get('*', (req, res) => {
@@ -217,7 +217,7 @@ app.get('*', (req, res) => {
   }
 
   // send index.html
-  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+  res.sendFile(path.join(__dirname, '/frontend/build/index.html'));
 });
 
 /** ********************************************** */
