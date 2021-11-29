@@ -29,25 +29,22 @@ export const getComicsByUser = (comics) => {
     };
   }
 
-  const placeholderDescription =
-    'Comics is a medium used to express ideas with images, often combined with text or other visual information. It typically takes the form of a sequence of panels of images. Textual devices such as speech balloons, captions, and onomatopoeia can indicate dialogue, narration, sound effects, or other information.';
-
   const tempComics = [];
 
   tempComics.push(
-    createComicData('comicA', 'Comic Title A', placeholderDescription, comicThumb, '01/01/01', 123, 12, 123, 798, 83)
+    createComicData('comicA', 'Comic Title A', window.smallLorem, comicThumb, '01/01/01', 123, 12, 123, 798, 83)
   );
   tempComics.push(
-    createComicData('comicB', 'Comic Title B', placeholderDescription, comicThumb, '02/02/02', 87, 872, 21, 107, 82)
+    createComicData('comicB', 'Comic Title B', window.smallLorem, comicThumb, '02/02/02', 87, 872, 21, 107, 82)
   );
   tempComics.push(
-    createComicData('comicC', 'Comic Title C', placeholderDescription, comicThumb, '03/03/03', 123, 12, 123, 798, 83)
+    createComicData('comicC', 'Comic Title C', window.smallLorem, comicThumb, '03/03/03', 123, 12, 123, 798, 83)
   );
   tempComics.push(
-    createComicData('comicD', 'Comic Title D', placeholderDescription, comicThumb, '04/04/04', 87, 872, 21, 107, 82)
+    createComicData('comicD', 'Comic Title D', window.smallLorem, comicThumb, '04/04/04', 87, 872, 21, 107, 82)
   );
   tempComics.push(
-    createComicData('comicE', 'Comic Title E', placeholderDescription, comicThumb, '05/05/05', 123, 12, 123, 798, 83)
+    createComicData('comicE', 'Comic Title E', window.smallLorem, comicThumb, '05/05/05', 123, 12, 123, 798, 83)
   );
 
   comics.setState({
@@ -85,15 +82,12 @@ export const getEpisodesByComic = (Comic) => {
     };
   }
 
-  const placeholderDescription =
-    'Comics is a medium used to express ideas with images, often combined with text or other visual information. It typically takes the form of a sequence of panels of images. Textual devices such as speech balloons, captions, and onomatopoeia can indicate dialogue, narration, sound effects, or other information.';
-
   const tempEpisodes = [];
 
   tempEpisodes.push({
     id: 'episodeE',
     name: `ComicID: ${comicID} - Episode Title E`,
-    description: placeholderDescription,
+    description: window.smallLorem,
     thumb: episodeThumb,
     publishDate: '01/01/01',
     number: 5,
@@ -106,7 +100,7 @@ export const getEpisodesByComic = (Comic) => {
     createEpisodeData(
       'episodeD',
       `ComicID: ${comicID} - Episode Title D`,
-      placeholderDescription,
+      window.smallLorem,
       episodeThumb,
       '02/02/02',
       4,
@@ -120,7 +114,7 @@ export const getEpisodesByComic = (Comic) => {
     createEpisodeData(
       'episodeC',
       `ComicID: ${comicID} - Episode Title C`,
-      placeholderDescription,
+      window.smallLorem,
       episodeThumb,
       '03/03/03',
       3,
@@ -134,7 +128,7 @@ export const getEpisodesByComic = (Comic) => {
     createEpisodeData(
       'episodeB',
       `ComicID: ${comicID} - Episode Title B`,
-      placeholderDescription,
+      window.smallLorem,
       episodeThumb,
       '04/04/04',
       2,
@@ -148,7 +142,7 @@ export const getEpisodesByComic = (Comic) => {
     createEpisodeData(
       'episodeA',
       `ComicID: ${comicID} - Episode Title A`,
-      placeholderDescription,
+      window.smallLorem,
       episodeThumb,
       '05/05/05',
       1,
