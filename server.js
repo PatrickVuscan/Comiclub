@@ -83,10 +83,8 @@ const authenticate = (req, res, next) => {
 
 // A route to login and create a session
 app.post('/api/users/login', (req, res) => {
-  const { email } = req.body;
-  const { password } = req.body;
+  const { email, password } = req.body;
 
-  // console.log(email, password);
   // Use the static method on the User model to find a user
   // by their email and password
   User.findByEmailPassword(email, password)

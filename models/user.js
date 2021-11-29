@@ -28,6 +28,7 @@ const UserSchema = new mongoose.Schema({
 // An example of Mongoose middleware.
 // This function will run immediately prior to saving the document
 // in the database.
+// eslint-disable-next-line func-names
 UserSchema.pre('save', function (next) {
   const user = this; // binds this to User document instance
 
@@ -48,7 +49,8 @@ UserSchema.pre('save', function (next) {
 // A static method on the document model.
 // Allows us to find a User document by comparing the hashed password
 //  to a given one, for example when logging in.
-UserSchema.statics.findByEmailPassword = (email, password) => {
+// eslint-disable-next-line func-names
+UserSchema.statics.findByEmailPassword = function (email, password) {
   const User = this; // binds this to the User model
 
   // First find the user by their email
