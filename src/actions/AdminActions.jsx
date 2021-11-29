@@ -64,4 +64,4 @@ export const deleteUserByID = (userID) => {
   console.log(`deleteUserByID: ${userID}`);
 };
 
-export default { getAllUsers, getCommentsByUserID, deleteCommentById: deleteCommentByID, deleteUserByID };
+export default { getAllUsers, getCommentsByUserID, deleteCommentByID, deleteUserByID };
