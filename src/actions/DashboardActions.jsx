@@ -3,49 +3,28 @@ import episodeThumb from '../assets/episodeCover.png';
 
 export const getComicsByUser = (comics) => {
   console.log('getComicsByUser');
-  function createComicData(
-    id,
-    name,
-    description,
-    thumb,
-    publishDate,
-    episodeCount,
-    panelCount,
-    viewCount,
-    likeCount,
-    commentCount
-  ) {
+  function createComicData(number) {
     return {
-      id,
-      name,
-      description,
-      thumb,
-      publishDate,
-      episodeCount,
-      panelCount,
-      viewCount,
-      likeCount,
-      commentCount,
+      id: `ComicID_${number}`,
+      name: `Comic Title ${number}`,
+      description: window.smallLorem,
+      thumb: comicThumb,
+      publishDate: `${Math.floor(Math.random() * 12)}/${Math.floor(Math.random() * 30)}/20${Math.floor(
+        Math.random() * 21
+      )}`,
+      episodeCount: number,
+      panelCount: Math.floor(Math.random() * 100),
+      viewCount: Math.floor(Math.random() * 1000),
+      likeCount: Math.floor(Math.random() * 1000),
+      commentCount: Math.floor(Math.random() * 1000),
     };
   }
 
   const tempComics = [];
 
-  tempComics.push(
-    createComicData('comicA', 'Comic Title A', window.smallLorem, comicThumb, '01/01/01', 123, 12, 123, 798, 83)
-  );
-  tempComics.push(
-    createComicData('comicB', 'Comic Title B', window.smallLorem, comicThumb, '02/02/02', 87, 872, 21, 107, 82)
-  );
-  tempComics.push(
-    createComicData('comicC', 'Comic Title C', window.smallLorem, comicThumb, '03/03/03', 123, 12, 123, 798, 83)
-  );
-  tempComics.push(
-    createComicData('comicD', 'Comic Title D', window.smallLorem, comicThumb, '04/04/04', 87, 872, 21, 107, 82)
-  );
-  tempComics.push(
-    createComicData('comicE', 'Comic Title E', window.smallLorem, comicThumb, '05/05/05', 123, 12, 123, 798, 83)
-  );
+  for (let i = 1; i < 10; i += 1) {
+    tempComics.push(createComicData(i));
+  }
 
   comics.setState({
     comics: tempComics,
@@ -56,102 +35,28 @@ export const getEpisodesByComic = (Comic) => {
   const { comicID } = Comic.state;
   console.log(`getEpisodesByComic:  ${comicID}`);
 
-  function createEpisodeData(
-    id,
-    name,
-    description,
-    thumb,
-    publishDate,
-    number,
-    panelCount,
-    viewCount,
-    likeCount,
-    commentCount
-  ) {
+  function createEpisodeData(num) {
     return {
-      id,
-      name,
-      description,
-      thumb,
-      publishDate,
-      number,
-      panelCount,
-      viewCount,
-      likeCount,
-      commentCount,
+      id: `episodeID_${num}`,
+      name: `Episode Title ${num}`,
+      description: window.smallLorem,
+      thumb: episodeThumb,
+      publishDate: `${Math.floor(Math.random() * 12)}/${Math.floor(Math.random() * 30)}/20${Math.floor(
+        Math.random() * 21
+      )}`,
+      number: num,
+      panelCount: Math.floor(Math.random() * 100),
+      viewCount: Math.floor(Math.random() * 1000),
+      likeCount: Math.floor(Math.random() * 1000),
+      commentCount: Math.floor(Math.random() * 1000),
     };
   }
 
   const tempEpisodes = [];
 
-  tempEpisodes.push({
-    id: 'episodeE',
-    name: `ComicID: ${comicID} - Episode Title E`,
-    description: window.smallLorem,
-    thumb: episodeThumb,
-    publishDate: '01/01/01',
-    number: 5,
-    panelCount: 12,
-    viewCount: 123,
-    likeCount: 798,
-    commentCount: 33,
-  });
-  tempEpisodes.push(
-    createEpisodeData(
-      'episodeD',
-      `ComicID: ${comicID} - Episode Title D`,
-      window.smallLorem,
-      episodeThumb,
-      '02/02/02',
-      4,
-      872,
-      21,
-      107,
-      82
-    )
-  );
-  tempEpisodes.push(
-    createEpisodeData(
-      'episodeC',
-      `ComicID: ${comicID} - Episode Title C`,
-      window.smallLorem,
-      episodeThumb,
-      '03/03/03',
-      3,
-      12,
-      123,
-      798,
-      83
-    )
-  );
-  tempEpisodes.push(
-    createEpisodeData(
-      'episodeB',
-      `ComicID: ${comicID} - Episode Title B`,
-      window.smallLorem,
-      episodeThumb,
-      '04/04/04',
-      2,
-      872,
-      21,
-      107,
-      82
-    )
-  );
-  tempEpisodes.push(
-    createEpisodeData(
-      'episodeA',
-      `ComicID: ${comicID} - Episode Title A`,
-      window.smallLorem,
-      episodeThumb,
-      '05/05/05',
-      1,
-      12,
-      123,
-      798,
-      89
-    )
-  );
+  for (let i = 1; i < 10; i += 1) {
+    tempEpisodes.push(createEpisodeData(i));
+  }
 
   Comic.setState({
     comicID: Comic.comicID,
