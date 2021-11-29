@@ -1,7 +1,6 @@
 import comicThumb from '../assets/comicCover.jpg';
 import episodeThumb from '../assets/episodeCover.png';
 
-// TODO: replace with server calls
 export const getComicsByUser = (comics) => {
   function createComicData(
     id,
@@ -56,6 +55,8 @@ export const getComicsByUser = (comics) => {
 };
 
 export const getEpisodesByComic = (Comic) => {
+  const { comicID } = Comic.state;
+
   function createEpisodeData(
     id,
     name,
@@ -87,24 +88,22 @@ export const getEpisodesByComic = (Comic) => {
 
   const tempEpisodes = [];
 
-  tempEpisodes.push(
-    createEpisodeData(
-      1,
-      `Comic ${Comic.state.comicID} - Episode Title E`,
-      placeholderDescription,
-      episodeThumb,
-      '01/01/01',
-      5,
-      12,
-      123,
-      798,
-      83
-    )
-  );
+  tempEpisodes.push({
+    id: 1,
+    name: `ComicID: ${comicID} - Episode Title E`,
+    description: placeholderDescription,
+    thumb: episodeThumb,
+    publishDate: '01/01/01',
+    number: 5,
+    panelCount: 12,
+    viewCount: 123,
+    likeCount: 798,
+    commentCount: 33,
+  });
   tempEpisodes.push(
     createEpisodeData(
       2,
-      `Comic ${Comic.state.comicID} - Episode Title D`,
+      `ComicID: ${comicID} - Episode Title D`,
       placeholderDescription,
       episodeThumb,
       '02/02/02',
@@ -118,7 +117,7 @@ export const getEpisodesByComic = (Comic) => {
   tempEpisodes.push(
     createEpisodeData(
       3,
-      `Comic ${Comic.state.comicID} - Episode Title C`,
+      `ComicID: ${comicID} - Episode Title C`,
       placeholderDescription,
       episodeThumb,
       '03/03/03',
@@ -132,7 +131,7 @@ export const getEpisodesByComic = (Comic) => {
   tempEpisodes.push(
     createEpisodeData(
       4,
-      `Comic ${Comic.state.comicID} - Episode Title B`,
+      `ComicID: ${comicID} - Episode Title B`,
       placeholderDescription,
       episodeThumb,
       '04/04/04',
@@ -146,7 +145,7 @@ export const getEpisodesByComic = (Comic) => {
   tempEpisodes.push(
     createEpisodeData(
       5,
-      `Comic ${Comic.state.comicID} - Episode Title A`,
+      `ComicID: ${comicID} - Episode Title A`,
       placeholderDescription,
       episodeThumb,
       '05/05/05',
@@ -164,4 +163,12 @@ export const getEpisodesByComic = (Comic) => {
   });
 };
 
-export default { getComicsByUser, getEpisodesByComic };
+export const deleteComicById = (comicID) => {
+  console.log(`deleteComicById: ${comicID}`);
+};
+
+export const deleteEpisodeById = (episodeID) => {
+  console.log(`deleteEpisodeById: ${episodeID}`);
+};
+
+export default { getComicsByUser, getEpisodesByComic, deleteComicById, deleteEpisodeById };

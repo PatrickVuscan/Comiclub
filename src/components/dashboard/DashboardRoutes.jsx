@@ -11,7 +11,7 @@ const DashboardRoutes = () => {
       <Route path={`${path}/`} exact>
         <DashboardComics />
       </Route>
-      <Route path={`${path}/:comicId`} exact>
+      <Route path={`${path}/:comicID`} exact>
         <DashboardEpisode />
       </Route>
       <Redirect to={`${path}/`} />

@@ -6,7 +6,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
-import DeleteDialog from '../DeleteDialog';
+import DeleteEpisode from './DeleteEpisode';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class DashboardEpisodesRow extends React.Component {
@@ -40,7 +40,7 @@ class DashboardEpisodesRow extends React.Component {
         <TableCell align="right">{likeCount}</TableCell>
         <TableCell align="right">{commentCount}</TableCell>
         <TableCell align="right">
-          <DeleteDialog />
+          <DeleteEpisode episodeID={id} episodeName={name} />
         </TableCell>
       </TableRow>
     );

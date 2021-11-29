@@ -5,19 +5,18 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-import DeleteDialog from '../DeleteDialog';
+import DeleteComic from './DeleteComic';
 
 // eslint-disable-next-line react/prefer-stateless-function
-// class DashboardComicsRow extends React.Component {
 const DashboardComicsRow = ({ comic }) => {
   const { id, name, description, thumb, publishDate, episodeCount, panelCount, viewCount, likeCount, commentCount } =
     comic;
 
   const history = useHistory();
 
-  const submit = (e) => {
+  const goToEpisode = (e) => {
     e.preventDefault();
     const path = `dashboard/${e.target.alt}`;
     history.push(path);
@@ -28,7 +27,7 @@ const DashboardComicsRow = ({ comic }) => {
       <TableCell>
         <Checkbox color="primary" />
       </TableCell>
-      <TableCell align="right" alt={id} onClick={submit}>
+      <TableCell align="right" onClick={goToEpisode}>
         <Box component="img" src={thumb} sx={{ width: 200 }} alt={id} />
       </TableCell>
       <TableCell component="th" scope="row">
@@ -48,7 +47,7 @@ const DashboardComicsRow = ({ comic }) => {
       <TableCell align="right">{likeCount}</TableCell>
       <TableCell align="right">{commentCount}</TableCell>
       <TableCell align="right">
-        <DeleteDialog />
+        <DeleteComic comicID={id} comicName={name} />
       </TableCell>
     </TableRow>
   );
