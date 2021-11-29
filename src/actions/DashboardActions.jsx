@@ -2,6 +2,7 @@ import comicThumb from '../assets/comicCover.jpg';
 import episodeThumb from '../assets/episodeCover.png';
 
 export const getComicsByUser = (comics) => {
+  console.log('getComicsByUser');
   function createComicData(
     id,
     name,
@@ -56,6 +57,7 @@ export const getComicsByUser = (comics) => {
 
 export const getEpisodesByComic = (Comic) => {
   const { comicID } = Comic.state;
+  console.log(`getEpisodesByComic:  ${comicID}`);
 
   function createEpisodeData(
     id,
