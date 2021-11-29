@@ -33,6 +33,7 @@ export const getCommentsByUserID = (User) => {
 
   function createCommentData(num) {
     return {
+      commentID: `commentID_${num}`,
       comicName: 'Comic A',
       episodeNumber: num,
       panelNumber: Math.floor(Math.random() * 10),
@@ -55,4 +56,12 @@ export const getCommentsByUserID = (User) => {
   });
 };
 
-export default { getAllUsers, getCommentsByUserID };
+export const deleteCommentByID = (commentID) => {
+  console.log(`deleteCommentByID: ${commentID}`);
+};
+
+export const deleteUserByID = (userID) => {
+  console.log(`deleteUserByID: ${userID}`);
+};
+
+export default { getAllUsers, getCommentsByUserID, deleteCommentById: deleteCommentByID, deleteUserByID };

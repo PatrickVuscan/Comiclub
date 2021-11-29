@@ -4,7 +4,7 @@ import TableRow from '@mui/material/TableRow';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import DeleteDialog from '../DeleteDialog';
+import DeleteUser from './DeleteUser';
 
 const AdminAllUsersRow = ({ user }) => {
   const { id, name, joinDate, comicsCount, episodeCount, viewCount, likeCount, commentCount } = user;
@@ -12,15 +12,13 @@ const AdminAllUsersRow = ({ user }) => {
 
   const goToUser = (e) => {
     e.preventDefault();
-    console.log(e);
     const userID = e.target.id;
-    console.log(`userID: ${userID}`);
     const path = `admin/${userID}`;
     history.push(path);
   };
 
   return (
-    <TableRow key={name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+    <TableRow key={id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell component="th" scope="row" onClick={goToUser} id={id}>
         <Typography id={id}>{name}</Typography>
       </TableCell>
@@ -31,7 +29,7 @@ const AdminAllUsersRow = ({ user }) => {
       <TableCell align="right">{likeCount}</TableCell>
       <TableCell align="right">{commentCount}</TableCell>
       <TableCell align="right">
-        <DeleteDialog />
+        <DeleteUser userID={id} userName={name} />
       </TableCell>
     </TableRow>
   );
