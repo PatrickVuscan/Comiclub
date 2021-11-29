@@ -2,10 +2,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
+import AdminUserTable from './AdminAllUsersTable';
 import ComicTable from './ComicTable';
-import UserTable from './UserTable';
 
-const Admin = () => {
+const AdminAllUsers = () => {
   return (
     <div>
       <Stack spacing={5} m={10} pt={3} sx={{ minWidth: 800 }}>
@@ -21,15 +21,15 @@ const Admin = () => {
           <Typography gutterBottom variant="h4" component="div">
             Users
           </Typography>
-          <UserTable />
-          <Typography gutterBottom variant="h4" component="div">
+          <AdminUserTable />
+          {/* <Typography gutterBottom variant="h4" component="div">
             Comics
           </Typography>
-          <ComicTable />
+          <ComicTable /> */}
         </Stack>
       </Stack>
     </div>
   );
 };
 
-export default Admin;
+export default AdminAllUsers;

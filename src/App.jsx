@@ -4,8 +4,7 @@ import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import Admin from './components/admin/Admin';
-import AdminUser from './components/admin/AdminUser';
+import AdminRoutes from './components/admin/AdminRoutes';
 import ComicsRoutes from './components/comics/ComicsRoutes';
 import DashboardRoutes from './components/dashboard/DashboardRoutes';
 import Footer from './components/Footer';
@@ -67,11 +66,7 @@ function App() {
                   </PrivateRoute>
 
                   <PrivateRoute path="/admin">
-                    <Admin />
-                  </PrivateRoute>
-
-                  <PrivateRoute path="/adminuser">
-                    <AdminUser />
+                    <AdminRoutes />
                   </PrivateRoute>
 
                   <PrivateRoute path="/genres">
