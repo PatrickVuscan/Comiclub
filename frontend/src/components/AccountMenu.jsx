@@ -2,6 +2,7 @@ import Typography from '@mui/material/Typography';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import ENV from '../config';
 import AuthContext, { fetchAuthState } from '../context';
 import styles from './AccountMenu.module.css';
 import useComponentVisible from './useComponentVisible';
@@ -14,9 +15,15 @@ const AccountMenu = ({ callback }) => {
   } = useContext(AuthContext);
 
   const signOut = () => {
-    localStorage.removeItem('LOGGED_IN_USERNAME');
-    setAuthState(fetchAuthState());
-    callback();
+    fetch(`${ENV.api_host}/api/users/logout`)
+      .then(() => {
+        localStorage.removeItem('LOGGED_IN_USERNAME');
+        setAuthState(fetchAuthState());
+        callback();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

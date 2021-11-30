@@ -2,6 +2,7 @@ import Typography from '@mui/material/Typography';
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import ENV from '../config';
 import AuthContext, { fetchAuthState } from '../context';
 import styles from './Footer.module.css';
 
@@ -12,8 +13,14 @@ const Footer = () => {
   } = useContext(AuthContext);
 
   const signOut = () => {
-    localStorage.removeItem('LOGGED_IN_USERNAME');
-    setAuthState(fetchAuthState());
+    fetch(`${ENV.api_host}/api/users/logout`)
+      .then(() => {
+        localStorage.removeItem('LOGGED_IN_USERNAME');
+        setAuthState(fetchAuthState());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const history = useHistory();

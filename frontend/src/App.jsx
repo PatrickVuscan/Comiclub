@@ -2,7 +2,7 @@ import './App.css';
 
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
 
 import AdminRoutes from './components/admin/AdminRoutes';
 import ComicsRoutes from './components/comics/ComicsRoutes';
@@ -74,6 +74,10 @@ function App() {
                   </PrivateRoute>
 
                   <PrivateRoute path="/popular">Here are our most popular comics!</PrivateRoute>
+
+                  {/* I believe this acts as a redirect for all paths that do not match the above,
+                      back to home, so that we don't show empty paths, empty screens. */}
+                  <Redirect to="/home" />
                 </Switch>
               </div>
               <Footer />
