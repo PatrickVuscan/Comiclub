@@ -10,6 +10,7 @@ import TextField from '@mui/material/TextField';
 import { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
+import ENV from '../../config';
 import SignupContext from './SignupContext';
 import styles from './SignupDetails.module.css';
 
@@ -20,10 +21,11 @@ const existingUsers = {
 
 const SignupDetails = () => {
   const {
-    signupState: { name, username, password },
+    signupState: { name, email, password },
     setSignupState,
   } = useContext(SignupContext);
   const [showPassword, setShowPassword] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
 
   const history = useHistory();
 
@@ -38,15 +40,32 @@ const SignupDetails = () => {
   const submit = (e) => {
     e.preventDefault();
 
-    // Make some call to backend here!
-    // foo(username, password) etc
+    const request = new Request(`${ENV.api_host}/api/users/check-credentials`, {
+      method: 'post',
+      body: JSON.stringify({ email, password }),
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
 
-    if (existingUsers[username]) {
-      // Tell them the username is taken
-      console.log('Username is taken!');
-    } else {
-      history.push('/signup/suggestions');
-    }
+    // Send the request with fetch()
+    fetch(request)
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+      })
+      .then((json) => {
+        if (json.available) {
+          history.push('/signup/suggestions');
+        } else {
+          setDisplayError(json.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -81,13 +100,14 @@ const SignupDetails = () => {
         />
         <TextField
           className={styles.input}
-          id="username"
-          label="Username"
-          value={username}
+          id="email"
+          label="Email"
+          value={email}
           onChange={(e) => {
+            if (displayError) setDisplayError(false);
             setSignupState((prevState) => ({
               ...prevState,
-              username: e.target.value,
+              email: e.target.value,
             }));
           }}
         />
@@ -99,6 +119,7 @@ const SignupDetails = () => {
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => {
+              if (displayError) setDisplayError(false);
               setSignupState((prevState) => ({
                 ...prevState,
                 password: e.target.value,
@@ -121,6 +142,22 @@ const SignupDetails = () => {
         <Button variant="outlined" color="primary" size="large" className={styles.input} onClick={submit}>
           Sign Up
         </Button>
+        {displayError && (
+          <p
+            style={{
+              fontSize: '14px',
+              color: 'red',
+              fontWeight: 'bold',
+              margin: '0',
+              textAlign: 'center',
+              // These following things are used for it to ensure that the \n is converted into an actual newline
+              wordWrap: 'break-word',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            {`Unfortunately there is an issue.\n${displayError}`}
+          </p>
+        )}
         <Link to="/login" className={styles.hoverable}>
           <p
             style={{

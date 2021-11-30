@@ -86,8 +86,6 @@ const authenticate = (req, res, next) => {
 /** * API Routes below *********************************** */
 // User API Route
 app.post('/api/users', mongoChecker, async (req, res) => {
-  console.log(req.body);
-
   // Create a new user
   const user = new User({
     email: req.body.email,
@@ -156,6 +154,22 @@ app.get('/api/users/check-session', (req, res) => {
   } else {
     res.status(401).send();
   }
+});
+
+// A route to login and create a session
+app.post('/api/users/check-credentials', (req, res) => {
+  const { email, password } = req.body;
+
+  // Use the static method on the User model to find a user
+  // by their email and password
+  User.checkCredentials(email, password)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(400).send();
+    });
 });
 
 // /** Student resource routes * */

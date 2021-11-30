@@ -71,6 +71,31 @@ UserSchema.statics.findByEmailPassword = function (email, password) {
   });
 };
 
+// A static method on the document model.
+// Allows us to check if a email is unique/not used, and if a password
+// is long enough (no other criteria for now. more should be added later)
+// eslint-disable-next-line func-names
+UserSchema.statics.checkCredentials = function (email, password) {
+  const User = this; // binds this to the User model
+
+  if (password.length < 6) {
+    return Promise.resolve({ available: false, message: 'Password is too short' });
+  }
+
+  // Check if there is a user by this email
+  return User.findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return Promise.resolve({ available: true });
+      }
+      return Promise.resolve({ available: false, message: 'Email is taken' });
+    })
+    .catch((error) => {
+      console.log('Some error with checkCredentials');
+      return Promise.reject(Error(`checkCredentials - ${error}`));
+    });
+};
+
 // make a model using the User schema
 const User = mongoose.model('User', UserSchema);
 module.exports = { User };

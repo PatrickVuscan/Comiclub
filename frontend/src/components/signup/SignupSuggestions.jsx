@@ -8,6 +8,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import ENV from '../../config';
 import AuthContext from '../../context';
 import actionImage from './images/action.png';
 import comedyImage from './images/comedy.png';
@@ -29,10 +30,32 @@ const SignupSuggestions = () => {
 
     // Push this data and the completed profile to the server
 
-    localStorage.setItem('LOGGED_IN_USERNAME', signupState.username);
-    setAuthState(fetchAuthState());
+    const request = new Request(`${ENV.api_host}/api/users`, {
+      method: 'post',
+      body: JSON.stringify({ email: signupState.email, password: signupState.password }),
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
 
-    history.push('/');
+    // Send the request with fetch()
+    fetch(request)
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+      })
+      .then((json) => {
+        if (json.email !== undefined) {
+          localStorage.setItem('LOGGED_IN_USERNAME', json.email);
+          setAuthState(fetchAuthState());
+          history.push('/');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // Update the status of favourited or not
