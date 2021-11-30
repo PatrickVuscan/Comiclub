@@ -45,6 +45,16 @@ node server.js
 
 Alternatively, you can run `npm run build-run` in the root directory which runs a script to execute all the above commands. This is a shortcut command defined in [package.json](package.json).
 
+Note that all of this above is for testing a react app build, which becomes static, and needs to be rebuilt each time a change is made in the frontend.
+
+There is an alternative: running the front-end and backend separately, so that changes to both are reflected immediately.
+
+There is a simple script made for this, when run in the root directory, assuming you have already created the mongo-data directory.
+
+```
+# Use concurrently to run everything at once
+npm run dev-all
+```
 ## Creating a User
 
 There is no frontend form to create a user on the app, so before you login send a `POST` request to `/api/users` with something like:
