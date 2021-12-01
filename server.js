@@ -24,6 +24,8 @@ const { isMongoError, mongoChecker } = require('./mongoHelpers');
 
 // Import models
 const { User } = require('./models/user');
+const { Episode } = require('./models/episode');
+const { Comic } = require('./models/comic');
 
 // ! Setting up the app and middleware
 const app = express();
@@ -170,6 +172,88 @@ app.post('/api/users/check-credentials', (req, res) => {
       console.error(error);
       res.status(400).send();
     });
+});
+
+//! COMIC ROUTES
+// a GET route to get comics by userID
+app.get('/api/comics/userID', async (req, res) => {
+  try {
+    const comics = await Comic.find({ userID: req.body.userID });
+    res.send(comics);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/api/comics', mongoChecker, async (req, res) => {
+  // Create a new user
+  const comic = new Comic({
+    userID: req.body.userID,
+    name: req.body.name,
+    description: req.body.description,
+  });
+
+  try {
+    // Save the user
+    const newComic = await comic.save();
+    res.send(newComic);
+  } catch (error) {
+    if (isMongoError(error)) {
+      // check for if mongo server suddenly disconnected before this request.
+      res.status(500).send('Internal server error');
+    } else {
+      console.log(error);
+      res.status(400).send('Bad Request'); // bad request for changing the student.
+    }
+  }
+});
+
+//! EPISODE ROUTES
+// a GET route to get episode by userID
+app.get('/api/episodes/userID', async (req, res) => {
+  try {
+    const episodes = await Episode.find({ userID: req.body.userID });
+    res.send(episodes);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+// a GET route to get episodes by comicID
+app.get('/api/episodes/comicID', async (req, res) => {
+  try {
+    const episodes = await Episode.find({ comicID: req.body.comicID });
+    res.send(episodes);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/api/episodes', mongoChecker, async (req, res) => {
+  // Create a new user
+  const episode = new Episode({
+    userID: req.body.userID,
+    comicID: req.body.comicID,
+    number: req.body.number,
+    name: req.body.name,
+    description: req.body.description,
+  });
+
+  try {
+    // Save the user
+    const newEpisode = await episode.save();
+    res.send(newEpisode);
+  } catch (error) {
+    if (isMongoError(error)) {
+      // check for if mongo server suddenly disconnected before this request.
+      res.status(500).send('Internal server error');
+    } else {
+      console.log(error);
+      res.status(400).send('Bad Request'); // bad request for changing the student.
+    }
+  }
 });
 
 // /** Student resource routes * */
