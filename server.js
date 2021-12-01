@@ -86,12 +86,13 @@ const authenticate = (req, res, next) => {
 };
 
 /** * API Routes below *********************************** */
-// User API Route
+//! ************************************************************* User API Route
 app.post('/api/users', mongoChecker, async (req, res) => {
   // Create a new user
   const user = new User({
     email: req.body.email,
     password: req.body.password,
+    username: req.body.username,
   });
 
   try {
@@ -174,11 +175,11 @@ app.post('/api/users/check-credentials', (req, res) => {
     });
 });
 
-//! COMIC ROUTES
-// a GET route to get comics by userID
-app.get('/api/comics/userID', async (req, res) => {
+//! *************************************************************** COMIC ROUTES
+// GET all comics by userID
+app.get('/api/comics/userID/:userID', async (req, res) => {
   try {
-    const comics = await Comic.find({ userID: req.body.userID });
+    const comics = await Comic.find({ userID: req.params.userID });
     res.send(comics);
   } catch (error) {
     console.log(error);
@@ -186,8 +187,8 @@ app.get('/api/comics/userID', async (req, res) => {
   }
 });
 
+// Create a new Comic
 app.post('/api/comics', mongoChecker, async (req, res) => {
-  // Create a new user
   const comic = new Comic({
     userID: req.body.userID,
     name: req.body.name,
@@ -209,11 +210,11 @@ app.post('/api/comics', mongoChecker, async (req, res) => {
   }
 });
 
-//! EPISODE ROUTES
-// a GET route to get episode by userID
-app.get('/api/episodes/userID', async (req, res) => {
+//! ************************************************************* EPISODE ROUTES
+// GET episodes by userID
+app.get('/api/episodes/userID/:userID', async (req, res) => {
   try {
-    const episodes = await Episode.find({ userID: req.body.userID });
+    const episodes = await Episode.find({ userID: req.params.userID });
     res.send(episodes);
   } catch (error) {
     console.log(error);
@@ -221,24 +222,13 @@ app.get('/api/episodes/userID', async (req, res) => {
   }
 });
 
-// a GET route to get episodes by comicID
-// TODO: Change this since COMIC stores EPISODES
-app.get('/api/episodes/comicID', async (req, res) => {
+// GET episodes by comicID
+app.get('/api/episodes/comicID/:comicID', async (req, res) => {
   try {
-    const episodes = await Episode.find({ comicID: req.body.comicID });
-    res.send(episodes);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-//! This not working!
-app.get('/api/comics/episodes', async (req, res) => {
-  try {
-    // const comic = await Comic.find({ _id: req.body.comicID });
-    const comic = await Comic.findById(req.body.comicID);
-    res.send(comic);
+    const comic = await Comic.findById(req.params.comicID);
+    if (comic) {
+      res.send(comic.episodes);
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
@@ -276,51 +266,8 @@ app.put('/api/comics/episode', mongoChecker, async (req, res) => {
   }
 });
 
-// /** Student resource routes * */
-// // a POST route to *create* a student
-// app.post('/api/students', mongoChecker, authenticate, async (req, res) => {
-//   console.log(`Adding student ${req.body.name}, created by user ${req.user._id}`);
+//! ************************************************************* WEBPAGE ROUTES
 
-//   // Create a new student using the Student mongoose model
-//   const student = new Student({
-//     name: req.body.name,
-//     year: req.body.year,
-//     creator: req.user._id, // creator id from the authenticate middleware
-//   });
-
-//   // Save student to the database
-//   // async-await version:
-//   try {
-//     const result = await student.save();
-//     res.send(result);
-//   } catch (error) {
-//     console.log(error); // log server error to the console, not to the client.
-//     if (isMongoError(error)) {
-//       // check for if mongo server suddenly dissconnected before this request.
-//       res.status(500).send('Internal server error');
-//     } else {
-//       res.status(400).send('Bad Request'); // 400 for bad request gets sent to client.
-//     }
-//   }
-// });
-
-// // a GET route to get all students
-// app.get('/api/students', mongoChecker, authenticate, async (req, res) => {
-//   // Get the students
-//   try {
-//     const students = await Student.find({ creator: req.user._id });
-//     // res.send(students) // just the array
-//     res.send({ students }); // can wrap students in object if want to add more properties
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
-
-// other student API routes can go here...
-// ...
-
-/** * Webpage routes below ********************************* */
 // Serve the build
 app.use(express.static(path.join(__dirname, '/frontend/build')));
 
