@@ -6,7 +6,7 @@ const CommentSchema = new mongoose.Schema({
   userID: String,
   body: String,
   publishDate: Date,
-  parentID: String,
+  panelID: String,
 });
 
 const Comment = mongoose.model('Comment', CommentSchema);

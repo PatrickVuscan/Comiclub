@@ -2,18 +2,17 @@
 
 const mongoose = require('mongoose');
 const { EpisodeSchema } = require('./episode');
-const { CommentSchema } = require('./comment');
 const { MetaSchema } = require('./meta');
 
 const ComicSchema = new mongoose.Schema({
   userID: String, // creator
   name: String,
   description: String,
-  thumb: String,
+  genre: String,
+  thumbURL: String, // Cloudinary url
   publishDate: { type: Date, default: Date.now },
   episodes: [EpisodeSchema],
   meta: MetaSchema,
-  comments: [CommentSchema],
 });
 
 // eslint-disable-next-line func-names

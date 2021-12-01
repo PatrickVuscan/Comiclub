@@ -23,6 +23,17 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minlength: 6,
   },
+  username: {
+    // what other people see
+    type: String,
+    required: true,
+    minlength: 1,
+    trim: true,
+    unique: true,
+  },
+  genres: [String], // Genres Liked
+  likes: [String], //  comicIDs of Comics Liked
+  // notifications: [String], // TODO: NotificationSchema (string, URL)
 });
 
 // An example of Mongoose middleware.

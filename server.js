@@ -236,6 +236,7 @@ app.get('/api/episodes/comicID', async (req, res) => {
 //! This not working!
 app.get('/api/comics/episodes', async (req, res) => {
   try {
+    // const comic = await Comic.find({ _id: req.body.comicID });
     const comic = await Comic.findById(req.body.comicID);
     res.send(comic);
   } catch (error) {
@@ -244,40 +245,11 @@ app.get('/api/comics/episodes', async (req, res) => {
   }
 });
 
-// // POST new episodes
-// // TODO: Change this to work from COMIC since COMIC stores EPISODES
-// app.post('/api/episodes', mongoChecker, async (req, res) => {
-//   // Create a new user
-//   const episode = new Episode({
-//     userID: req.body.userID,
-//     comicID: req.body.comicID,
-//     number: req.body.number,
-//     name: req.body.name,
-//     description: req.body.description,
-//   });
-
-//   try {
-//     // Save the user
-//     const newEpisode = await episode.save();
-//     res.send(newEpisode);
-//   } catch (error) {
-//     if (isMongoError(error)) {
-//       // check for if mongo server suddenly disconnected before this request.
-//       res.status(500).send('Internal server error');
-//     } else {
-//       console.log(error);
-//       res.status(400).send('Bad Request'); // bad request for changing the student.
-//     }
-//   }
-// });
-
 // Creates a new EPISODE within a COMIC
 app.put('/api/comics/episode', mongoChecker, async (req, res) => {
-  // Create a new user
   const episode = new Episode({
-    userID: req.body.userID,
     comicID: req.body.comicID,
-    number: req.body.number,
+    userID: req.body.userID,
     name: req.body.name,
     description: req.body.description,
   });
