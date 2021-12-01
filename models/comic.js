@@ -1,27 +1,19 @@
 /* User model */
 
 const mongoose = require('mongoose');
+const { EpisodeSchema } = require('./episode');
+const { CommentSchema } = require('./comment');
+const { MetaSchema } = require('./meta');
 
-// Making a Mongoose model a little differently: a Mongoose Schema
-// Allows us to add additional functionality.
 const ComicSchema = new mongoose.Schema({
   userID: String, // creator
   name: String,
   description: String,
   thumb: String,
   publishDate: { type: Date, default: Date.now },
-  episodes: [{ episodeID: String }],
-  meta: {
-    views: Number,
-    likes: Number,
-  },
-  comments: [
-    {
-      userID: String,
-      body: String,
-      publishDate: Date,
-    },
-  ],
+  episodes: [EpisodeSchema],
+  meta: MetaSchema,
+  comments: [CommentSchema],
 });
 
 // eslint-disable-next-line func-names

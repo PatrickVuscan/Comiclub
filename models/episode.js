@@ -1,6 +1,8 @@
 /* User model */
 
 const mongoose = require('mongoose');
+const { CommentSchema } = require('./comment');
+const { MetaSchema } = require('./meta');
 
 // Making a Mongoose model a little differently: a Mongoose Schema
 // Allows us to add additional functionality.
@@ -13,17 +15,8 @@ const EpisodeSchema = new mongoose.Schema({
   thumb: String,
   publishDate: { type: Date, default: Date.now },
   panels: [{ panelID: String }],
-  meta: {
-    views: Number,
-    likes: Number,
-  },
-  comments: [
-    {
-      userID: String,
-      body: String,
-      publishDate: Date,
-    },
-  ],
+  meta: MetaSchema,
+  comments: [CommentSchema],
 });
 
 // eslint-disable-next-line func-names
@@ -53,4 +46,4 @@ EpisodeSchema.statics.findByComicID = function (comicID) {
 
 // make a model using the Episode schema
 const Episode = mongoose.model('Episode', EpisodeSchema);
-module.exports = { Episode };
+module.exports = { Episode, EpisodeSchema };

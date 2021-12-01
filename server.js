@@ -19,9 +19,9 @@ const session = require('express-session'); // express-session for managing user
 
 // ! MongoDB and Mongoose Imports
 const MongoStore = require('connect-mongo'); // to store session information on the database in production
+const { ObjectId } = require('mongodb');
 const { mongoose } = require('./db/mongoose');
 const { isMongoError, mongoChecker } = require('./mongoHelpers');
-
 // Import models
 const { User } = require('./models/user');
 const { Episode } = require('./models/episode');
@@ -220,7 +220,9 @@ app.get('/api/episodes/userID', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 // a GET route to get episodes by comicID
+// TODO: Change this since COMIC stores EPISODES
 app.get('/api/episodes/comicID', async (req, res) => {
   try {
     const episodes = await Episode.find({ comicID: req.body.comicID });
@@ -231,7 +233,46 @@ app.get('/api/episodes/comicID', async (req, res) => {
   }
 });
 
-app.post('/api/episodes', mongoChecker, async (req, res) => {
+//! This not working!
+app.get('/api/comics/episodes', async (req, res) => {
+  try {
+    const comic = await Comic.findById(req.body.comicID);
+    res.send(comic);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// // POST new episodes
+// // TODO: Change this to work from COMIC since COMIC stores EPISODES
+// app.post('/api/episodes', mongoChecker, async (req, res) => {
+//   // Create a new user
+//   const episode = new Episode({
+//     userID: req.body.userID,
+//     comicID: req.body.comicID,
+//     number: req.body.number,
+//     name: req.body.name,
+//     description: req.body.description,
+//   });
+
+//   try {
+//     // Save the user
+//     const newEpisode = await episode.save();
+//     res.send(newEpisode);
+//   } catch (error) {
+//     if (isMongoError(error)) {
+//       // check for if mongo server suddenly disconnected before this request.
+//       res.status(500).send('Internal server error');
+//     } else {
+//       console.log(error);
+//       res.status(400).send('Bad Request'); // bad request for changing the student.
+//     }
+//   }
+// });
+
+// Creates a new EPISODE within a COMIC
+app.put('/api/comics/episode', mongoChecker, async (req, res) => {
   // Create a new user
   const episode = new Episode({
     userID: req.body.userID,
@@ -242,8 +283,15 @@ app.post('/api/episodes', mongoChecker, async (req, res) => {
   });
 
   try {
-    // Save the user
     const newEpisode = await episode.save();
+    const comic = await Comic.updateOne(
+      { _id: req.body.comicID },
+      {
+        $push: {
+          episodes: episode,
+        },
+      }
+    );
     res.send(newEpisode);
   } catch (error) {
     if (isMongoError(error)) {
