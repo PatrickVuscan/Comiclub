@@ -7,4 +7,5 @@ const MetaSchema = new mongoose.Schema({
 });
 
 const Meta = mongoose.model('Meta', MetaSchema);
+
 module.exports = { Meta, MetaSchema };

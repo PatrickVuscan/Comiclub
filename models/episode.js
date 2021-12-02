@@ -1,47 +1,46 @@
 /* Episode model */
 const mongoose = require('mongoose');
 const { MetaSchema } = require('./meta');
+const { ImageSchema } = require('./image');
+const { PanelSchema } = require('./panel');
 
-// Making a Mongoose model a little differently: a Mongoose Schema
-// Allows us to add additional functionality.
 const EpisodeSchema = new mongoose.Schema({
-  userID: String, // creator
-  comicID: String, // Comic
-  // number: Number, // in order of Comic.Episodes
-  name: String,
+  userID: String, // Creator
+  comicID: String, // Comic Series Episode is from
+  name: String, // Name of the Episode
   description: String,
-  thumbURL: String, // Cloudinary
+  thumbImage: ImageSchema,
   publishDate: { type: Date, default: Date.now },
-  panels: [String],
-  // panels: [PanelSchema],
+  panels: [PanelSchema],
   meta: MetaSchema,
 });
 
 // eslint-disable-next-line func-names
 EpisodeSchema.statics.findByUserID = function (userID) {
-  const Comic = this; // binds this to the User model
+  const Episode = this; // Binds this to the Episode model
 
-  // find comic by userID
-  return Comic.find({ userID }).then((comics) => {
-    if (!comics) {
-      return Promise.reject(); // a rejected promise
+  // Find comic by userID
+  return Episode.find({ userID }).then((episodes) => {
+    if (!episodes) {
+      return Promise.reject();
     }
-    return comics;
+    return episodes;
   });
 };
 
 EpisodeSchema.statics.findByComicID = function (comicID) {
-  const Comic = this; // binds this to the User model
+  const Episode = this; // Binds this to the Episode model
 
-  // find comic by userID
-  return Comic.find({ comicID }).then((comics) => {
-    if (!comics) {
-      return Promise.reject(); // a rejected promise
+  // Find Episodes by comicID
+  return Episode.find({ comicID }).then((episodes) => {
+    if (!episodes) {
+      return Promise.reject();
     }
-    return comics;
+    return episodes;
   });
 };
 
 // make a model using the Episode schema
 const Episode = mongoose.model('Episode', EpisodeSchema);
+
 module.exports = { Episode, EpisodeSchema };

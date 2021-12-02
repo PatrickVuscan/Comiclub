@@ -2,10 +2,20 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const { ImageSchema } = require('./image');
 
 // Making a Mongoose model a little differently: a Mongoose Schema
 // Allows us to add additional functionality.
 const UserSchema = new mongoose.Schema({
+  profilePicture: ImageSchema,
+  username: {
+    // what other people see
+    type: String,
+    required: true,
+    minlength: 1,
+    trim: true,
+    unique: true,
+  },
   email: {
     type: String,
     required: true,
@@ -21,14 +31,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 6,
-  },
-  username: {
-    // what other people see
-    type: String,
-    required: true,
-    minlength: 1,
-    trim: true,
-    unique: true,
   },
   genres: [String], // Genres Liked
   likes: [String], //  comicIDs of Comics Liked
@@ -85,18 +87,25 @@ UserSchema.statics.findByEmailPassword = function (email, password) {
 // Allows us to check if a email is unique/not used, and if a password
 // is long enough (no other criteria for now. more should be added later)
 // eslint-disable-next-line func-names
-UserSchema.statics.checkCredentials = function (email, password) {
+UserSchema.statics.checkCredentials = function (username, email, password) {
   const User = this; // binds this to the User model
 
   if (password.length < 6) {
     return Promise.resolve({ available: false, message: 'Password is too short' });
   }
 
+  if (username.length < 2) {
+    return Promise.resolve({ available: false, message: 'Username is too short' });
+  }
+
   // Check if there is a user by this email
-  return User.findOne({ email })
+  return User.findOne({ $or: [{ username }, { email }] })
     .then((user) => {
       if (!user) {
         return Promise.resolve({ available: true });
+      }
+      if (user.hasProperty('username')) {
+        return Promise.resolve({ available: false, message: 'Username is taken' });
       }
       return Promise.resolve({ available: false, message: 'Email is taken' });
     })

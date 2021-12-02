@@ -2,13 +2,14 @@
 const mongoose = require('mongoose');
 const { EpisodeSchema } = require('./episode');
 const { MetaSchema } = require('./meta');
+const { ImageSchema } = require('./image');
 
 const ComicSchema = new mongoose.Schema({
-  userID: String, // creator
-  name: String,
+  userID: String, // Creator
+  name: String, // Name of the Comic Series
   description: String,
   genre: String,
-  thumbURL: String, // Cloudinary url
+  thumbImage: ImageSchema,
   publishDate: { type: Date, default: Date.now },
   episodes: [EpisodeSchema],
   meta: MetaSchema,
@@ -16,12 +17,12 @@ const ComicSchema = new mongoose.Schema({
 
 // eslint-disable-next-line func-names
 ComicSchema.statics.findByUserID = function (userID) {
-  const Comic = this; // binds this to the User model
+  const Comic = this; // Binds this to the Comic model
 
-  // find comic by userID
+  // Find comic by userID
   return Comic.find({ userID }).then((comics) => {
     if (!comics) {
-      return Promise.reject(); // a rejected promise
+      return Promise.reject();
     }
     return comics;
   });
@@ -29,4 +30,5 @@ ComicSchema.statics.findByUserID = function (userID) {
 
 // make a model using the Comic schema
 const Comic = mongoose.model('Comic', ComicSchema);
+
 module.exports = { Comic };

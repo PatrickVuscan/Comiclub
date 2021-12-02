@@ -66,6 +66,7 @@ app.use(
 // mongoose and mongo connection
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
+// ! Authentication - Currently unused
 // Middleware for authentication of resources
 const authenticate = (req, res, next) => {
   if (env !== 'production' && USE_TEST_USER) req.session.user = TEST_USER_ID; // test user on development. (remember to run `TEST_USER_ON=true node server.js` if you want to use this user.)
