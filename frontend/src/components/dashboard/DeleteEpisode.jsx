@@ -40,7 +40,8 @@ const DeleteEpisode = ({ episodeID, episodeName }) => {
         <DialogTitle id="alert-dialog-title">Delete Episode?</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete <br />"{episodeName}"?
+            Are you sure you want to delete <br />
+            &quot;{episodeName}&quot;?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -40,7 +40,8 @@ const DeleteComic = ({ comicID, comicName }) => {
         <DialogTitle id="alert-dialog-title">Delete Comic?</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete <br />"{comicName}"?
+            Are you sure you want to delete <br />
+            &quot;{comicName}&quot;?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

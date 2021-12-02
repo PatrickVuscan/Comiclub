@@ -1,5 +1,4 @@
-/* User model */
-
+/* Episode model */
 const mongoose = require('mongoose');
 const { MetaSchema } = require('./meta');
 

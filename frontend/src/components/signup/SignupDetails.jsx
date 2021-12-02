@@ -14,11 +14,6 @@ import ENV from '../../config';
 import SignupContext from './SignupContext';
 import styles from './SignupDetails.module.css';
 
-const existingUsers = {
-  user: 'user',
-  admin: 'admin',
-};
-
 const SignupDetails = () => {
   const {
     signupState: { name, email, password },

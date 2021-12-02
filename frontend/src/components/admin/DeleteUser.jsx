@@ -40,7 +40,7 @@ const DeleteComment = ({ userID, userName }) => {
         <DialogTitle id="alert-dialog-title">Delete User?</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete user "{userName}"?
+            Are you sure you want to delete user &quot;{userName}&quot;?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

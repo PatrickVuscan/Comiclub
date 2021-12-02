@@ -1,5 +1,4 @@
-/* User model */
-
+/* Comic model */
 const mongoose = require('mongoose');
 const { EpisodeSchema } = require('./episode');
 const { MetaSchema } = require('./meta');

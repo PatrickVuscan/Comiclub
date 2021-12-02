@@ -1,5 +1,4 @@
-/* User model */
-
+/* Panel model */
 const mongoose = require('mongoose');
 const { CommentSchema } = require('./comment');
 

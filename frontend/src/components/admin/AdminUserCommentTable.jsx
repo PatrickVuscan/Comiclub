@@ -1,4 +1,3 @@
-import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import React from 'react';
-import { uid } from 'react-uid';
 
 import { getCommentsByUserID } from '../../actions/AdminActions';
 import AdminUserCommentRow from './AdminUserCommentRow';

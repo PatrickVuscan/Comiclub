@@ -109,7 +109,7 @@ const SignupSuggestions = () => {
             margin: '0',
           }}
         >{`Welcome, ${signupState.name}!`}</p>
-        <p style={{ fontSize: '16px', margin: '0.25rem' }}>What're your favourite types of comics?</p>
+        <p style={{ fontSize: '16px', margin: '0.25rem' }}>What&apos;re your favourite types of comics?</p>
 
         <ImageList sx={{ width: 600, height: 550 }} cols={3} rowHeight={200}>
           {itemData.map((item) => (

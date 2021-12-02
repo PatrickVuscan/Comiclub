@@ -1,4 +1,5 @@
 /* Server environment setup */
+
 // To run in development mode, run normally: node server.js
 // To run in development with the test user logged in the backend, run: TEST_USER_ON=true node server.js
 // To run in production mode, run in terminal: NODE_ENV=production node server.js
@@ -20,6 +21,7 @@ const session = require('express-session'); // express-session for managing user
 // ! MongoDB and Mongoose Imports
 const MongoStore = require('connect-mongo'); // to store session information on the database in production
 const { ObjectId } = require('mongodb');
+const { multipartMiddleware, cloudinary } = require('./db/cloudinary'); // ! Import Cloudinary and Connect-MultiParty
 const { mongoose } = require('./db/mongoose');
 const { isMongoError, mongoChecker } = require('./mongoHelpers');
 // Import models
@@ -85,8 +87,7 @@ const authenticate = (req, res, next) => {
   }
 };
 
-/** * API Routes below *********************************** */
-//! ************************************************************* User API Route
+// ! ************************************************************* User API Route
 app.post('/api/users', mongoChecker, async (req, res) => {
   // Create a new user
   const user = new User({
@@ -267,7 +268,6 @@ app.put('/api/comics/episode', mongoChecker, async (req, res) => {
 });
 
 //! ************************************************************* WEBPAGE ROUTES
-
 // Serve the build
 app.use(express.static(path.join(__dirname, '/frontend/build')));
 
@@ -285,7 +285,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/frontend/build/index.html'));
 });
 
-/** ********************************************** */
+// ! ************************************************ LISTEN TO PORT
 // Express server listening...
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

@@ -40,7 +40,8 @@ const DeleteComment = ({ commentID, commentContent }) => {
         <DialogTitle id="alert-dialog-title">Delete Comment?</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this comment? <br />"{commentContent}"
+            Are you sure you want to delete this comment? <br />
+            &quot;{commentContent}&quot;
           </DialogContentText>
         </DialogContent>
         <DialogActions>

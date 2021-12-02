@@ -1,5 +1,4 @@
-/* User model */
-
+/* Meta model */
 const mongoose = require('mongoose');
 
 const MetaSchema = new mongoose.Schema({

@@ -18,7 +18,7 @@ class AdminUserCommentRow extends React.Component {
         <TableCell align="right">{episodeNumber}</TableCell>
         <TableCell align="right">{panelNumber}</TableCell>
         <TableCell align="right">{publishDate}</TableCell>
-        <TableCell align="right">"{commentContent}"</TableCell>
+        <TableCell align="right">&quot;{commentContent}&quot;</TableCell>
         <TableCell align="right">
           <DeleteComment commentID={commentID} commentContent={commentContent} />
         </TableCell>

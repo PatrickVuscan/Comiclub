@@ -1,5 +1,4 @@
-/* User model */
-
+/* Comment model */
 const mongoose = require('mongoose');
 
 const CommentSchema = new mongoose.Schema({

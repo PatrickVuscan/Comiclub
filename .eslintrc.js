@@ -22,7 +22,7 @@ module.exports = {
     'react/jsx-curly-brace-presence': 'warn',
     'react/no-unescaped-entities': 'warn',
     'no-use-before-define': 'off',
-    'no-console': 'warn',
+    'no-console': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/display-name': 'off',
     'react/no-children-prop': 'off',
