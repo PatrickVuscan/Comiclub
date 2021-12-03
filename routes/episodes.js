@@ -61,6 +61,80 @@ router.put('/episode', mongoChecker, async (req, res) => {
   }
 });
 
+// Update an Episode
+router.post('/update/:episodeID', async (req, res) => {
+  const { episodeID } = req.params;
+
+  try {
+    const episode = await Episode.findOne({ _id: episodeID });
+
+    if (episode.userID !== req.session.user) {
+      res.status(401).send("You're not authorized to edit this Comic. Please ensure this is your comic.");
+      return;
+    }
+
+    const toSet = {};
+    const { name, description } = req.body;
+    if (name) toSet.name = name;
+    if (description) toSet.description = description;
+
+    const updatedEpisode = await Episode.findByIdAndUpdate({ _id: episodeID }, { $set: toSet }, { new: true });
+
+    res.send(updatedEpisode);
+  } catch (error) {
+    if (isMongoError(error)) {
+      // check for if mongo server suddenly disconnected before this request.
+      res.status(500).send('Internal server error');
+    } else {
+      console.log(error);
+      res.status(400).send('Something went wrong while trying to update the episode.'); // bad request for changing the student.
+    }
+  }
+});
+
+// Add thumbnail for episode
+router.post('/thumbnail/:episodeID', multipartMiddleware, async (req, res) => {
+  // Upload to cloudinary
+  // * req.files contains uploaded files
+  try {
+    const { episodeID } = req.params;
+    const episode = await Episode.findOne({ _id: episodeID });
+
+    if (episode.userID !== req.session.user) {
+      res.status(401).send("You're not authorized to edit this Comic. Please ensure this is your comic.");
+      return;
+    }
+
+    const cloudinaryResult = await cloudinary.uploader.upload(req.files.image.path);
+
+    // Create a new image using the Image mongoose model
+    const img = new Image({
+      imageID: cloudinaryResult.public_id, // image id on cloudinary server
+      imageURL: cloudinaryResult.url, // image url on cloudinary server
+    });
+
+    // Save image to the database
+    const newImg = await img.save();
+
+    const updatedEpisode = await Episode.findByIdAndUpdate(
+      { _id: episodeID },
+      { $set: { thumbImage: newImg } },
+      { new: true }
+    );
+
+    // Assuming all goes well, we now send the episode with the updated values
+    res.send(updatedEpisode);
+  } catch (error) {
+    if (isMongoError(error)) {
+      // check for if mongo server suddenly disconnected before this request.
+      res.status(500).send('Internal server error');
+    } else {
+      console.log(error);
+      res.status(400).send('Error uploading your profile picture.');
+    }
+  }
+});
+
 // GET episodes by userID
 router.get('/userID/:userID', async (req, res) => {
   try {

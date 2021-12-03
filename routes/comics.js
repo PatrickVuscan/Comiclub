@@ -49,8 +49,10 @@ router.post('/', async (req, res) => {
 
 // Update a Comic
 router.post('/update/:comicID', async (req, res) => {
+  const { comicID } = req.params;
+
   try {
-    const comic = await Comic.findOne({ _id: req.params.comicID });
+    const comic = await Comic.findOne({ _id: comicID });
 
     if (comic.userID !== req.session.user) {
       res.status(401).send("You're not authorized to edit this Comic. Please ensure this is your comic.");
@@ -63,7 +65,7 @@ router.post('/update/:comicID', async (req, res) => {
     if (description) toSet.description = description;
     if (genre) toSet.genre = genre;
 
-    const updatedComic = Comic.findByIdAndUpdate({ _id: req.body.comicID }, { $set: toSet }, { new: true });
+    const updatedComic = await Comic.findByIdAndUpdate({ _id: comicID }, { $set: toSet }, { new: true });
 
     res.send(updatedComic);
   } catch (error) {
@@ -72,7 +74,7 @@ router.post('/update/:comicID', async (req, res) => {
       res.status(500).send('Internal server error');
     } else {
       console.log(error);
-      res.status(400).send('There was something wrong trying to '); // bad request for changing the student.
+      res.status(400).send('Something went wrong while trying to update the comic.'); // bad request for changing the student.
     }
   }
 });
@@ -107,7 +109,7 @@ router.post('/thumbnail/:comicID', multipartMiddleware, async (req, res) => {
       { new: true }
     );
 
-    // Assuming all goes well, we now send the user with updated values
+    // Assuming all goes well, we now send the episode with updated values
     res.send(updatedComic);
   } catch (error) {
     if (isMongoError(error)) {
