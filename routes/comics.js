@@ -140,7 +140,7 @@ router.post('/like', async (req, res) => {
     const alreadyLiked = await User.checkLiked(user, comicID);
 
     if (alreadyLiked) {
-      res.status(304).send(`User ${user} already liked comic ${comicID}. Not modified.`);
+      res.status(409).send(`User ${user} already liked comic ${comicID}. Not modified.`);
       return;
     }
 
@@ -169,7 +169,7 @@ router.post('/unlike', async (req, res) => {
     const alreadyLiked = await User.checkLiked(user, comicID);
 
     if (!alreadyLiked) {
-      res.status(304).send(`User ${user} did not previously like comic ${comicID}. Not modified.`);
+      res.status(409).send(`User ${user} did not previously like comic ${comicID}. Not modified.`);
       return;
     }
 

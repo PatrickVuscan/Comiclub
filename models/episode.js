@@ -15,6 +15,20 @@ const EpisodeSchema = new mongoose.Schema({
   meta: MetaSchema,
 });
 
+// Get creatorID of comic
+// eslint-disable-next-line func-names
+EpisodeSchema.statics.findCreatorByEpisodeID = function (episodeID) {
+  const Episode = this; // Binds this to the Comic model
+
+  // Find comic by userID
+  return Episode.findOne({ _id: episodeID }).then((episode) => {
+    if (!episode) {
+      return Promise.reject();
+    }
+    return episode.userID;
+  });
+};
+
 // eslint-disable-next-line func-names
 EpisodeSchema.statics.findByUserID = function (userID) {
   const Episode = this; // Binds this to the Episode model

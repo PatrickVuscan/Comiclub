@@ -172,6 +172,11 @@ router.get('/:username', (req, res) => {
   // by their email and password
   User.findOne({ username })
     .then((user) => {
+      if (!user) {
+        res.status(404).send('A user by this username does not exist.');
+        return;
+      }
+
       res.send({
         user: user._id,
         username: user.username,
@@ -179,7 +184,7 @@ router.get('/:username', (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.status(404).send('A user by this username does not exist.');
+      res.status(400).send('There was an error trying to find a user by this username.');
     });
 });
 

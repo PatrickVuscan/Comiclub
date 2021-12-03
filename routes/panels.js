@@ -29,25 +29,36 @@ router.get('/episodeID/:episodeID', async (req, res) => {
 
 // GET panels by userID
 router.get('/userID/:userID', async (req, res) => {
-    try {
-      const panels = await Panel.find({ userID: req.params.userID });
-      res.send(panels);
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Internal Server Error');
-    }
-  });
+  try {
+    const panels = await Panel.find({ userID: req.params.userID });
+    res.send(panels);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 // Creates a new PANEL within an EPISODE
-router.put('/panel/', mongoChecker, async (req, res) => {
+router.put('/panel', mongoChecker, async (req, res) => {
+  const { user } = req.session;
+
   const panel = new Panel({
+    userID: user,
     episodeID: req.body.episodeID,
-    userID: req.body.userID,
   });
 
   try {
+    // Check that the creator of the comic is the user trying to add the episode
+    const creatorID = await Episode.findCreatorByEpisodeID(req.body.episodeID);
+
+    if (creatorID !== user) {
+      res.status(401).send("You're not authorized to add an episode to this Comic. Please ensure this is your comic.");
+      return;
+    }
+
     const newPanel = await panel.save();
-    const episode = await Episode.updateOne(
+
+    await Episode.updateOne(
       { _id: req.body.episodeID },
       {
         $push: {
@@ -55,6 +66,7 @@ router.put('/panel/', mongoChecker, async (req, res) => {
         },
       }
     );
+
     res.send(newPanel);
   } catch (error) {
     if (isMongoError(error)) {

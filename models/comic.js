@@ -28,6 +28,20 @@ ComicSchema.statics.findByUserID = function (userID) {
   });
 };
 
+// Get creatorID of comic
+// eslint-disable-next-line func-names
+ComicSchema.statics.findCreatorByComicID = function (comicID) {
+  const Comic = this; // Binds this to the Comic model
+
+  // Find comic by userID
+  return Comic.findOne({ _id: comicID }).then((comic) => {
+    if (!comic) {
+      return Promise.reject();
+    }
+    return comic.userID;
+  });
+};
+
 // make a model using the Comic schema
 const Comic = mongoose.model('Comic', ComicSchema);
 
