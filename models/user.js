@@ -115,6 +115,25 @@ UserSchema.statics.checkCredentials = function (username, email, password) {
     });
 };
 
+// Check if the user by the given userID likes the comic provided by comicID
+// eslint-disable-next-line func-names
+UserSchema.statics.checkLiked = async function (userID, comicID) {
+  const User = this; // binds this to the User model
+
+  // Check if there is a user by this email
+  try {
+    const user = await User.findOne({ _id: userID });
+
+    if (!user) {
+      return Promise.reject(Error('Could not find user by provided userID'));
+    }
+
+    return Promise.resolve(user.likes.includes(comicID));
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
 // make a model using the User schema
 const User = mongoose.model('User', UserSchema);
 module.exports = { User };
