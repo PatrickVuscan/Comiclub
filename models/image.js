@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 
 // create an image schema
 const ImageSchema = mongoose.Schema({
-  image_id: {
+  imageID: {
     type: String,
     required: true,
   },
-  image_url: {
+  imageURL: {
     type: String,
     required: true,
   },
