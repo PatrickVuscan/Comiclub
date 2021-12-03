@@ -18,7 +18,7 @@ router.use(mongoChecker);
 
 //! ************************************************************* EPISODE ROUTES
 // GET episodes by userID
-router.get('/:userID', async (req, res) => {
+router.get('/userID/:userID', async (req, res) => {
   try {
     const episodes = await Episode.find({ userID: req.params.userID });
     res.send(episodes);
@@ -29,7 +29,7 @@ router.get('/:userID', async (req, res) => {
 });
 
 // GET episodes by comicID
-router.get('/:comicID', async (req, res) => {
+router.get('/comicID/:comicID', async (req, res) => {
   try {
     const comic = await Comic.findById(req.params.comicID);
     if (comic) {
