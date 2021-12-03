@@ -22,6 +22,13 @@ router.use(mongoChecker);
 //   next();
 // });
 
+function loginHelper(user, req) {
+  req.session.user = user._id;
+  req.session.username = user.username;
+  req.session.email = user.email;
+  req.session.profilePicture = user.profilePicture;
+}
+
 router.post('/', async (req, res) => {
   // Create a new user
   const user = new User({
@@ -33,6 +40,9 @@ router.post('/', async (req, res) => {
   try {
     // Save the user
     const newUser = await user.save();
+
+    // After creating and saving user, log the user in.
+    loginHelper(user, req)
 
     res.send({
       user: newUser._id,
@@ -61,10 +71,7 @@ router.post('/login', (req, res) => {
     .then((user) => {
       // Add the user's id to the session.
       // We can check later if this exists to ensure we are logged in.
-      req.session.user = user._id;
-      req.session.username = user.username;
-      req.session.email = user.email;
-      req.session.profilePicture = user.profilePicture;
+      loginHelper(user, req)
 
       res.send({
         user: user._id,
