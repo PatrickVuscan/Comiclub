@@ -1,14 +1,7 @@
 /* Server environment setup */
 
-// To run in development mode, run normally: node server.js
-// To run in development with the test user logged in the backend, run: TEST_USER_ON=true node server.js
 // To run in production mode, run in terminal: NODE_ENV=production node server.js
 const env = process.env.NODE_ENV; // read the environment variable (will be 'production' in production mode)
-
-// Test User data
-const USE_TEST_USER = env !== 'production' && process.env.TEST_USER_ON; // option to turn on the test user.
-const TEST_USER_ID = '5fb8b011b864666580b4efe3'; // the id of our test user (you will have to replace it with a test user that you made). can also put this into a separate configutation file
-const TEST_USER_EMAIL = 'test@user.com';
 
 // ! Express Imports
 const path = require('path');
@@ -26,8 +19,12 @@ const { mongoose } = require('./db/mongoose');
 const { isMongoError, mongoChecker } = require('./mongoHelpers');
 // Import models
 const { User } = require('./models/user');
-const { Episode } = require('./models/episode');
 const { Comic } = require('./models/comic');
+const { Episode } = require('./models/episode');
+const { Panel } = require('./models/panel');
+const { Image } = require('./models/image');
+const { Meta } = require('./models/meta');
+const { Comment } = require('./models/comment');
 
 // ! Setting up the app and middleware
 const app = express();
@@ -69,8 +66,6 @@ mongoose.set('useFindAndModify', false); // for some deprecation issues
 // ! Authentication - Currently unused
 // Middleware for authentication of resources
 const authenticate = (req, res, next) => {
-  if (env !== 'production' && USE_TEST_USER) req.session.user = TEST_USER_ID; // test user on development. (remember to run `TEST_USER_ON=true node server.js` if you want to use this user.)
-
   if (req.session.user) {
     User.findById(req.session.user)
       .then((user) => {
@@ -92,15 +87,21 @@ const authenticate = (req, res, next) => {
 app.post('/api/users', mongoChecker, async (req, res) => {
   // Create a new user
   const user = new User({
+    username: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    username: req.body.username,
   });
 
   try {
     // Save the user
     const newUser = await user.save();
-    res.send(newUser);
+
+    res.send({
+      user: newUser._id,
+      username: newUser.username,
+      email: newUser.email,
+      profilePicture: newUser.profilePicture,
+    });
   } catch (error) {
     if (isMongoError(error)) {
       // check for if mongo server suddenly disconnected before this request.
@@ -123,12 +124,20 @@ app.post('/api/users/login', (req, res) => {
       // Add the user's id to the session.
       // We can check later if this exists to ensure we are logged in.
       req.session.user = user._id;
+      req.session.username = user.username;
       req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-      res.send({ currentUser: user.email });
+      req.session.profilePicture = user.profilePicture;
+
+      res.send({
+        user: user._id,
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+      });
     })
     .catch((error) => {
       console.error(error);
-      res.status(400).send();
+      res.status(400).send('There was an error trying to log in');
     });
 });
 
@@ -146,16 +155,13 @@ app.get('/api/users/logout', (req, res) => {
 
 // A route to check if a user is logged in on the session
 app.get('/api/users/check-session', (req, res) => {
-  if (env !== 'production' && USE_TEST_USER) {
-    // test user on development environment.
-    req.session.user = TEST_USER_ID;
-    req.session.email = TEST_USER_EMAIL;
-    res.send({ currentUser: TEST_USER_EMAIL });
-    return;
-  }
-
   if (req.session.user) {
-    res.send({ currentUser: req.session.email });
+    res.send({
+      user: req.session.user,
+      username: req.session.username,
+      email: req.session.email,
+      profilePicture: req.session.profilePicture,
+    });
   } else {
     res.status(401).send();
   }
@@ -163,19 +169,69 @@ app.get('/api/users/check-session', (req, res) => {
 
 // A route to login and create a session
 app.post('/api/users/check-credentials', (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, username } = req.body;
 
   // Use the static method on the User model to find a user
   // by their email and password
-  User.checkCredentials(email, password)
+  User.checkCredentials(username, email, password)
     .then((response) => {
       res.send(response);
     })
     .catch((error) => {
       console.error(error);
-      res.status(400).send();
+      res.status(400).send('There was an error checking your credentials');
     });
 });
+
+// Add profile picture for user
+app.post(
+  '/api/users/profile-picture',
+  // (req, res, next) => {
+  //   console.log('Middleware', req.body, req.files);
+  //   next();
+  // },
+  multipartMiddleware,
+  async (req, res) => {
+    // Upload to cloudinary
+    // * req.files contains uploaded files
+    try {
+      const cloudinaryResult = await cloudinary.uploader.upload(req.files.image.path);
+
+      // Create a new image using the Image mongoose model
+      const img = new Image({
+        image_id: cloudinaryResult.public_id, // image id on cloudinary server
+        image_url: cloudinaryResult.url, // image url on cloudinary server
+      });
+
+      console.log('Created Image Object', img);
+
+      // Save image to the database
+      const newImg = await img.save();
+
+      console.log('Saved img', newImg);
+
+      const user = await User.findByIdAndUpdate({ _id: req.session.user }, { $set: { profilePicture: newImg } });
+
+      console.log('Saved User', user);
+
+      // Assuming all goes well, we now send the user with updated values
+      res.send({
+        user: user._id,
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+      });
+    } catch (error) {
+      if (isMongoError(error)) {
+        // check for if mongo server suddenly disconnected before this request.
+        res.status(500).send('Internal server error');
+      } else {
+        console.log(error);
+        res.status(400).send('Error uploading your profile picture.');
+      }
+    }
+  }
+);
 
 //! *************************************************************** COMIC ROUTES
 // GET all comics by userID

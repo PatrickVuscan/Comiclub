@@ -104,7 +104,7 @@ UserSchema.statics.checkCredentials = function (username, email, password) {
       if (!user) {
         return Promise.resolve({ available: true });
       }
-      if (user.hasProperty('username')) {
+      if (user.username === username) {
         return Promise.resolve({ available: false, message: 'Username is taken' });
       }
       return Promise.resolve({ available: false, message: 'Email is taken' });

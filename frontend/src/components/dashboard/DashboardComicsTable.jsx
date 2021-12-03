@@ -35,7 +35,10 @@ class DashboardComicsTable extends React.Component {
           <TableHead>
             <TableRow>
               <TableCell>
+                {/*
+                This one should not be enabled
                 <Checkbox color="primary" />
+                */}
               </TableCell>
               <TableCell>Comic</TableCell>
               <TableCell align="left">Description</TableCell>
