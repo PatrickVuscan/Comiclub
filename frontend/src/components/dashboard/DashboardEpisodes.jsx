@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
+import CreateEpisodeDialog from './CreateEpisodeDialog';
 import DashboardEpisodesTable from './DashboardEpisodesTable';
 
 const DashboardEpisodes = () => {
@@ -18,6 +19,7 @@ const DashboardEpisodes = () => {
           <Typography variant="body2" color="text.secondary">
             In the Artist Dashboard (Episodes), you can edit your Episodes!
           </Typography>
+          <CreateEpisodeDialog comicID={comicID} />
         </Stack>
         <Stack spacing={4}>
           <DashboardEpisodesTable comicID={comicID} />

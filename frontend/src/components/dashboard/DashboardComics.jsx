@@ -1,7 +1,9 @@
+import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 
+import CreateComicsDialog from './CreateComicsDialog';
 import DashboardComicsTable from './DashboardComicsTable';
 
 const DashboardComics = () => {
@@ -15,6 +17,7 @@ const DashboardComics = () => {
           <Typography variant="body2" color="text.secondary">
             In the Artist Dashboard, you can edit your Comics!
           </Typography>
+          <CreateComicsDialog />
         </Stack>
         <Stack spacing={4}>
           <DashboardComicsTable />

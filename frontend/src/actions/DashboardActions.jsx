@@ -72,4 +72,11 @@ export const deleteEpisodeById = (episodeID) => {
   console.log(`deleteEpisodeById: ${episodeID}`);
 };
 
-export default { getComicsByUser, getEpisodesByComic, deleteComicById, deleteEpisodeById };
+export const createComic = (thumb, name, description) => {
+  console.log(`createComic: "${name}" : "${description}"`);
+};
+export const createEpisode = (comicID, thumb, name, description) => {
+  console.log(`createEpisode: comicID: ${comicID} : "${name}" : "${description}"`);
+};
+
+export default { getComicsByUser, getEpisodesByComic, deleteComicById, deleteEpisodeById, createComic };
