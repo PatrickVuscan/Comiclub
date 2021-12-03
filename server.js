@@ -22,6 +22,7 @@ const { User } = require('./models/user');
 const users = require('./routes/users');
 const comics = require('./routes/comics');
 const episodes = require('./routes/episodes');
+const panels = require('./routes/panels');
 
 // ! Setting up the app and middleware
 const app = express();
@@ -84,6 +85,7 @@ const authenticate = (req, res, next) => {
 app.use('/api/users', users);
 app.use('/api/comics', comics);
 app.use('/api/episodes', episodes);
+app.use('/api/panels', panels);
 
 //! ************************************************ WEBPAGE ROUTES
 // Serve the build
