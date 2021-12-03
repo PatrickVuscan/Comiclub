@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const CommentSchema = new mongoose.Schema({
   userID: String,
   body: String,
-  publishDate: Date,
+  publishDate: { type: Date, default: Date.now },
   panelID: String,
 });
 
