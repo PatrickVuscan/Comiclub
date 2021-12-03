@@ -26,7 +26,7 @@ router.use(mongoChecker);
 // Create a new Comic
 router.post('/', async (req, res) => {
   const comic = new Comic({
-    userID: req.body.userID,
+    userID: req.session.user,
     name: req.body.name,
     description: req.body.description,
     genre: req.body.genre,
@@ -77,7 +77,7 @@ router.post('/update/:comicID', async (req, res) => {
   }
 });
 
-// Add profile picture for user
+// Add thumbnail for comic
 router.post('/thumbnail/:comicID', multipartMiddleware, async (req, res) => {
   // Upload to cloudinary
   // * req.files contains uploaded files

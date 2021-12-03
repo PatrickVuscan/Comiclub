@@ -164,4 +164,23 @@ router.post('/profile-picture', multipartMiddleware, async (req, res) => {
   }
 });
 
+// Get a user's ID by their username, for future calls
+router.get('/:username', (req, res) => {
+  const { username } = req.params;
+
+  // Use the static method on the User model to find a user
+  // by their email and password
+  User.findOne({ username })
+    .then((user) => {
+      res.send({
+        user: user._id,
+        username: user.username,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(404).send('A user by this username does not exist.');
+    });
+});
+
 module.exports = router;

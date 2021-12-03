@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minlength: 6,
   },
-  genres: [String], // Genres Liked
+  genres: [String], // Genres Liked ("Action", "Horror", etc.)
   likes: [String], //  comicIDs of Comics Liked
   // notifications: [String], // TODO: NotificationSchema (string, URL)
 });
