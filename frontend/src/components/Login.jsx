@@ -50,7 +50,7 @@ const Login = () => {
         }
       })
       .then((json) => {
-        if (json.currentUser !== undefined) {
+        if (json.user !== undefined) {
           localStorage.setItem('LOGGED_IN_USERNAME', email);
           setAuthState(fetchAuthState());
           history.push('/');
