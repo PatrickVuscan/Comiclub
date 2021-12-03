@@ -210,7 +210,11 @@ app.post(
 
       console.log('Saved img', newImg);
 
-      const user = await User.findByIdAndUpdate({ _id: req.session.user }, { $set: { profilePicture: newImg } });
+      const user = await User.findByIdAndUpdate(
+        { _id: req.session.user },
+        { $set: { profilePicture: newImg } },
+        { new: true }
+      );
 
       console.log('Saved User', user);
 
