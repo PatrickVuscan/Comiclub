@@ -16,7 +16,7 @@ import styles from './SignupDetails.module.css';
 
 const SignupDetails = () => {
   const {
-    signupState: { name, email, password },
+    signupState: { username, email, password },
     setSignupState,
   } = useContext(SignupContext);
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +37,7 @@ const SignupDetails = () => {
 
     const request = new Request(`${ENV.api_host}/api/users/check-credentials`, {
       method: 'post',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, email, password }),
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
@@ -83,13 +83,13 @@ const SignupDetails = () => {
         </p>
         <TextField
           className={styles.input}
-          id="name"
-          label="Name"
-          value={name}
+          id="username"
+          label="Username"
+          value={username}
           onChange={(e) => {
             setSignupState((prevState) => ({
               ...prevState,
-              name: e.target.value,
+              username: e.target.value,
             }));
           }}
         />

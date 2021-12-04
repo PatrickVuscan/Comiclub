@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
     const newUser = await user.save();
 
     // After creating and saving user, log the user in.
-    loginHelper(user, req)
+    loginHelper(user, req);
 
     res.send({
       user: newUser._id,
@@ -71,7 +71,7 @@ router.post('/login', (req, res) => {
     .then((user) => {
       // Add the user's id to the session.
       // We can check later if this exists to ensure we are logged in.
-      loginHelper(user, req)
+      loginHelper(user, req);
 
       res.send({
         user: user._id,

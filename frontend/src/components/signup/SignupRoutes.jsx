@@ -8,7 +8,7 @@ import SignupSuggestions from './SignupSuggestions';
 const SignupRoutes = () => {
   const { path } = useRouteMatch();
   const [signupState, setSignupState] = useState({
-    name: '',
+    username: '',
     email: '',
     password: '',
     favourites: {},

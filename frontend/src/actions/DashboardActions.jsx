@@ -1,5 +1,6 @@
 import comicThumb from '../assets/comicCover.jpg';
 import episodeThumb from '../assets/episodeCover.png';
+import ENV from '../config';
 
 export const getComicsByUser = (comics) => {
   console.log('getComicsByUser');
@@ -72,9 +73,64 @@ export const deleteEpisodeById = (episodeID) => {
   console.log(`deleteEpisodeById: ${episodeID}`);
 };
 
-export const createComic = (thumb, name, description) => {
-  console.log(`createComic: "${name}" : "${description}"`);
+export const createComic = async (thumb, name, description, genre) => {
+  console.log(`createComic: "${name}" : ${genre} : ${description}`);
+
+  try {
+    const comicRequest = new Request(`${ENV.api_host}/api/comics`, {
+      method: 'post',
+      body: JSON.stringify({ name, description, genre }),
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const comicResponse = await fetch(comicRequest);
+    const comicResponseJSON = await comicResponse.json();
+
+    if (comicResponse.status !== 200) {
+      console.log('Error creating the comic');
+      return false;
+    }
+
+    console.log('comicResponse', comicResponseJSON);
+
+    console.log('Thumb', thumb);
+
+    // The data we are going to send in our request
+    const imageData = new FormData();
+    // ! NOTE!!! IT HAS TO USE APPEND
+    // ! Using imageData.image = thumb for some reason does *NOT* work
+    imageData.append('image', thumb);
+
+    console.log('imageData', imageData);
+
+    // Create our request constructor with all the parameters we need
+    const thumbnailRequest = new Request(`${ENV.api_host}/api/comics/thumbnail/${comicResponseJSON._id}`, {
+      method: 'post',
+      body: imageData,
+    });
+
+    const thumbnailResponse = await fetch(thumbnailRequest);
+    console.log('thumbnailResponse', thumbnailResponse);
+
+    const thumbnailResponseJSON = await thumbnailResponse.json();
+
+    console.log('thumbnailResponseJSON', thumbnailResponseJSON);
+
+    if (thumbnailResponse.status !== 200) {
+      console.log('Error uploading the thumbnail of the comic');
+      return false;
+    }
+
+    return thumbnailResponseJSON;
+  } catch (error) {
+    console.log('Error creating the comic');
+    console.error(error);
+  }
 };
+
 export const createEpisode = (comicID, thumb, name, description) => {
   console.log(`createEpisode: comicID: ${comicID} : "${name}" : "${description}"`);
 };

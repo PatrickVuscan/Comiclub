@@ -32,7 +32,11 @@ const SignupSuggestions = () => {
 
     const request = new Request(`${ENV.api_host}/api/users`, {
       method: 'post',
-      body: JSON.stringify({ email: signupState.email, password: signupState.password }),
+      body: JSON.stringify({
+        username: signupState.username,
+        email: signupState.email,
+        password: signupState.password,
+      }),
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
@@ -45,6 +49,7 @@ const SignupSuggestions = () => {
         if (res.status === 200) {
           return res.json();
         }
+        return Promise.reject();
       })
       .then((json) => {
         if (json.email !== undefined) {

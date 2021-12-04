@@ -5,6 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
 import { createComic } from '../../actions/DashboardActions';
@@ -23,6 +24,7 @@ const CreateComicsDialog = () => {
   const defaultValues = {
     thumb: '',
     name: '',
+    genre: '',
     description: '',
   };
 
@@ -30,11 +32,12 @@ const CreateComicsDialog = () => {
 
   const submit = (event) => {
     event.preventDefault();
-    createComic(formValues.thumb, formValues.name, formValues.description);
+    createComic(formValues.thumb, formValues.name, formValues.description, formValues.genre);
     setFormValues({
       ...formValues,
-      thumb: '',
+      thumb: undefined,
       name: '',
+      genre: '',
       description: '',
     });
     setOpen(false);
@@ -58,7 +61,28 @@ const CreateComicsDialog = () => {
         <DialogTitle>Add a New Comic!</DialogTitle>
         <DialogContent>
           <DialogContentText>Complete the details to add a new Comic.</DialogContentText>
-          <TextField autoFocus margin="dense" id="name" label="Cover" type="text" fullWidth variant="standard" />
+
+          <Typography variant="subtitle1" component="div" style={{ marginTop: '1rem' }}>
+            Cover Image
+          </Typography>
+          <input
+            id="thumbnail"
+            accept="image/*"
+            type="file"
+            style={{
+              padding: '5px',
+            }}
+            files={formValues.thumb}
+            onChange={(e) => {
+              e.preventDefault();
+
+              setFormValues((formVals) => ({
+                ...formVals,
+                thumb: e.target.files[0] ? e.target.files[0] : undefined,
+              }));
+            }}
+          />
+
           <TextField
             autoFocus
             required
@@ -72,6 +96,21 @@ const CreateComicsDialog = () => {
             value={formValues.name}
             onChange={handleInputChange}
           />
+
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="genre"
+            label="Genre"
+            type="text"
+            fullWidth
+            variant="standard"
+            name="genre"
+            value={formValues.genre}
+            onChange={handleInputChange}
+          />
+
           <TextField
             autoFocus
             required
