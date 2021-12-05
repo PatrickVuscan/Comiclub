@@ -39,8 +39,14 @@ const DashboardComicsRow = ({ comic, refreshComics }) => {
       <TableCell>
         <Checkbox color="primary" />
       </TableCell>
-      <TableCell align="right" onClick={goToEpisode}>
-        <Box component="img" src={thumb} sx={{ width: 200 }} alt={id} style={{ cursor: 'pointer' }} />
+      <TableCell align="right" onClick={goToEpisode} style={{ cursor: 'pointer' }}>
+        {thumb ? (
+          <Box component="img" src={thumb} sx={{ width: 200 }} alt={id} />
+        ) : (
+          <Box sx={{ width: 200 }} alt={id}>
+            <Typography style={{ textAlign: 'center' }}>No Thumbnail</Typography>{' '}
+          </Box>
+        )}
       </TableCell>
       <TableCell component="th" scope="row">
         <Stack>

@@ -29,7 +29,13 @@ const app = express();
 
 // Enable CORS if in development, for React local development server to connect to the web server.
 if (env !== 'production') {
-  app.use(cors());
+  app.use(
+    cors({
+      origin: ['http://localhost:3000', 'http://localhost:5000'],
+      methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
+      credentials: true,
+    })
+  );
 }
 
 app.use(bodyParser.json());
@@ -42,6 +48,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      secure: env === 'production',
       expires: 86400000, // One day
       httpOnly: true,
     },

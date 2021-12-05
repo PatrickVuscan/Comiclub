@@ -14,6 +14,12 @@ router.use(mongoChecker);
 
 // Create a new Comic
 router.post('/', async (req, res) => {
+  if (!req.session.user) {
+    res.status(401).send('Please log in before trying to create a comic.');
+  } else if (!req.body.name || !req.body.description || !req.body.genre) {
+    res.status(400).send('You did not include all the required attributes to create a comic.');
+  }
+
   const comic = new Comic({
     userID: req.session.user,
     name: req.body.name,
@@ -112,9 +118,16 @@ router.post('/thumbnail/:comicID', multipartMiddleware, async (req, res) => {
 
 // Get the current user's comics
 router.get('/userID', async (req, res) => {
+  if (!req.session.user) {
+    res.status(401).send('Please log in before trying to access your comics.');
+    return;
+  }
+
   try {
     const comics = await Comic.find({ userID: req.session.user });
     res.send(comics);
+    // if (comics) res.send(comics);
+    // else res.send([]);
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');

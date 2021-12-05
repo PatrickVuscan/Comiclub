@@ -4,7 +4,9 @@ import ENV from '../config';
 export const getComicsByUser = async (comics) => {
   console.log("Getting this user's comics");
 
-  const comicsResponse = await fetch(`${ENV.api_host}/api/comics/userID`);
+  const comicsResponse = await fetch(`${ENV.api_host}/api/comics/userID`, {
+    credentials: 'include',
+  });
 
   if (!comicsResponse.ok) {
     console.log('There was an error retrieving your comics', comicsResponse.error);
@@ -13,19 +15,17 @@ export const getComicsByUser = async (comics) => {
 
   const comicsJSON = await comicsResponse.json();
 
-  const mappedComics = comicsJSON.map(
-    ({ _id, name, description, genre, thumbImage: { imageURL }, publishDate, episodes, meta }) => ({
-      id: _id,
-      name,
-      description,
-      genre,
-      thumb: imageURL,
-      publishDate: new Date(publishDate).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-      episodeCount: episodes ? episodes.length : 0,
-      viewCount: meta ? meta.views : 0,
-      likeCount: meta ? meta.likes : 0,
-    })
-  );
+  const mappedComics = comicsJSON.map(({ _id, name, description, genre, thumbImage, publishDate, episodes, meta }) => ({
+    id: _id,
+    name,
+    description,
+    genre,
+    thumb: thumbImage ? thumbImage.imageURL : undefined,
+    publishDate: new Date(publishDate).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+    episodeCount: episodes ? episodes.length : 0,
+    viewCount: meta ? meta.views : 0,
+    likeCount: meta ? meta.likes : 0,
+  }));
 
   comics.setState({
     comics: mappedComics,
@@ -78,6 +78,7 @@ export const createComic = async (thumb, name, description, genre) => {
 
   try {
     const comicRequest = new Request(`${ENV.api_host}/api/comics`, {
+      credentials: 'include',
       method: 'post',
       body: JSON.stringify({ name, description, genre }),
       headers: {
@@ -87,12 +88,13 @@ export const createComic = async (thumb, name, description, genre) => {
     });
 
     const comicResponse = await fetch(comicRequest);
-    const comicResponseJSON = await comicResponse.json();
 
     if (comicResponse.status !== 200) {
       console.log('Error creating the comic');
       return false;
     }
+
+    const comicResponseJSON = await comicResponse.json();
 
     // The data we are going to send in our request
     const imageData = new FormData();
@@ -102,17 +104,19 @@ export const createComic = async (thumb, name, description, genre) => {
 
     // Create our request constructor with all the parameters we need
     const thumbnailRequest = new Request(`${ENV.api_host}/api/comics/thumbnail/${comicResponseJSON._id}`, {
+      credentials: 'include',
       method: 'post',
       body: imageData,
     });
 
     const thumbnailResponse = await fetch(thumbnailRequest);
-    const thumbnailResponseJSON = await thumbnailResponse.json();
 
     if (thumbnailResponse.status !== 200) {
       console.log('Error uploading the thumbnail of the comic');
       return false;
     }
+
+    const thumbnailResponseJSON = await thumbnailResponse.json();
 
     return thumbnailResponseJSON;
   } catch (error) {
@@ -126,6 +130,7 @@ export const updateComic = async (id, thumb, name, description, genre) => {
 
   try {
     const comicRequest = new Request(`${ENV.api_host}/api/comics/update/${id}`, {
+      credentials: 'include',
       method: 'post',
       body: JSON.stringify({ name, description, genre }),
       headers: {
@@ -135,12 +140,13 @@ export const updateComic = async (id, thumb, name, description, genre) => {
     });
 
     const comicResponse = await fetch(comicRequest);
-    const comicResponseJSON = await comicResponse.json();
 
     if (comicResponse.status !== 200) {
       console.log("Error updating the comic's values.");
       return false;
     }
+
+    const comicResponseJSON = await comicResponse.json();
 
     if (typeof thumb !== 'object') {
       return;
@@ -154,17 +160,19 @@ export const updateComic = async (id, thumb, name, description, genre) => {
 
     // Create our request constructor with all the parameters we need
     const thumbnailRequest = new Request(`${ENV.api_host}/api/comics/thumbnail/${comicResponseJSON._id}`, {
+      credentials: 'include',
       method: 'post',
       body: imageData,
     });
 
     const thumbnailResponse = await fetch(thumbnailRequest);
-    const thumbnailResponseJSON = await thumbnailResponse.json();
 
     if (thumbnailResponse.status !== 200) {
       console.log('Error uploading the thumbnail of the comic');
       return false;
     }
+
+    const thumbnailResponseJSON = await thumbnailResponse.json();
 
     return thumbnailResponseJSON;
   } catch (error) {
