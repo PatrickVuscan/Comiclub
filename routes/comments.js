@@ -9,6 +9,7 @@ const { Episode } = require('../models/episode');
 const { Image } = require('../models/image');
 const { Meta } = require('../models/meta');
 const { Comment } = require('../models/comment');
+const { updateNestedEpisode } = require('./helpers');
 
 const router = express.Router();
 
@@ -37,10 +38,10 @@ router.get('/userID/:userID', async (req, res) => {
 });
 
 // Creates a new COMMENT within an EPISODE
-router.put('/comment', mongoChecker, async (req, res) => {
+router.put('/', mongoChecker, async (req, res) => {
   const { user } = req.session;
 
-  const comment = new Episode({
+  const comment = new Comment({
     userID: user,
     episodeID: req.body.episodeID,
     body: req.body.body,
@@ -48,16 +49,7 @@ router.put('/comment', mongoChecker, async (req, res) => {
 
   try {
     const newComment = await comment.save();
-
-    await Episode.updateOne(
-      { _id: req.body.episodeID },
-      {
-        $push: {
-          comments: comment,
-        },
-      }
-    );
-
+    await updateNestedEpisode(req.body.episodeID, '$push', "comments", comment);
     res.send(newComment);
   } catch (error) {
     if (isMongoError(error)) {

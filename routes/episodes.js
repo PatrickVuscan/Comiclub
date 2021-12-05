@@ -11,6 +11,8 @@ const { Image } = require('../models/image');
 const { Meta } = require('../models/meta');
 const { Comment } = require('../models/comment');
 
+const { updateNestedEpisode } = require('./helpers');
+
 const router = express.Router();
 
 router.use(mongoChecker);
@@ -59,22 +61,6 @@ router.put('/episode', mongoChecker, async (req, res) => {
     }
   }
 });
-
-async function updateNestedEpisode(episodeID, updateType, attribute, value) {
-  const updatedEpisode = await Episode.findByIdAndUpdate(
-    { _id: episodeID },
-    { [`${updateType}`]: { [`${attribute}`]: value } },
-    { new: true }
-  );
-
-  const updatedComic = await Comic.findOneAndUpdate(
-    { "episodes._id": episodeID },
-    { [`${updateType}`]: { [`episodes.$.${attribute}`]: value } },
-    { new: true }
-  );
-
-  return updatedEpisode;
-}
 
 // Update an Episode
 router.post('/update/:episodeID', async (req, res) => {
@@ -214,29 +200,6 @@ router.get('/comicID/:comicID', async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
-  }
-});
-
-// View an episode
-router.post('/view', async (req, res) => {
-  const { episodeID } = req.body;
-
-  try {
-    // Increment views for episode
-    const updatedEpisode = await updateNestedEpisode(episodeID, "$inc", "meta.views", 1);
-
-    // Increment total views for entire comic series
-    await Comic.findByIdAndUpdate({ _id: updatedEpisode.comicID }, { $inc: { 'meta.views': 1 } }, { new: true });
-
-    res.status(200).send(`Viewed ${episodeID}.`);
-  } catch (error) {
-    if (isMongoError(error)) {
-      // check for if mongo server suddenly disconnected before this request.
-      res.status(500).send('Internal server error');
-    } else {
-      console.log(error);
-      res.status(400).send('Bad Request'); // bad request for changing the student.
-    }
   }
 });
 
