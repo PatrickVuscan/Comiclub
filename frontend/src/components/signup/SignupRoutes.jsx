@@ -11,7 +11,7 @@ const SignupRoutes = () => {
     username: '',
     email: '',
     password: '',
-    favourites: {},
+    genres: {},
   });
 
   return (

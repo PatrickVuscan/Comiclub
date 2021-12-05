@@ -29,13 +29,15 @@ const SignupSuggestions = () => {
     e.preventDefault();
 
     // Push this data and the completed profile to the server
-
     const request = new Request(`${ENV.api_host}/api/users`, {
       method: 'post',
       body: JSON.stringify({
         username: signupState.username,
         email: signupState.email,
         password: signupState.password,
+        genres: Object.entries(signupState.genres).reduce((filteredGenres, [genre, truth]) => {
+          return truth ? [...filteredGenres, genre] : filteredGenres;
+        }, []),
       }),
       headers: {
         Accept: 'application/json, text/plain, */*',
@@ -69,9 +71,9 @@ const SignupSuggestions = () => {
 
     setSignupState((prevState) => ({
       ...prevState,
-      favourites: {
-        ...prevState.favourites,
-        [category]: !prevState.favourites[category],
+      genres: {
+        ...prevState.genres,
+        [category]: !prevState.genres[category],
       },
     }));
   };
@@ -134,7 +136,7 @@ const SignupSuggestions = () => {
                     aria-label={`star ${item.title}`}
                     onClick={updateFavourite(item.title.toLowerCase())}
                   >
-                    {signupState.favourites[item.title.toLowerCase()] ? <StarIcon /> : <StarBorderIcon />}
+                    {signupState.genres[item.title.toLowerCase()] ? <StarIcon /> : <StarBorderIcon />}
                   </IconButton>
                 }
               />

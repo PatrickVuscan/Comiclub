@@ -27,11 +27,10 @@ router.post('/', async (req, res) => {
     res.send(newComic);
   } catch (error) {
     if (isMongoError(error)) {
-      // check for if mongo server suddenly disconnected before this request.
       res.status(500).send('Internal server error');
     } else {
       console.log(error);
-      res.status(400).send('Bad Request'); // bad request for changing the student.
+      res.status(400).send('There was an error creating your Comic.'); // Error saving the comic
     }
   }
 });

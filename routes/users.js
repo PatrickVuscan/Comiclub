@@ -16,6 +16,7 @@ function loginHelper(user, req) {
   req.session.username = user.username;
   req.session.email = user.email;
   req.session.profilePicture = user.profilePicture;
+  req.session.genres = user.genres;
 }
 
 router.post('/', async (req, res) => {
@@ -24,6 +25,7 @@ router.post('/', async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
+    genres: req.body.genres,
   });
 
   try {
@@ -38,6 +40,7 @@ router.post('/', async (req, res) => {
       username: newUser.username,
       email: newUser.email,
       profilePicture: newUser.profilePicture,
+      genres: newUser.genres,
     });
   } catch (error) {
     if (isMongoError(error)) {
@@ -45,7 +48,7 @@ router.post('/', async (req, res) => {
       res.status(500).send('Internal server error');
     } else {
       console.log(error);
-      res.status(400).send('Bad Request'); // bad request for changing the student.
+      res.status(400).send('There was an error when trying to sign up.'); // Error creating the user
     }
   }
 });
@@ -67,6 +70,7 @@ router.post('/login', (req, res) => {
         username: user.username,
         email: user.email,
         profilePicture: user.profilePicture,
+        genres: user.genres,
       });
     })
     .catch((error) => {
@@ -95,6 +99,7 @@ router.get('/check-session', (req, res) => {
       username: req.session.username,
       email: req.session.email,
       profilePicture: req.session.profilePicture,
+      genres: req.session.genres,
     });
   } else {
     res.status(401).send('There is no available session for this user.');
@@ -148,6 +153,7 @@ router.post('/profile-picture', multipartMiddleware, async (req, res) => {
       username: user.username,
       email: user.email,
       profilePicture: user.profilePicture,
+      genres: user.genres,
     });
   } catch (error) {
     if (isMongoError(error)) {

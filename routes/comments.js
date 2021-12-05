@@ -44,7 +44,9 @@ router.put('/', async (req, res) => {
 
   try {
     const newComment = await comment.save();
+
     await updateNestedEpisode(req.body.episodeID, '$push', 'comments', comment);
+
     res.send(newComment);
   } catch (error) {
     if (isMongoError(error)) {
@@ -52,7 +54,7 @@ router.put('/', async (req, res) => {
       res.status(500).send('Internal server error');
     } else {
       console.log(error);
-      res.status(400).send('Bad Request'); // bad request for changing the student.
+      res.status(400).send('Could not add your comment.'); // bad request for changing the student.
     }
   }
 });

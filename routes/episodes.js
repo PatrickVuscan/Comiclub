@@ -53,7 +53,7 @@ router.put('/episode', mongoChecker, async (req, res) => {
       res.status(500).send('Internal server error');
     } else {
       console.log(error);
-      res.status(400).send('Bad Request'); // bad request for changing the student.
+      res.status(400).send('There was an error creating the episode.');
     }
   }
 });
@@ -71,10 +71,12 @@ router.post('/update/:episodeID', async (req, res) => {
     }
 
     const { name, description } = req.body;
-    let updatedEpisode = episode;
+    let updatedEpisode;
+
     if (name) {
       updatedEpisode = await updateNestedEpisode(episodeID, '$set', 'name', name);
     }
+
     if (description) {
       updatedEpisode = await updateNestedEpisode(episodeID, '$set', 'description', description);
     }
@@ -86,7 +88,7 @@ router.post('/update/:episodeID', async (req, res) => {
       res.status(500).send('Internal server error');
     } else {
       console.log(error);
-      res.status(400).send('Something went wrong while trying to update the episode.');
+      res.status(400).send('There was an error while trying to update the episode.');
     }
   }
 });
