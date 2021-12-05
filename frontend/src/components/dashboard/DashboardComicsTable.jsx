@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -32,6 +33,12 @@ class DashboardComicsTable extends React.Component {
 
   render() {
     const { comics } = this.state;
+
+    console.log(comics);
+    if (!comics.length) {
+      return <Typography>You currently have no comics.</Typography>;
+    }
+
     return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

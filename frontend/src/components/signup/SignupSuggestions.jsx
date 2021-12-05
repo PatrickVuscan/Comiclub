@@ -30,6 +30,7 @@ const SignupSuggestions = () => {
 
     // Push this data and the completed profile to the server
     const request = new Request(`${ENV.api_host}/api/users`, {
+      credentials: 'include',
       method: 'post',
       body: JSON.stringify({
         username: signupState.username,

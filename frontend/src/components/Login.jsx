@@ -34,6 +34,7 @@ const Login = () => {
     e.preventDefault();
 
     const request = new Request(`${ENV.api_host}/api/users/login`, {
+      credentials: 'include',
       method: 'post',
       body: JSON.stringify({ email, password }),
       headers: {

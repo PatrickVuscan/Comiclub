@@ -13,7 +13,9 @@ const Footer = () => {
   } = useContext(AuthContext);
 
   const signOut = () => {
-    fetch(`${ENV.api_host}/api/users/logout`)
+    fetch(`${ENV.api_host}/api/users/logout`, {
+      credentials: 'include',
+    })
       .then(() => {
         localStorage.removeItem('LOGGED_IN_USERNAME');
         setAuthState(fetchAuthState());

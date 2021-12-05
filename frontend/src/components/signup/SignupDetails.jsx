@@ -36,6 +36,7 @@ const SignupDetails = () => {
     e.preventDefault();
 
     const request = new Request(`${ENV.api_host}/api/users/check-credentials`, {
+      credentials: 'include',
       method: 'post',
       body: JSON.stringify({ username, email, password }),
       headers: {
