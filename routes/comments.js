@@ -3,11 +3,6 @@ const express = require('express');
 const { mongoChecker, isMongoError } = require('../mongoHelpers');
 
 // Import models
-const { User } = require('../models/user');
-const { Comic } = require('../models/comic');
-const { Episode } = require('../models/episode');
-const { Image } = require('../models/image');
-const { Meta } = require('../models/meta');
 const { Comment } = require('../models/comment');
 const { updateNestedEpisode } = require('./helpers');
 
@@ -38,7 +33,7 @@ router.get('/userID/:userID', async (req, res) => {
 });
 
 // Creates a new COMMENT within an EPISODE
-router.put('/', mongoChecker, async (req, res) => {
+router.put('/', async (req, res) => {
   const { user } = req.session;
 
   const comment = new Comment({
@@ -49,7 +44,7 @@ router.put('/', mongoChecker, async (req, res) => {
 
   try {
     const newComment = await comment.save();
-    await updateNestedEpisode(req.body.episodeID, '$push', "comments", comment);
+    await updateNestedEpisode(req.body.episodeID, '$push', 'comments', comment);
     res.send(newComment);
   } catch (error) {
     if (isMongoError(error)) {

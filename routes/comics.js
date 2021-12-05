@@ -6,22 +6,12 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 // Import models
 const { User } = require('../models/user');
 const { Comic } = require('../models/comic');
-const { Episode } = require('../models/episode');
 const { Image } = require('../models/image');
-const { Meta } = require('../models/meta');
-const { Comment } = require('../models/comment');
 
 const router = express.Router();
 
 router.use(mongoChecker);
 
-// middleware that is specific to this router
-// router.use(function timeLog(req, res, next) {
-//   console.log('Time: ', Date.now());
-//   next();
-// });
-
-//! *************************************************************** COMIC ROUTES
 // Create a new Comic
 router.post('/', async (req, res) => {
   const comic = new Comic({

@@ -5,21 +5,11 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 
 // Import models
 const { User } = require('../models/user');
-const { Comic } = require('../models/comic');
-const { Episode } = require('../models/episode');
 const { Image } = require('../models/image');
-const { Meta } = require('../models/meta');
-const { Comment } = require('../models/comment');
 
 const router = express.Router();
 
 router.use(mongoChecker);
-
-// middleware that is specific to this router
-// router.use(function timeLog(req, res, next) {
-//   console.log('Time: ', Date.now());
-//   next();
-// });
 
 function loginHelper(user, req) {
   req.session.user = user._id;
@@ -107,7 +97,7 @@ router.get('/check-session', (req, res) => {
       profilePicture: req.session.profilePicture,
     });
   } else {
-    res.status(401).send();
+    res.status(401).send('There is no available session for this user.');
   }
 });
 
@@ -123,7 +113,7 @@ router.post('/check-credentials', (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.status(400).send('There was an error checking your credentials');
+      res.status(400).send('There was an error checking your credentials.');
     });
 });
 

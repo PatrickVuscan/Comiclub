@@ -4,12 +4,9 @@ const { multipartMiddleware, cloudinary } = require('../db/cloudinary');
 const { mongoChecker, isMongoError } = require('../mongoHelpers');
 
 // Import models
-const { User } = require('../models/user');
 const { Comic } = require('../models/comic');
 const { Episode } = require('../models/episode');
 const { Image } = require('../models/image');
-const { Meta } = require('../models/meta');
-const { Comment } = require('../models/comment');
 
 const { updateNestedEpisode } = require('./helpers');
 
@@ -17,7 +14,6 @@ const router = express.Router();
 
 router.use(mongoChecker);
 
-//! ************************************************************* EPISODE ROUTES
 // Creates a new EPISODE within a COMIC
 router.put('/episode', mongoChecker, async (req, res) => {
   const { user } = req.session;
@@ -77,10 +73,10 @@ router.post('/update/:episodeID', async (req, res) => {
     const { name, description } = req.body;
     let updatedEpisode = episode;
     if (name) {
-      updatedEpisode = await updateNestedEpisode(episodeID, '$set', "name", name);
+      updatedEpisode = await updateNestedEpisode(episodeID, '$set', 'name', name);
     }
     if (description) {
-      updatedEpisode = await updateNestedEpisode(episodeID, '$set', "description", description);
+      updatedEpisode = await updateNestedEpisode(episodeID, '$set', 'description', description);
     }
 
     res.send(updatedEpisode);
@@ -119,7 +115,7 @@ router.post('/thumbnail/:episodeID', multipartMiddleware, async (req, res) => {
     // Save image to the database
     const newImg = await img.save();
 
-    const updatedEpisode = await updateNestedEpisode(episodeID, "$set", "thumbImage", newImg);
+    const updatedEpisode = await updateNestedEpisode(episodeID, '$set', 'thumbImage', newImg);
 
     // Assuming all goes well, we now send the episode with the updated values
     res.send(updatedEpisode);
@@ -141,15 +137,15 @@ router.post('/panels/:episodeID', multipartMiddleware, async (req, res) => {
   try {
     const { episodeID } = req.params;
     const episode = await Episode.findOne({ _id: episodeID });
-    
+
     if (episode.userID !== req.session.user) {
       res.status(401).send("You're not authorized to edit this Comic. Please ensure this is your comic.");
       return;
     }
 
     if (!req.files.panels) {
-      res.status(400).send("No panels PDF included in request files");
-      return
+      res.status(400).send('No panels PDF included in request files');
+      return;
     }
     const cloudinaryResult = await cloudinary.uploader.upload(req.files.panels.path);
 
@@ -162,7 +158,7 @@ router.post('/panels/:episodeID', multipartMiddleware, async (req, res) => {
     // Save image to the database
     const newImg = await img.save();
 
-    const updatedEpisode = await updateNestedEpisode(episodeID, "$set", "panels", newImg);
+    const updatedEpisode = await updateNestedEpisode(episodeID, '$set', 'panels', newImg);
 
     // Assuming all goes well, we now send the episode with the updated values
     res.send(updatedEpisode);
@@ -209,7 +205,7 @@ router.post('/view', async (req, res) => {
 
   try {
     // Increment views for episode
-    const updatedEpisode = await updateNestedEpisode(episodeID, "$inc", "meta.views", 1);
+    const updatedEpisode = await updateNestedEpisode(episodeID, '$inc', 'meta.views', 1);
 
     // Increment total views for entire comic series
     await Comic.findByIdAndUpdate({ _id: updatedEpisode.comicID }, { $inc: { 'meta.views': 1 } }, { new: true });

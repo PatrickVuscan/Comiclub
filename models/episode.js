@@ -13,7 +13,7 @@ const EpisodeSchema = new mongoose.Schema({
   publishDate: { type: Date, default: Date.now },
   panels: ImageSchema,
   meta: MetaSchema,
-  comments: [CommentSchema]
+  comments: [CommentSchema],
 });
 
 // Get creatorID of comic
@@ -43,6 +43,7 @@ EpisodeSchema.statics.findByUserID = function (userID) {
   });
 };
 
+// eslint-disable-next-line func-names
 EpisodeSchema.statics.findByComicID = function (comicID) {
   const Episode = this; // Binds this to the Episode model
 
