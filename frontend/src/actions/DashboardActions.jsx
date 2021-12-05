@@ -32,6 +32,36 @@ export const getComicsByUser = async (comics) => {
   });
 };
 
+export const getComic = async (comicID) => {
+  console.log(`Getting the comic by ID ${comicID}`);
+
+  const comicResponse = await fetch(`${ENV.api_host}/api/comics/${comicID}`, {
+    credentials: 'include',
+  });
+
+  if (!comicResponse.ok) {
+    console.log('There was an error retrieving your comics', comicResponse.error);
+    return;
+  }
+
+  const comicJSON = await comicResponse.json();
+  console.log(comicJSON);
+
+  const { _id, name, description, genre, thumbImage, publishDate, episodes, meta } = comicJSON;
+
+  return {
+    id: _id,
+    name,
+    description,
+    genre,
+    thumb: thumbImage ? thumbImage.imageURL : undefined,
+    publishDate: new Date(publishDate).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+    episodeCount: episodes ? episodes.length : 0,
+    viewCount: meta ? meta.views : 0,
+    likeCount: meta ? meta.likes : 0,
+  };
+};
+
 export const getEpisodesByComic = (Comic) => {
   const { comicID } = Comic.state;
   console.log(`getEpisodesByComic:  ${comicID}`);
@@ -185,4 +215,4 @@ export const createEpisode = (comicID, thumb, name, description) => {
   console.log(`createEpisode: comicID: ${comicID} : "${name}" : "${description}"`);
 };
 
-export default { getComicsByUser, getEpisodesByComic, deleteComicById, deleteEpisodeById, createComic };
+export default { getComicsByUser, getComic, getEpisodesByComic, deleteComicById, deleteEpisodeById, createComic };

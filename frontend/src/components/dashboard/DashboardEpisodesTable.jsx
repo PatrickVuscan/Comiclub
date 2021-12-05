@@ -6,6 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
 import React from 'react';
 import { uid } from 'react-uid';
 
@@ -30,7 +31,11 @@ class DashboardEpisodesTable extends React.Component {
 
   render() {
     const { comicID, episodes } = this.state;
-    console.log(comicID);
+
+    console.log(episodes);
+    if (!episodes.length) {
+      return <Typography>You currently have no episodes for this comic.</Typography>;
+    }
 
     return (
       <TableContainer component={Paper}>

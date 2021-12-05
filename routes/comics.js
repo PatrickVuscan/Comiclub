@@ -134,6 +134,24 @@ router.get('/userID', async (req, res) => {
   }
 });
 
+// Get comic by given comicID
+router.get('/:comicID', async (req, res) => {
+  const { comicID } = req.params;
+
+  if (!req.session.user) {
+    res.status(401).send('Please log in before trying to access your comics.');
+    return;
+  }
+
+  try {
+    const comics = await Comic.findOne({ userID: req.session.user, _id: comicID });
+    res.send(comics);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Get all comics by userID
 router.get('/userID/:userID', async (req, res) => {
   try {
