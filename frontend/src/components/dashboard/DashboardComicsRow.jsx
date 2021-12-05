@@ -44,7 +44,7 @@ const DashboardComicsRow = ({ comic, refreshComics }) => {
           <Box component="img" src={thumb} sx={{ width: 200 }} alt={id} />
         ) : (
           <Box sx={{ width: 200 }} alt={id}>
-            <Typography style={{ textAlign: 'center' }}>No Thumbnail</Typography>{' '}
+            <Typography style={{ textAlign: 'center' }}>No Thumbnail</Typography>
           </Box>
         )}
       </TableCell>

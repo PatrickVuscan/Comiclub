@@ -27,6 +27,13 @@ class DashboardComicsTable extends React.Component {
     getComicsByUser(this);
   }
 
+  componentDidUpdate(prevProps) {
+    // eslint-disable-next-line react/destructuring-assignment
+    if (prevProps.updates !== this.props.updates) {
+      getComicsByUser(this);
+    }
+  }
+
   refreshComics() {
     getComicsByUser(this);
   }
@@ -34,7 +41,6 @@ class DashboardComicsTable extends React.Component {
   render() {
     const { comics } = this.state;
 
-    console.log(comics);
     if (!comics.length) {
       return <Typography>You currently have no comics.</Typography>;
     }
@@ -59,7 +65,7 @@ class DashboardComicsTable extends React.Component {
               <TableCell align="right">Views</TableCell>
               <TableCell align="right">Likes</TableCell>
               {/* <TableCell align="right">Comments</TableCell> */}
-              <TableCell align="right">Edit Comic</TableCell>
+              <TableCell align="right">Edit</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
