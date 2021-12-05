@@ -190,4 +190,27 @@ router.get('/:username', (req, res) => {
     });
 });
 
+// Get comics liked by a user via their username
+router.get('/:username/likes', (req, res) => {
+  const { username } = req.params;
+
+  // Use the static method on the User model to find a user
+  // by their email and password
+  User.findOne({ username })
+    .then((user) => {
+      if (!user) {
+        res.status(404).send('A user by this username does not exist.');
+        return;
+      }
+
+      res.send({
+        likes: user.likes,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(400).send('There was an error trying to find a user by this username.');
+    });
+});
+
 module.exports = router;
