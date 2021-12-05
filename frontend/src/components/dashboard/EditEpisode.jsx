@@ -1,3 +1,4 @@
+import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -5,12 +6,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import React from 'react';
 
-import { createEpisode } from '../../actions/DashboardActions';
+import { updateEpisode } from '../../actions/DashboardActions';
 
-const CreateEpisodeDialog = ({ comicID, update }) => {
+const EditEpisode = ({ episode, refreshEpisodes }) => {
+  const { id, name, description, thumb, panels } = episode;
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -22,52 +26,57 @@ const CreateEpisodeDialog = ({ comicID, update }) => {
   };
 
   const defaultValues = {
-    thumb: undefined,
-    name: '',
-    description: '',
-    panels: undefined,
+    thumb,
+    name,
+    description,
+    panels,
   };
 
   const [formValues, setFormValues] = React.useState(defaultValues);
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    createEpisode(comicID, formValues.thumb, formValues.name, formValues.description, formValues.panels).then(update);
 
-    setFormValues({
-      ...formValues,
-      thumb: undefined,
-      name: '',
-      description: '',
-      panels: undefined,
-    });
+    await updateEpisode(id, formValues.thumb, formValues.name, formValues.description, formValues.panels);
+
+    refreshEpisodes();
 
     setOpen(false);
   };
 
   const handleInputChange = (event) => {
     // event.preventDefault();
-    const { name, value } = event.target;
+
+    // Need to rename name to inputName here, because defined in upper context
+    const { name: inputName, value } = event.target;
     setFormValues({
       ...formValues,
-      [name]: value,
+      [inputName]: value,
     });
   };
 
   return (
-    <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add a New Episode!
-      </Button>
+    <div>
+      <Tooltip title="Edit Episode">
+        <EditIcon onClick={handleClickOpen} style={{ cursor: 'pointer' }} />
+      </Tooltip>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add a New Episode!</DialogTitle>
+        <DialogTitle>Edit Your Episode!</DialogTitle>
         <DialogContent>
-          <DialogContentText>Complete the details to add a new Episode.</DialogContentText>
+          <DialogContentText>Update the values as you&apos;d like, then save to update your episode.</DialogContentText>
 
           <Typography variant="subtitle1" component="div" style={{ marginTop: '1rem' }}>
             Thumbnail Image
           </Typography>
+          {formValues.thumb && (
+            <Typography variant="body1" component="div" style={{ marginTop: '0rem' }}>
+              {'You currently have a thumbnail image, you can see it '}
+              <a href={formValues.thumb} style={{ color: 'blue', textDecoration: 'underline' }}>
+                here
+              </a>
+            </Typography>
+          )}
           <input
             id="thumbnail"
             accept="image/*"
@@ -119,6 +128,14 @@ const CreateEpisodeDialog = ({ comicID, update }) => {
           <Typography variant="subtitle1" component="div" style={{ marginTop: '1rem' }}>
             Panels
           </Typography>
+          {formValues.panels && (
+            <Typography variant="body1" component="div" style={{ marginTop: '0rem' }}>
+              {'You currently have panels uploaded, you can see it '}
+              <a href={formValues.panels} style={{ color: 'blue', textDecoration: 'underline' }}>
+                here
+              </a>
+            </Typography>
+          )}
           <input
             id="panels"
             accept="application/pdf"
@@ -142,8 +159,7 @@ const CreateEpisodeDialog = ({ comicID, update }) => {
           <Button onClick={submit}>Add</Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
-
-export default CreateEpisodeDialog;
+export default EditEpisode;

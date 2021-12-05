@@ -29,10 +29,20 @@ class DashboardEpisodesTable extends React.Component {
     getEpisodesByComic(this);
   }
 
-  render() {
-    const { comicID, episodes } = this.state;
+  componentDidUpdate(prevProps) {
+    // eslint-disable-next-line react/destructuring-assignment
+    if (prevProps.updates !== this.props.updates) {
+      getEpisodesByComic(this);
+    }
+  }
 
-    console.log(episodes);
+  refreshEpisodes() {
+    getEpisodesByComic(this);
+  }
+
+  render() {
+    const { episodes } = this.state;
+
     if (!episodes.length) {
       return <Typography>You currently have no episodes for this comic.</Typography>;
     }
@@ -42,23 +52,25 @@ class DashboardEpisodesTable extends React.Component {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>
-                <Checkbox color="primary" />
-              </TableCell>
-              <TableCell align="right">Number</TableCell>
+              <TableCell>{/* <Checkbox color="primary" /> */}</TableCell>
+              {/* <TableCell align="right">Number</TableCell> */}
               <TableCell align="left">Episode</TableCell>
               <TableCell align="left">Description</TableCell>
               <TableCell align="right">Published</TableCell>
-              <TableCell align="right">Panels Uploaded</TableCell>
+              <TableCell align="right">Panels</TableCell>
               <TableCell align="right">Views</TableCell>
-              <TableCell align="right">Likes</TableCell>
               <TableCell align="right">Comments</TableCell>
-              <TableCell align="right">Delete</TableCell>
+              <TableCell align="right">Edit</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {episodes.map((episode) => (
-              <DashboardEpisodesRow key={uid(episode)} episode={episode} />
+              <DashboardEpisodesRow
+                key={uid(episode)}
+                episode={episode}
+                // eslint-disable-next-line react/jsx-no-bind
+                refreshEpisodes={this.refreshEpisodes.bind(this)}
+              />
             ))}
           </TableBody>
         </Table>

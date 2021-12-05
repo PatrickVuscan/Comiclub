@@ -8,6 +8,12 @@ import CreateEpisodeDialog from './CreateEpisodeDialog';
 import DashboardEpisodesTable from './DashboardEpisodesTable';
 
 const DashboardEpisodes = () => {
+  const [updates, setUpdates] = React.useState(0);
+
+  const update = () => {
+    setUpdates((prevCount) => prevCount + 1);
+  };
+
   const { comicID } = useParams();
 
   const [comic, setComic] = React.useState({});
@@ -19,9 +25,7 @@ const DashboardEpisodes = () => {
     };
 
     fetchData();
-  }, []);
-
-  console.log(comic);
+  }, [comicID]);
 
   return (
     <div>
@@ -33,10 +37,10 @@ const DashboardEpisodes = () => {
           <Typography variant="body2" color="text.secondary">
             In the Artist Dashboard (Episodes), you can edit your Episodes!
           </Typography>
-          <CreateEpisodeDialog comicID={comicID} />
+          <CreateEpisodeDialog comicID={comicID} update={update} />
         </Stack>
         <Stack spacing={4}>
-          <DashboardEpisodesTable comicID={comicID} />
+          <DashboardEpisodesTable comicID={comicID} updates={updates} />
         </Stack>
       </Stack>
     </div>

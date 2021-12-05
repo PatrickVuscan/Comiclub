@@ -10,7 +10,7 @@ import * as React from 'react';
 
 import { createComic } from '../../actions/DashboardActions';
 
-const CreateComicsDialog = () => {
+const CreateComicsDialog = ({ update }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -22,7 +22,7 @@ const CreateComicsDialog = () => {
   };
 
   const defaultValues = {
-    thumb: '',
+    thumb: undefined,
     name: '',
     description: '',
     genre: '',
@@ -32,7 +32,8 @@ const CreateComicsDialog = () => {
 
   const submit = (event) => {
     event.preventDefault();
-    createComic(formValues.thumb, formValues.name, formValues.description, formValues.genre);
+    createComic(formValues.thumb, formValues.name, formValues.description, formValues.genre).then(update);
+
     setFormValues({
       ...formValues,
       thumb: undefined,
@@ -40,6 +41,7 @@ const CreateComicsDialog = () => {
       genre: '',
       description: '',
     });
+
     setOpen(false);
   };
 
@@ -64,7 +66,7 @@ const CreateComicsDialog = () => {
           <DialogContentText>Complete the details to add a new Comic.</DialogContentText>
 
           <Typography variant="subtitle1" component="div" style={{ marginTop: '1rem' }}>
-            Cover Image
+            Thumbnail Image
           </Typography>
           <input
             id="thumbnail"

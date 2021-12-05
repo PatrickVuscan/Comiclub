@@ -12,7 +12,7 @@ import React from 'react';
 
 import { updateComic } from '../../actions/DashboardActions';
 
-const DeleteComic = ({ comic, refreshComics }) => {
+const EditComic = ({ comic, refreshComics }) => {
   const { id, name, description, thumb, genre } = comic;
 
   const [open, setOpen] = React.useState(false);
@@ -57,20 +57,21 @@ const DeleteComic = ({ comic, refreshComics }) => {
 
   return (
     <div>
-      <Tooltip title="Delete Comic">
+      <Tooltip title="Edit Comic">
         <EditIcon onClick={handleClickOpen} style={{ cursor: 'pointer' }} />
       </Tooltip>
+
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Update Your Comic!</DialogTitle>
         <DialogContent>
           <DialogContentText>Update the values as you&apos;d like, then save to update your comic.</DialogContentText>
 
           <Typography variant="subtitle1" component="div" style={{ marginTop: '1rem' }}>
-            Cover Image
+            Thumbnail Image
           </Typography>
           {formValues.thumb && (
             <Typography variant="body1" component="div" style={{ marginTop: '0rem' }}>
-              {'You currently have a cover image, you can see it '}
+              {'You currently have a thumbnail image, you can see it '}
               <a href={formValues.thumb} style={{ color: 'blue', textDecoration: 'underline' }}>
                 here
               </a>
@@ -148,4 +149,4 @@ const DeleteComic = ({ comic, refreshComics }) => {
     </div>
   );
 };
-export default DeleteComic;
+export default EditComic;
