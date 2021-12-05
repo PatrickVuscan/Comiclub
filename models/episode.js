@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const { MetaSchema } = require('./meta');
 const { ImageSchema } = require('./image');
-const { PanelSchema } = require('./panel');
+const { CommentSchema } = require('./comment');
 
 const EpisodeSchema = new mongoose.Schema({
   userID: String, // Creator
@@ -11,8 +11,9 @@ const EpisodeSchema = new mongoose.Schema({
   description: String,
   thumbImage: ImageSchema,
   publishDate: { type: Date, default: Date.now },
-  panels: [PanelSchema],
+  panels: ImageSchema,
   meta: MetaSchema,
+  comments: [CommentSchema]
 });
 
 // Get creatorID of comic

@@ -6,7 +6,6 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 const { User } = require('../models/user');
 const { Comic } = require('../models/comic');
 const { Episode } = require('../models/episode');
-const { Panel } = require('../models/panel');
 const { Image } = require('../models/image');
 const { Meta } = require('../models/meta');
 const { Comment } = require('../models/comment');
@@ -15,10 +14,10 @@ const router = express.Router();
 
 router.use(mongoChecker);
 
-// GET comments by panelID
-router.get('/panelID/:panelID', async (req, res) => {
+// GET comments by episodeID
+router.get('/episodeID/:episodeID', async (req, res) => {
   try {
-    const comments = await Comment.find({ panelID: req.params.panelID });
+    const comments = await Comment.find({ episodeID: req.params.episodeID });
     res.send(comments);
   } catch (error) {
     console.log(error);
@@ -37,21 +36,21 @@ router.get('/userID/:userID', async (req, res) => {
   }
 });
 
-// Creates a new COMMENT within a PANEL
+// Creates a new COMMENT within an EPISODE
 router.put('/comment', mongoChecker, async (req, res) => {
   const { user } = req.session;
 
-  const comment = new Comment({
+  const comment = new Episode({
     userID: user,
-    panelID: req.body.panelID,
+    episodeID: req.body.episodeID,
     body: req.body.body,
   });
 
   try {
     const newComment = await comment.save();
 
-    await Panel.updateOne(
-      { _id: req.body.panelID },
+    await Episode.updateOne(
+      { _id: req.body.episodeID },
       {
         $push: {
           comments: comment,

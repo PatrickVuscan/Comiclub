@@ -7,7 +7,6 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 const { User } = require('../models/user');
 const { Comic } = require('../models/comic');
 const { Episode } = require('../models/episode');
-const { Panel } = require('../models/panel');
 const { Image } = require('../models/image');
 const { Meta } = require('../models/meta');
 const { Comment } = require('../models/comment');
