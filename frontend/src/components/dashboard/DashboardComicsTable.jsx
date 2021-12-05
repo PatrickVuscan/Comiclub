@@ -1,5 +1,3 @@
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -28,6 +26,10 @@ class DashboardComicsTable extends React.Component {
     getComicsByUser(this);
   }
 
+  refreshComics() {
+    getComicsByUser(this);
+  }
+
   render() {
     const { comics } = this.state;
     return (
@@ -43,18 +45,20 @@ class DashboardComicsTable extends React.Component {
               </TableCell>
               <TableCell>Comic</TableCell>
               <TableCell align="left">Description</TableCell>
+              <TableCell align="right">Genre</TableCell>
               <TableCell align="right">Published</TableCell>
               <TableCell align="right">Episodes Uploaded</TableCell>
-              <TableCell align="right">Panels Uploaded</TableCell>
+              {/* <TableCell align="right">Panels Uploaded</TableCell> */}
               <TableCell align="right">Views</TableCell>
               <TableCell align="right">Likes</TableCell>
-              <TableCell align="right">Comments</TableCell>
-              <TableCell align="right">Delete Comic</TableCell>
+              {/* <TableCell align="right">Comments</TableCell> */}
+              <TableCell align="right">Edit Comic</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {comics.map((comic) => (
-              <DashboardComicsRow key={uid(comic)} comic={comic} />
+              // eslint-disable-next-line react/jsx-no-bind
+              <DashboardComicsRow key={uid(comic)} comic={comic} refreshComics={this.refreshComics.bind(this)} />
             ))}
           </TableBody>
         </Table>

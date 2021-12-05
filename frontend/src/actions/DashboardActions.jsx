@@ -1,34 +1,34 @@
-import comicThumb from '../assets/comicCover.jpg';
 import episodeThumb from '../assets/episodeCover.png';
 import ENV from '../config';
 
-export const getComicsByUser = (comics) => {
-  console.log('getComicsByUser');
-  function createComicData(number) {
-    return {
-      id: `ComicID_${number}`,
-      name: `Comic Title ${number}`,
-      description: window.smallLorem,
-      thumb: comicThumb,
-      publishDate: `${Math.floor(Math.random() * 12)}/${Math.floor(Math.random() * 30)}/20${Math.floor(
-        Math.random() * 21
-      )}`,
-      episodeCount: number,
-      panelCount: Math.floor(Math.random() * 100),
-      viewCount: Math.floor(Math.random() * 1000),
-      likeCount: Math.floor(Math.random() * 1000),
-      commentCount: Math.floor(Math.random() * 1000),
-    };
+export const getComicsByUser = async (comics) => {
+  console.log("Getting this user's comics");
+
+  const comicsResponse = await fetch(`${ENV.api_host}/api/comics/userID`);
+
+  if (!comicsResponse.ok) {
+    console.log('There was an error retrieving your comics', comicsResponse.error);
+    return;
   }
 
-  const tempComics = [];
+  const comicsJSON = await comicsResponse.json();
 
-  for (let i = 1; i < 10; i += 1) {
-    tempComics.push(createComicData(i));
-  }
+  const mappedComics = comicsJSON.map(
+    ({ _id, name, description, genre, thumbImage: { imageURL }, publishDate, episodes, meta }) => ({
+      id: _id,
+      name,
+      description,
+      genre,
+      thumb: imageURL,
+      publishDate: new Date(publishDate).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      episodeCount: episodes ? episodes.length : 0,
+      viewCount: meta ? meta.views : 0,
+      likeCount: meta ? meta.likes : 0,
+    })
+  );
 
   comics.setState({
-    comics: tempComics,
+    comics: mappedComics,
   });
 };
 
@@ -94,17 +94,11 @@ export const createComic = async (thumb, name, description, genre) => {
       return false;
     }
 
-    console.log('comicResponse', comicResponseJSON);
-
-    console.log('Thumb', thumb);
-
     // The data we are going to send in our request
     const imageData = new FormData();
     // ! NOTE!!! IT HAS TO USE APPEND
     // ! Using imageData.image = thumb for some reason does *NOT* work
     imageData.append('image', thumb);
-
-    console.log('imageData', imageData);
 
     // Create our request constructor with all the parameters we need
     const thumbnailRequest = new Request(`${ENV.api_host}/api/comics/thumbnail/${comicResponseJSON._id}`, {
@@ -113,11 +107,59 @@ export const createComic = async (thumb, name, description, genre) => {
     });
 
     const thumbnailResponse = await fetch(thumbnailRequest);
-    console.log('thumbnailResponse', thumbnailResponse);
-
     const thumbnailResponseJSON = await thumbnailResponse.json();
 
-    console.log('thumbnailResponseJSON', thumbnailResponseJSON);
+    if (thumbnailResponse.status !== 200) {
+      console.log('Error uploading the thumbnail of the comic');
+      return false;
+    }
+
+    return thumbnailResponseJSON;
+  } catch (error) {
+    console.log('Error creating the comic');
+    console.error(error);
+  }
+};
+
+export const updateComic = async (id, thumb, name, description, genre) => {
+  console.log(`updateComic: "${name}" : ${genre} : ${description}`);
+
+  try {
+    const comicRequest = new Request(`${ENV.api_host}/api/comics/update/${id}`, {
+      method: 'post',
+      body: JSON.stringify({ name, description, genre }),
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const comicResponse = await fetch(comicRequest);
+    const comicResponseJSON = await comicResponse.json();
+
+    if (comicResponse.status !== 200) {
+      console.log("Error updating the comic's values.");
+      return false;
+    }
+
+    if (typeof thumb !== 'object') {
+      return;
+    }
+
+    // The data we are going to send in our request
+    const imageData = new FormData();
+    // ! NOTE!!! IT HAS TO USE APPEND
+    // ! Using imageData.image = thumb for some reason does *NOT* work
+    imageData.append('image', thumb);
+
+    // Create our request constructor with all the parameters we need
+    const thumbnailRequest = new Request(`${ENV.api_host}/api/comics/thumbnail/${comicResponseJSON._id}`, {
+      method: 'post',
+      body: imageData,
+    });
+
+    const thumbnailResponse = await fetch(thumbnailRequest);
+    const thumbnailResponseJSON = await thumbnailResponse.json();
 
     if (thumbnailResponse.status !== 200) {
       console.log('Error uploading the thumbnail of the comic');

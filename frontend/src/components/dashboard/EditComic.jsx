@@ -1,3 +1,4 @@
+import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -5,12 +6,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import React from 'react';
 
-import { createComic } from '../../actions/DashboardActions';
+import { updateComic } from '../../actions/DashboardActions';
 
-const CreateComicsDialog = () => {
+const DeleteComic = ({ comic, refreshComics }) => {
+  const { id, name, description, thumb, genre } = comic;
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -22,50 +26,56 @@ const CreateComicsDialog = () => {
   };
 
   const defaultValues = {
-    thumb: '',
-    name: '',
-    description: '',
-    genre: '',
+    thumb,
+    name,
+    description,
+    genre,
   };
 
   const [formValues, setFormValues] = React.useState(defaultValues);
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    createComic(formValues.thumb, formValues.name, formValues.description, formValues.genre);
-    setFormValues({
-      ...formValues,
-      thumb: undefined,
-      name: '',
-      genre: '',
-      description: '',
-    });
+
+    await updateComic(id, formValues.thumb, formValues.name, formValues.description, formValues.genre);
+
+    refreshComics();
+
     setOpen(false);
   };
 
   const handleInputChange = (event) => {
     // event.preventDefault();
-    const { name, value } = event.target;
+
+    // Need to rename name to inputName here, because defined in upper context
+    const { name: inputName, value } = event.target;
     setFormValues({
       ...formValues,
-      [name]: value,
+      [inputName]: value,
     });
   };
 
   return (
-    <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add a New Comic!
-      </Button>
-
+    <div>
+      <Tooltip title="Delete Comic">
+        <EditIcon onClick={handleClickOpen} style={{ cursor: 'pointer' }} />
+      </Tooltip>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add a New Comic!</DialogTitle>
+        <DialogTitle>Update Your Comic!</DialogTitle>
         <DialogContent>
-          <DialogContentText>Complete the details to add a new Comic.</DialogContentText>
+          <DialogContentText>Update the values as you&apos;d like, then save to update your comic.</DialogContentText>
 
           <Typography variant="subtitle1" component="div" style={{ marginTop: '1rem' }}>
             Cover Image
           </Typography>
+          {formValues.thumb && (
+            <Typography variant="body1" component="div" style={{ marginTop: '0rem' }}>
+              {'You currently have a cover image, you can see it '}
+              <a href={formValues.thumb} style={{ color: 'blue', textDecoration: 'underline' }}>
+                here
+              </a>
+            </Typography>
+          )}
           <input
             id="thumbnail"
             accept="image/*"
@@ -131,12 +141,11 @@ const CreateComicsDialog = () => {
         <DialogActions style={{ marginRight: '1rem' }}>
           <Button onClick={handleClose}>Cancel</Button>
           <Button variant="contained" onClick={submit}>
-            Add
+            Save
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 };
-
-export default CreateComicsDialog;
+export default DeleteComic;

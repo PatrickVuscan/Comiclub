@@ -110,6 +110,17 @@ router.post('/thumbnail/:comicID', multipartMiddleware, async (req, res) => {
   }
 });
 
+// Get the current user's comics
+router.get('/userID', async (req, res) => {
+  try {
+    const comics = await Comic.find({ userID: req.session.user });
+    res.send(comics);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Get all comics by userID
 router.get('/userID/:userID', async (req, res) => {
   try {

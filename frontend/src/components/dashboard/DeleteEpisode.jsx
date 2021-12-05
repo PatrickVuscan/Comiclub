@@ -29,7 +29,7 @@ const DeleteEpisode = ({ episodeID, episodeName }) => {
   return (
     <div>
       <Tooltip title="Delete Comic">
-        <DeleteIcon onClick={handleClickOpen} />
+        <DeleteIcon onClick={handleClickOpen} style={{ cursor: 'pointer' }} />
       </Tooltip>
       <Dialog
         open={open}

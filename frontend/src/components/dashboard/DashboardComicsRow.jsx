@@ -8,11 +8,23 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import DeleteComic from './DeleteComic';
+import EditComic from './EditComic';
 
 // eslint-disable-next-line react/prefer-stateless-function
-const DashboardComicsRow = ({ comic }) => {
-  const { id, name, description, thumb, publishDate, episodeCount, panelCount, viewCount, likeCount, commentCount } =
-    comic;
+const DashboardComicsRow = ({ comic, refreshComics }) => {
+  const {
+    id,
+    name,
+    description,
+    thumb,
+    publishDate,
+    episodeCount,
+    // panelCount,
+    viewCount,
+    likeCount,
+    // commentCount,
+    genre,
+  } = comic;
 
   const history = useHistory();
 
@@ -28,11 +40,11 @@ const DashboardComicsRow = ({ comic }) => {
         <Checkbox color="primary" />
       </TableCell>
       <TableCell align="right" onClick={goToEpisode}>
-        <Box component="img" src={thumb} sx={{ width: 200 }} alt={id} />
+        <Box component="img" src={thumb} sx={{ width: 200 }} alt={id} style={{ cursor: 'pointer' }} />
       </TableCell>
       <TableCell component="th" scope="row">
         <Stack>
-          <Typography gutterBottom variant="h7" color="text.primary" component="div">
+          <Typography gutterBottom variant="h6" color="text.primary" component="div">
             {name}
           </Typography>
           <Typography variant="body2" color="text.secondary" component="div">
@@ -40,13 +52,15 @@ const DashboardComicsRow = ({ comic }) => {
           </Typography>
         </Stack>
       </TableCell>
+      <TableCell align="right">{genre}</TableCell>
       <TableCell align="right">{publishDate}</TableCell>
       <TableCell align="right">{episodeCount}</TableCell>
-      <TableCell align="right">{panelCount}</TableCell>
+      {/* <TableCell align="right">{panelCount}</TableCell> */}
       <TableCell align="right">{viewCount}</TableCell>
       <TableCell align="right">{likeCount}</TableCell>
-      <TableCell align="right">{commentCount}</TableCell>
+      {/* <TableCell align="right">{commentCount}</TableCell> */}
       <TableCell align="right">
+        <EditComic comic={comic} refreshComics={refreshComics} />
         <DeleteComic comicID={id} comicName={name} />
       </TableCell>
     </TableRow>
