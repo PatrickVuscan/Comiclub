@@ -18,6 +18,7 @@ class DashboardEpisodesTable extends React.Component {
     super(props);
 
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       comicID: props.comicID,
       episodes: [],
     };

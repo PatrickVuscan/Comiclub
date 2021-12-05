@@ -19,8 +19,8 @@ const DashboardEpisodesRow = ({ episode, refreshEpisodes }) => {
         <Checkbox color="primary" />
       </TableCell>
       {/* <TableCell align="right">{number}</TableCell> */}
-      <a href={panels}>
-        <TableCell align="right" style={{ cursor: 'pointer' }}>
+      <TableCell align="right" style={{ cursor: panels ? 'pointer' : 'unset' }}>
+        <a href={panels}>
           {thumb ? (
             <Box component="img" src={thumb} sx={{ width: 200 }} />
           ) : (
@@ -28,8 +28,8 @@ const DashboardEpisodesRow = ({ episode, refreshEpisodes }) => {
               <Typography style={{ textAlign: 'center' }}>No Thumbnail</Typography>
             </Box>
           )}
-        </TableCell>
-      </a>
+        </a>
+      </TableCell>
       <TableCell component="th" scope="row">
         <Stack>
           <Typography gutterBottom variant="h6" color="text.primary" component="div">
@@ -42,9 +42,13 @@ const DashboardEpisodesRow = ({ episode, refreshEpisodes }) => {
       </TableCell>
       <TableCell align="right">{publishDate}</TableCell>
       <TableCell align="right">
-        <a href={panels} style={{ color: 'blue', textDecoration: 'underline' }}>
-          View
-        </a>
+        {panels ? (
+          <a href={panels} style={{ color: 'blue', textDecoration: 'underline' }}>
+            View
+          </a>
+        ) : (
+          <Typography variant="body2">None</Typography>
+        )}
       </TableCell>
       <TableCell align="right">{viewCount}</TableCell>
       <TableCell align="right">{comments.length}</TableCell>
