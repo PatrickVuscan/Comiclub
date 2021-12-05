@@ -7,10 +7,11 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 const { User } = require('../models/user');
 const { Comic } = require('../models/comic');
 const { Episode } = require('../models/episode');
-const { Panel } = require('../models/panel');
 const { Image } = require('../models/image');
 const { Meta } = require('../models/meta');
 const { Comment } = require('../models/comment');
+
+const { updateNestedEpisode } = require('./helpers');
 
 const router = express.Router();
 
@@ -73,12 +74,14 @@ router.post('/update/:episodeID', async (req, res) => {
       return;
     }
 
-    const toSet = {};
     const { name, description } = req.body;
-    if (name) toSet.name = name;
-    if (description) toSet.description = description;
-
-    const updatedEpisode = await Episode.findByIdAndUpdate({ _id: episodeID }, { $set: toSet }, { new: true });
+    let updatedEpisode = episode;
+    if (name) {
+      updatedEpisode = await updateNestedEpisode(episodeID, '$set', "name", name);
+    }
+    if (description) {
+      updatedEpisode = await updateNestedEpisode(episodeID, '$set', "description", description);
+    }
 
     res.send(updatedEpisode);
   } catch (error) {
@@ -87,7 +90,7 @@ router.post('/update/:episodeID', async (req, res) => {
       res.status(500).send('Internal server error');
     } else {
       console.log(error);
-      res.status(400).send('Something went wrong while trying to update the episode.'); // bad request for changing the student.
+      res.status(400).send('Something went wrong while trying to update the episode.');
     }
   }
 });
@@ -116,11 +119,7 @@ router.post('/thumbnail/:episodeID', multipartMiddleware, async (req, res) => {
     // Save image to the database
     const newImg = await img.save();
 
-    const updatedEpisode = await Episode.findByIdAndUpdate(
-      { _id: episodeID },
-      { $set: { thumbImage: newImg } },
-      { new: true }
-    );
+    const updatedEpisode = await updateNestedEpisode(episodeID, "$set", "thumbImage", newImg);
 
     // Assuming all goes well, we now send the episode with the updated values
     res.send(updatedEpisode);
@@ -130,7 +129,50 @@ router.post('/thumbnail/:episodeID', multipartMiddleware, async (req, res) => {
       res.status(500).send('Internal server error');
     } else {
       console.log(error);
-      res.status(400).send('Error uploading your profile picture.');
+      res.status(400).send('Error uploading your thumbnail for this episode.');
+    }
+  }
+});
+
+// Add thumbnail for episode
+router.post('/panels/:episodeID', multipartMiddleware, async (req, res) => {
+  // Upload to cloudinary
+  // * req.files contains uploaded files
+  try {
+    const { episodeID } = req.params;
+    const episode = await Episode.findOne({ _id: episodeID });
+    
+    if (episode.userID !== req.session.user) {
+      res.status(401).send("You're not authorized to edit this Comic. Please ensure this is your comic.");
+      return;
+    }
+
+    if (!req.files.panels) {
+      res.status(400).send("No panels PDF included in request files");
+      return
+    }
+    const cloudinaryResult = await cloudinary.uploader.upload(req.files.panels.path);
+
+    // Create a new image using the Image mongoose model
+    const img = new Image({
+      imageID: cloudinaryResult.public_id, // image id on cloudinary server
+      imageURL: cloudinaryResult.url, // image url on cloudinary server
+    });
+
+    // Save image to the database
+    const newImg = await img.save();
+
+    const updatedEpisode = await updateNestedEpisode(episodeID, "$set", "panels", newImg);
+
+    // Assuming all goes well, we now send the episode with the updated values
+    res.send(updatedEpisode);
+  } catch (error) {
+    if (isMongoError(error)) {
+      // check for if mongo server suddenly disconnected before this request.
+      res.status(500).send('Internal server error');
+    } else {
+      console.log(error);
+      res.status(400).send('Error uploading your panels for this episode.');
     }
   }
 });
@@ -167,11 +209,7 @@ router.post('/view', async (req, res) => {
 
   try {
     // Increment views for episode
-    const updatedEpisode = await Episode.findByIdAndUpdate(
-      { _id: episodeID },
-      { $inc: { 'meta.views': 1 } },
-      { new: true }
-    );
+    const updatedEpisode = await updateNestedEpisode(episodeID, "$inc", "meta.views", 1);
 
     // Increment total views for entire comic series
     await Comic.findByIdAndUpdate({ _id: updatedEpisode.comicID }, { $inc: { 'meta.views': 1 } }, { new: true });
