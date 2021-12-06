@@ -8,10 +8,10 @@ const ComicsRoutes = () => {
 
   return (
     <Switch>
-      <Route path={`${path}/:comicId`} exact>
+      <Route path={`${path}/:comicID`} exact>
         <ComicsSummary />
       </Route>
-      <Route path={`${path}/:comicId/:episodeId`} exact>
+      <Route path={`${path}/:comicID/:episodeID`} exact>
         <ComicsReader />
       </Route>
       <Redirect to={`${path}/`} />
