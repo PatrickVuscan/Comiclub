@@ -8,7 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { getLikedComicID, getUser } from '../../actions/HomeLoggedInActions';
+import { Combined, getLikedComicID, getUser } from '../../actions/HomeLoggedInActions';
 import ENV from '../../config';
 import AuthContext from '../../context';
 import styles from './HomeLoggedIn.module.css';
@@ -32,28 +32,63 @@ const HomeLoggedIn = () => {
 
   const [currUser, setcurrUser] = React.useState({});
   const [comicIDs, setcomicIDs] = React.useState({});
+  const count = 5;
+
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     const userResponse = await getUser(user);
+  //     setcurrUser(userResponse);
+  //   };
+  //   console.log(`Running this ${count} times`);
+  //   fetchData();
+  // }, []);
+
+  // const { username } = currUser.username;
+
+  // React.useEffect(() => {
+  //   const fetchData1 = async () => {
+  //     const userResponse1 = await getLikedComicID(username);
+  //     setcomicIDs(userResponse1);
+  //   };
+  //   console.log(`Running this ${count} times`);
+  //   fetchData1();
+  // }, []);
+
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     const userResponse = await Combined(user);
+  //     setcomicIDs(userResponse);
+  //   };
+  //   console.log(`Running this ${count} times`);
+  //   fetchData();
+  // }, []);
 
   React.useEffect(() => {
-    const fetchData = async () => {
-      const userResponse = await getUser(user);
-      setcurrUser(userResponse);
-    };
-
     fetchData();
-  }, [user]);
-
-  const { username } = currUser;
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const userResponse = await getLikedComicID(username);
-      setcomicIDs(userResponse);
+    return () => {
+      setcomicIDs({});
     };
+  }, []);
+  const fetchData = async () => {
+    const userResponse = await Combined(user);
+    setcomicIDs(userResponse);
+  };
 
-    fetchData();
-  }, [username]);
+  // useEffect(() => {
+  //   myFunction();
+  //   return () => {
+  //     setState({}); // This worked for me
+  //   };
+  // }, []);
 
-  console.log(comicIDs && comicIDs.likes);
+  // const myFunction = () => {
+  //   setState({
+  //     name: 'Jhon',
+  //     surname: 'Doe',
+  //   });
+  // };
+  console.log('The image URL');
+  console.log(comicIDs.imageURL);
 
   const muiTheme = useTheme();
   const mediaQueries = [
@@ -88,8 +123,8 @@ const HomeLoggedIn = () => {
 
   const itemData = [
     {
-      img: batmanImage,
-      title: 'Batman Origins',
+      img: comicIDs.imageURL,
+      title: comicIDs.name,
     },
     {
       img: opImage,
@@ -135,7 +170,7 @@ const HomeLoggedIn = () => {
             wordWrap: 'break-word',
             whiteSpace: 'pre-wrap',
           }}
-        >{`Welcome, ${currUser.username}!\nHere are some of your Subscriptions`}</p>
+        >{`Welcome, ${comicIDs.username}!\nHere are some of your Subscriptions`}</p>
 
         <ImageList sx={{ width: '90vw' }} cols={cols} gap={50}>
           {itemData.map((item) => (
