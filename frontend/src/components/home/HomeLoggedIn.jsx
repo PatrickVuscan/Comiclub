@@ -53,7 +53,7 @@ const HomeLoggedIn = () => {
     fetchData();
   }, [username]);
 
-  console.log(comicIDs.likes);
+  console.log(comicIDs && comicIDs.likes);
 
   const muiTheme = useTheme();
   const mediaQueries = [
