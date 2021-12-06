@@ -20,10 +20,10 @@ const AdminAllUsersRow = ({ user }) => {
 
   return (
     <TableRow key={id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-      <TableCell component="th" scope="row" onClick={goToUser} id={id}>
-        <Typography id={id} className="userLink">
-          <Tooltip title="View User Comments">
-            <u>{name}</u>
+      <TableCell component="th" scope="row" onClick={goToUser} style={{ cursor: 'pointer' }} id={id}>
+        <Typography className="userLink" id={id}>
+          <Tooltip title="View User Comments" id={id}>
+            <u id={id}>{name}</u>
           </Tooltip>
         </Typography>
       </TableCell>

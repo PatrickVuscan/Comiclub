@@ -5,6 +5,8 @@ import React from 'react';
 import AdminUserTable from './AdminAllUsersTable';
 
 const AdminAllUsers = () => {
+  // const [updates] = React.useState(0);
+
   return (
     <div>
       <Stack spacing={5} m={10} pt={3} sx={{ minWidth: 800 }}>

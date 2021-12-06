@@ -33,7 +33,6 @@ class AdminUserCommentTable extends React.Component {
             <TableRow>
               <TableCell>Comic Name</TableCell>
               <TableCell align="right">Episode</TableCell>
-              <TableCell align="right">Panel</TableCell>
               <TableCell align="right">Date</TableCell>
               <TableCell align="right">Comment</TableCell>
               <TableCell align="right">Delete</TableCell>

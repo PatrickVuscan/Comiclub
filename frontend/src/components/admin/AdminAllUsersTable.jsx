@@ -24,11 +24,23 @@ class AdminAllUsersTable extends React.Component {
     // When the component enters the DOM
     // get all comics
     getAllUsers(this);
-    console.log('mounted');
   }
 
+  // componentDidUpdate(prevProps) {
+  //   console.log('componentDidUpdate');
+  //   // eslint-disable-next-line react/destructuring-assignment
+  //   if (prevProps.updates !== this.props.updates) {
+  //     getAllUsers(this);
+  //   }
+  // }
+
+  // refreshUsers() {
+  //   console.log('refreshUsers');
+  //   getAllUsers(this);
+  // }
+
   render() {
-    const { users } = this.state;
+    const { users, userID } = this.state;
     return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -46,6 +58,7 @@ class AdminAllUsersTable extends React.Component {
           </TableHead>
           <TableBody>
             {users.map((user) => (
+              // eslint-disable-next-line react/jsx-no-bind
               <AdminUserRow key={uid(user)} user={user} />
             ))}
           </TableBody>

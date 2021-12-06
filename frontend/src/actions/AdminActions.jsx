@@ -32,32 +32,57 @@ export const getAllUsers = async (users) => {
   }
 };
 
-export const getCommentsByUserID = (User) => {
+export const getUserCommentRowData = async (Row) => {
+  const { episodeID } = Row.state;
+
+  try {
+    // get Episode Name
+    const episode = await fetch(`${ENV.api_host}/api/episodes/${episodeID}`, {
+      credentials: 'include',
+    });
+    const episodeJSON = await episode.json();
+
+    const { comicID, name: episodeName } = episodeJSON;
+
+    const comic = await fetch(`${ENV.api_host}/api/comics/${comicID}`, {
+      credentials: 'include',
+    });
+    const comicJSON = await comic.json();
+    const comicName = comicJSON.name;
+    console.log(comicName);
+
+    Row.setState({
+      comicName,
+      episodeName,
+    });
+  } catch (error) {
+    console.log('Error Getting User Row Data');
+    console.error(error);
+  }
+};
+
+export const getCommentsByUserID = async (User) => {
   const { userID } = User.state;
   console.log(`getCommentsByUserID: ${userID}`);
+  console.log(User);
 
-  function createCommentData(num) {
-    return {
-      commentID: `commentID_${num}`,
-      comicName: 'Comic A',
-      episodeNumber: num,
-      panelNumber: Math.floor(Math.random() * 10),
-      publishDate: `${Math.floor(Math.random() * 12)}/${Math.floor(Math.random() * 30)}/20${Math.floor(
-        Math.random() * 21
-      )}`,
-      commentContent: `comment ${num} here by ${userID}`,
-    };
-  }
+  const userComments = await fetch(`${ENV.api_host}/api/comments/userID/${userID}`, {
+    credentials: 'include',
+  });
+  const userCommentsJSON = await userComments.json();
+  console.log(userCommentsJSON);
 
-  const tempComments = [];
-
-  for (let i = 1; i < 10; i += 1) {
-    tempComments.push(createCommentData(i));
-  }
+  // commentID, comicName, episodeNumber, panelNumber, publishDate, commentContent
+  const comments = userCommentsJSON.map(({ _id, episodeID, body, publishDate }) => ({
+    commentID: _id,
+    episodeID,
+    publishDate,
+    commentContent: body,
+  }));
 
   User.setState({
     userID: User.userID,
-    comments: tempComments,
+    comments,
   });
 };
 
@@ -69,4 +94,4 @@ export const deleteUserByID = (userID) => {
   console.log(`deleteUserByID: ${userID}`);
 };
 
-export default { getAllUsers, getCommentsByUserID, deleteCommentByID, deleteUserByID };
+export default { getAllUsers, getCommentsByUserID, deleteCommentByID, deleteUserByID, getUserCommentRowData };
