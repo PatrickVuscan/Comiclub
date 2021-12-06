@@ -175,6 +175,21 @@ router.post('/panels/:episodeID', multipartMiddleware, async (req, res) => {
   }
 });
 
+// GET episode by episodeID
+router.get('/:episodeID', async (req, res) => {
+  try {
+    const episode = await Episode.findOne({ _id: req.params.episodeID });
+    if (episode) {
+      res.send(episode);
+    } else {
+      res.status(404).send('Episode not found.');      
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // GET episodes by userID
 router.get('/userID/:userID', async (req, res) => {
   try {

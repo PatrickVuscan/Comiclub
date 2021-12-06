@@ -1,83 +1,60 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IconButton from '@mui/material/IconButton';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { uid } from 'react-uid';
 
+import { likeComic, unlikeComic, userHasLiked } from '../../actions/ComicActions';
+import { getComic } from '../../actions/DashboardActions';
 import formatMetric from '../../utilities';
-import aotImage from '../home/images/aot.png';
-import batmanImage from '../home/images/batman.png';
-import gohImage from '../home/images/goh.png';
-import ironman1Image from '../home/images/ironman.png';
-import marvelImage from '../home/images/marvel.png';
-import narutoImage from '../home/images/naruto.png';
-import opImage from '../home/images/op.png';
-import togImage from '../home/images/tog.png';
+import placeholderImage from '../home/images/naruto.png';
 import ComicEpisodeCard from './ComicEpisodeCard';
 import styles from './ComicsSummary.module.css';
 
-function fetchComicFromDB(comicId) {
-  const comicDB = {
-    ironman1: 'Ironman: The First Edition',
-    aot: 'Attack on Titan',
-    batman: 'Batman Origins',
-    marvel: 'Marvel',
-    naruto: 'Naruto',
-    op: 'One Piece',
-    tog: 'Tower of God',
-    goh: 'God of High School',
-  };
-
-  const comicPhotoDB = {
-    ironman1: ironman1Image,
-    aot: aotImage,
-    batman: batmanImage,
-    marvel: marvelImage,
-    naruto: narutoImage,
-    op: opImage,
-    tog: togImage,
-    goh: gohImage,
-  };
-
-  const episodes = ['a', 'b', 'c', 'd', 'a', 'b', 'c', 'd', 'a', 'b', 'c', 'd'];
-  return {
-    comicName: comicDB[comicId],
-    comicCover: comicPhotoDB[comicId],
-    episodes,
-    numEpisodes: episodes.length,
-    views: 100364,
-    subs: 42124,
-    likes: 10,
-    description: window.smallLorem,
-  };
-}
-
 const ComicsSummary = () => {
-  const { comicId } = useParams();
-  const { comicName, comicCover, episodes, numEpisodes, views, subs, likes, description } = fetchComicFromDB(comicId);
+  const { comicID } = useParams();
+  const [comic, setComic] = React.useState({});
+  const [isLiked, setIsLiked] = React.useState(false);
+  const history = useHistory();
 
-  const [isLiked, setIsLiked] = useState(false);
+  React.useEffect(async () => {
+    const comicResponse = await getComic(comicID);
+    const comicLikedResponse = await userHasLiked(comicID);
+    setComic(comicResponse);
+    setIsLiked(comicLikedResponse);
+  }, [comicID]);
 
   return (
     <div>
-      <img className={styles.coverImage} src={comicCover} alt="comicId cover" />
+      <img className={styles.coverImage} src={comic.thumb ? comic.thumb : placeholderImage} alt="comicId cover" />
       <div className={styles.body}>
         <div className={styles.summary}>
           <div className={styles.comicSnapshot}>
             <div className={styles.metadata}>
-              <h2 className={styles.headerMargin}>{comicName.toUpperCase()}</h2>
+              <h2 className={styles.headerMargin}>{comic.name ? comic.name.toUpperCase() : 'Comic'}</h2>
               <p>
-                {formatMetric(numEpisodes, 'Episode')} <br />
-                {formatMetric(views, 'View')} <br />
-                {formatMetric(subs, 'Subscriber')} <br />
-                {formatMetric(isLiked ? likes + 1 : likes, 'Like')}
+                {formatMetric(comic.episodeCount, 'Episode')} <br />
+                {formatMetric(comic.viewCount, 'View')} <br />
+                {formatMetric(comic.likeCount, 'Like')}
               </p>
             </div>
             <IconButton
               sx={{ color: 'black' }}
-              aria-label={`heart ${comicName}`}
+              aria-label={`heart ${comic.name}`}
               onClick={() => {
                 setIsLiked(!isLiked);
+                const func = isLiked ? unlikeComic : likeComic;
+                const prefix = isLiked ? '' : 'un';
+                func(comicID)
+                  .then((res) => {
+                    if (res) {
+                      setComic(res);
+                    } else {
+                      alert(`This comic could not be ${prefix}liked.`);
+                    }
+                  })
+                  .catch((err) => console.log(err));
               }}
             >
               {isLiked ? (
@@ -88,11 +65,30 @@ const ComicsSummary = () => {
             </IconButton>
           </div>
           <div className={styles.description}>
-            <p>{description}</p>
+            <p>{comic.description}</p>
           </div>
         </div>
         <h2 className={styles.headerMargin}>EPISODES</h2>
-        <div className={styles.comicList}>{episodes && episodes.map((i) => <ComicEpisodeCard episode={i} />)}</div>
+        <div className={styles.comicList}>
+          {comic.episodes && comic.episodes.length ? (
+            comic.episodes.map((episode, idx) => (
+              <div
+                onClick={() => {
+                  const path = `${comicID}/${episode._id}`;
+                  history.push(path);
+                }}
+                style={{ marginBottom: '2vh' }}
+                key={uid(episode)}
+              >
+                <ComicEpisodeCard episode={episode} number={idx + 1} />
+              </div>
+            ))
+          ) : (
+            <p>
+              Sorry, there are no episodes available for <b>{comic.name}</b>
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

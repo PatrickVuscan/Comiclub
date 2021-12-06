@@ -164,6 +164,25 @@ router.get('/userID/:userID', async (req, res) => {
 });
 
 // Like a Comic
+router.get('/liked/:comicID', async (req, res) => {
+  const { comicID } = req.params;
+  const { user } = req.session;
+
+  try {
+    const alreadyLiked = await User.checkLiked(user, comicID);
+    res.status(200).send(alreadyLiked);
+  } catch (error) {
+    if (isMongoError(error)) {
+      // check for if mongo server suddenly disconnected before this request.
+      res.status(500).send('Internal server error');
+    } else {
+      console.log(error);
+      res.status(400).send('Bad Request'); // bad request for changing the student.
+    }
+  }
+});
+
+// Like a Comic
 router.post('/like', async (req, res) => {
   const { comicID } = req.body;
   const { user } = req.session;

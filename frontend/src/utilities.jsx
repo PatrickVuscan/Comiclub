@@ -26,5 +26,6 @@ export default function formatMetric(value, name) {
    * @param name: the name of the metric
    * @returns formatted string
    */
-  return `${formatNum(value)} ${name}${value === 1 ? '' : 's'}`;
+  const safeValue = value || 0;
+  return `${formatNum(safeValue)} ${name}${safeValue === 1 ? '' : 's'}`;
 }

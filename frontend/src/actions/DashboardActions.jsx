@@ -55,6 +55,7 @@ export const getComic = async (comicID) => {
     thumb: thumbImage ? thumbImage.imageURL : undefined,
     publishDate: new Date(publishDate).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
     episodeCount: episodes ? episodes.length : 0,
+    episodes: episodes || [],
     viewCount: meta ? meta.views : 0,
     likeCount: meta ? meta.likes : 0,
   };

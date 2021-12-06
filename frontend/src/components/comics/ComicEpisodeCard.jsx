@@ -1,11 +1,32 @@
-import DashboardEpisodeCard from './DashboardEpisodeCard';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import React from 'react';
 
-const ComicEpisodeCard = ({ episode }) => {
-  console.log(episode);
+const ComicEpisodeCard = ({ episode, number }) => {
+  const {
+    name,
+    thumbImage: { imageURL: cover },
+    description,
+  } = episode;
   return (
-    <div style={{ marginBottom: '2vh' }}>
-      <DashboardEpisodeCard />
-    </div>
+    <Card sx={{ display: 'flex' }}>
+      <CardMedia component="img" sx={{ height: 200, width: 300 }} image={cover} alt="placeholder" />
+      <CardContent sx={{ width: '100%' }}>
+        <Typography gutterBottom variant="h5" component="div">
+          Episode {number} - {name}.
+        </Typography>
+        <Divider />
+        <Box sx={{ m: 2 }}>
+          <Typography variant="body2" color="text.secondary">
+            {description}
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 
