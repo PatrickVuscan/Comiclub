@@ -1,30 +1,37 @@
-export const getAllUsers = (users) => {
+import ENV from '../config';
+
+export const getAllUsers = async (users) => {
   console.log('getAllUsers');
 
-  function createUserData(num) {
-    return {
-      id: `userID_${num}`,
-      name: `User Name ${num}th`,
-      joinDate: `${Math.floor(Math.random() * 12)}/${Math.floor(Math.random() * 30)}/20${Math.floor(
-        Math.random() * 21
-      )}`,
-      comicsCount: Math.floor(Math.random() * 100),
-      episodeCount: Math.floor(Math.random() * 100),
-      viewCount: Math.floor(Math.random() * 1000),
-      likeCount: Math.floor(Math.random() * 1000),
-      commentCount: Math.floor(Math.random() * 1000),
-    };
+  try {
+    const allUsers = await fetch(`${ENV.api_host}/api/users/all-users`, {
+      credentials: 'include',
+    });
+    const allUsersJSON = await allUsers.json();
+
+    console.log('allUsers');
+    console.log(allUsersJSON);
+
+    // id, name, joinDate, comicsCount, episodeCount, viewCount, likeCount, commentCount
+    const mappedAllUsers = allUsersJSON.map(({ _id, username, email, likes }) => ({
+      id: _id,
+      name: username,
+      email,
+      joinDate: '8/8/88',
+      comicsCount: 0,
+      episodeCount: 0,
+      commentCount: 0,
+      viewCount: 0,
+      likeCount: likes.length,
+    }));
+
+    users.setState({
+      users: mappedAllUsers,
+    });
+  } catch (error) {
+    console.log('Error Getting users');
+    console.error(error);
   }
-
-  const tempUsers = [];
-
-  for (let i = 1; i < 10; i += 1) {
-    tempUsers.push(createUserData(i));
-  }
-
-  users.setState({
-    users: tempUsers,
-  });
 };
 
 export const getCommentsByUserID = (User) => {
