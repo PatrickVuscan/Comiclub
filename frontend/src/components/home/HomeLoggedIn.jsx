@@ -8,7 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { getUser } from '../../actions/HomeLoggedInActions';
+import { getLikedComicID, getUser } from '../../actions/HomeLoggedInActions';
 import ENV from '../../config';
 import AuthContext from '../../context';
 import styles from './HomeLoggedIn.module.css';
@@ -31,6 +31,7 @@ const HomeLoggedIn = () => {
   const history = useHistory();
 
   const [currUser, setcurrUser] = React.useState({});
+  const [comicIDs, setcomicIDs] = React.useState({});
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -41,9 +42,18 @@ const HomeLoggedIn = () => {
     fetchData();
   }, [user]);
 
-  console.log('Curr user is:');
-  console.log(currUser.username);
-  console.log('finish');
+  const { username } = currUser;
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const userResponse = await getLikedComicID(username);
+      setcomicIDs(userResponse);
+    };
+
+    fetchData();
+  }, [username]);
+
+  console.log(comicIDs.likes);
 
   const muiTheme = useTheme();
   const mediaQueries = [
@@ -125,7 +135,7 @@ const HomeLoggedIn = () => {
             wordWrap: 'break-word',
             whiteSpace: 'pre-wrap',
           }}
-        >{`Welcome, ${user}!\nHere are some of your Subscriptions`}</p>
+        >{`Welcome, ${currUser.username}!\nHere are some of your Subscriptions`}</p>
 
         <ImageList sx={{ width: '90vw' }} cols={cols} gap={50}>
           {itemData.map((item) => (
