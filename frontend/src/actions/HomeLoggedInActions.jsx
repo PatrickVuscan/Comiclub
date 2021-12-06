@@ -94,6 +94,7 @@ export const Combined = async (email) => {
     name: userJSON2.name,
     imageURL: userJSON2.thumbImage.imageURL,
     username: userJSON.username,
+    numComics: userJSON1.likes.length,
   };
   //   return {
   //     likes,

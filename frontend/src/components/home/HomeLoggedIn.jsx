@@ -32,7 +32,6 @@ const HomeLoggedIn = () => {
 
   const [currUser, setcurrUser] = React.useState({});
   const [comicIDs, setcomicIDs] = React.useState({});
-  const count = 5;
 
   // React.useEffect(() => {
   //   const fetchData = async () => {
@@ -120,41 +119,119 @@ const HomeLoggedIn = () => {
     'Iron Man: The First Edition': '/comics/ironman1',
     'God of High School': '/comics/goh',
   };
-
-  const itemData = [
-    {
-      img: comicIDs.imageURL,
-      title: comicIDs.name,
-    },
-    {
-      img: opImage,
-      title: 'One Piece',
-    },
-    {
-      img: narutoImage,
-      title: 'Naruto ',
-    },
-    {
-      img: aotImage,
-      title: 'Attack on Titan',
-    },
-    {
-      img: togImage,
-      title: 'Tower of God',
-    },
-    {
-      img: marvelImage,
-      title: 'Marvel ',
-    },
-    {
-      img: ironmanImage,
-      title: 'Iron Man: The First Edition',
-    },
-    {
-      img: gohImage,
-      title: 'God of High School',
-    },
-  ];
+  let itemData = [];
+  console.log(comicIDs.numComics === 0);
+  if (comicIDs.numComics === 0) {
+    console.log('In if');
+    itemData = [
+      {
+        img: batmanImage,
+        title: 'Batman Origins',
+      },
+      {
+        img: opImage,
+        title: 'One Piece',
+      },
+      {
+        img: narutoImage,
+        title: 'Naruto ',
+      },
+      {
+        img: aotImage,
+        title: 'Attack on Titan',
+      },
+      {
+        img: togImage,
+        title: 'Tower of God',
+      },
+      {
+        img: marvelImage,
+        title: 'Marvel ',
+      },
+      {
+        img: ironmanImage,
+        title: 'Iron Man: The First Edition',
+      },
+      {
+        img: gohImage,
+        title: 'God of High School',
+      },
+    ];
+  } else {
+    console.log('In else');
+    itemData = [
+      {
+        img: comicIDs.imageURL,
+        title: comicIDs.name,
+      },
+      {
+        img: opImage,
+        title: 'One Piece',
+      },
+      {
+        img: narutoImage,
+        title: 'Naruto ',
+      },
+      {
+        img: aotImage,
+        title: 'Attack on Titan',
+      },
+      {
+        img: togImage,
+        title: 'Tower of God',
+      },
+      {
+        img: marvelImage,
+        title: 'Marvel ',
+      },
+      {
+        img: ironmanImage,
+        title: 'Iron Man: The First Edition',
+      },
+      {
+        img: gohImage,
+        title: 'God of High School',
+      },
+    ];
+    console.log(itemData);
+  }
+  console.log('The item data');
+  console.log(itemData);
+  console.log('Outside if/else');
+  // const itemData = [
+  //   {
+  //     img: comicIDs.imageURL,
+  //     title: comicIDs.name,
+  //   },
+  //   {
+  //     img: opImage,
+  //     title: 'One Piece',
+  //   },
+  //   {
+  //     img: narutoImage,
+  //     title: 'Naruto ',
+  //   },
+  //   {
+  //     img: aotImage,
+  //     title: 'Attack on Titan',
+  //   },
+  //   {
+  //     img: togImage,
+  //     title: 'Tower of God',
+  //   },
+  //   {
+  //     img: marvelImage,
+  //     title: 'Marvel ',
+  //   },
+  //   {
+  //     img: ironmanImage,
+  //     title: 'Iron Man: The First Edition',
+  //   },
+  //   {
+  //     img: gohImage,
+  //     title: 'God of High School',
+  //   },
+  // ];
 
   return (
     <div className={styles.container}>
