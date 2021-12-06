@@ -191,26 +191,21 @@ router.get('/:username', (req, res) => {
 });
 
 // Get comics liked by a user via their username
-router.get('/:username/likes', (req, res) => {
+router.get('/:username/likes', async (req, res) => {
   const { username } = req.params;
 
-  // Use the static method on the User model to find a user
-  // by their email and password
-  User.findOne({ username })
-    .then((user) => {
-      if (!user) {
-        res.status(404).send('A user by this username does not exist.');
-        return;
-      }
+  if (!req.session.user) {
+    res.status(401).send('Please log in before trying to access your comics.');
+    return;
+  }
 
-      res.send({
-        likes: user.likes,
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(400).send('There was an error trying to find a user by this username.');
-    });
+  try {
+    const user = await User.findOne({ username });
+    res.send({ likes: user.likes });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 // Get user via their email
@@ -221,8 +216,7 @@ router.get('/email/:email', async (req, res) => {
     res.status(401).send('Please log in before trying to access your comics.');
     return;
   }
-  // Use the static method on the User model to find a user
-  // by their email and password
+
   try {
     const user = await User.findOne({ email });
     res.send(user);
