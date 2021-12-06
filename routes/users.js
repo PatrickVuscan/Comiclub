@@ -166,6 +166,16 @@ router.post('/profile-picture', multipartMiddleware, async (req, res) => {
   }
 });
 
+router.get('/all-users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.send(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Get a user's ID by their username, for future calls
 router.get('/:username', (req, res) => {
   const { username } = req.params;
