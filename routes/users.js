@@ -213,4 +213,23 @@ router.get('/:username/likes', (req, res) => {
     });
 });
 
+// Get user via their email
+router.get('/email/:email', async (req, res) => {
+  const { email } = req.params;
+
+  if (!req.session.user) {
+    res.status(401).send('Please log in before trying to access your comics.');
+    return;
+  }
+  // Use the static method on the User model to find a user
+  // by their email and password
+  try {
+    const user = await User.findOne({ email });
+    res.send(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 module.exports = router;
