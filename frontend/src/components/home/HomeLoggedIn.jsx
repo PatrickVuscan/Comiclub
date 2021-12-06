@@ -32,6 +32,7 @@ const HomeLoggedIn = () => {
 
   const [currUser, setcurrUser] = React.useState({});
   const [comicIDs, setcomicIDs] = React.useState({});
+  let itemData = [];
 
   // React.useEffect(() => {
   //   const fetchData = async () => {
@@ -87,7 +88,7 @@ const HomeLoggedIn = () => {
   //   });
   // };
   console.log('The image URL');
-  console.log(comicIDs.imageURL);
+  // console.log(comicIDs.imageURL);
 
   const muiTheme = useTheme();
   const mediaQueries = [
@@ -119,9 +120,10 @@ const HomeLoggedIn = () => {
     'Iron Man: The First Edition': '/comics/ironman1',
     'God of High School': '/comics/goh',
   };
-  let itemData = [];
-  console.log(comicIDs.numComics === 0);
-  if (comicIDs.numComics === 0) {
+
+  // console.log(comicIDs.numComics === 0);
+  console.log(comicIDs);
+  if (!comicIDs) {
     console.log('In if');
     itemData = [
       {
@@ -247,7 +249,7 @@ const HomeLoggedIn = () => {
             wordWrap: 'break-word',
             whiteSpace: 'pre-wrap',
           }}
-        >{`Welcome, ${comicIDs.username}!\nHere are some of your Subscriptions`}</p>
+        >{`Welcome, ${user}!\nHere are some of your Subscriptions`}</p>
 
         <ImageList sx={{ width: '90vw' }} cols={cols} gap={50}>
           {itemData.map((item) => (
