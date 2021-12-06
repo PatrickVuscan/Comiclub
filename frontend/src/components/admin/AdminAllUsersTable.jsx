@@ -35,10 +35,10 @@ class AdminAllUsersTable extends React.Component {
           <TableHead>
             <TableRow>
               <TableCell>Username</TableCell>
+              <TableCell align="right">Email</TableCell>
               <TableCell align="right">Join Date</TableCell>
               <TableCell align="right">Comics Uploaded</TableCell>
               <TableCell align="right">Episodes Uploaded</TableCell>
-              <TableCell align="right">Comics Viewed</TableCell>
               <TableCell align="right">Comics Liked</TableCell>
               <TableCell align="right">Comments Posted</TableCell>
               <TableCell align="right">Delete User</TableCell>

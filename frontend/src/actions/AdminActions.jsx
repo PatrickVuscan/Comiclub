@@ -9,21 +9,19 @@ export const getAllUsers = async (users) => {
     });
     const allUsersJSON = await allUsers.json();
 
-    console.log('allUsers');
-    console.log(allUsersJSON);
-
     // id, name, joinDate, comicsCount, episodeCount, viewCount, likeCount, commentCount
-    const mappedAllUsers = allUsersJSON.map(({ _id, username, email, likes }) => ({
-      id: _id,
-      name: username,
-      email,
-      joinDate: '8/8/88',
-      comicsCount: 0,
-      episodeCount: 0,
-      commentCount: 0,
-      viewCount: 0,
-      likeCount: likes.length,
-    }));
+    const mappedAllUsers = allUsersJSON.map(
+      ({ _id, username, email, comicsCount, joinDate, likes, commentsCount, episodeCount }) => ({
+        id: _id,
+        name: username,
+        email,
+        joinDate,
+        comicsCount,
+        episodeCount,
+        commentsCount,
+        likeCount: likes.length,
+      })
+    );
 
     users.setState({
       users: mappedAllUsers,

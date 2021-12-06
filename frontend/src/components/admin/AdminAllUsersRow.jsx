@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import DeleteUser from './DeleteUser';
 
 const AdminAllUsersRow = ({ user }) => {
-  const { id, name, joinDate, comicsCount, episodeCount, viewCount, likeCount, commentCount } = user;
+  const { id, email, name, joinDate, comicsCount, episodeCount, likeCount, commentsCount } = user;
   const history = useHistory();
 
   const goToUser = (e) => {
@@ -27,12 +27,12 @@ const AdminAllUsersRow = ({ user }) => {
           </Tooltip>
         </Typography>
       </TableCell>
+      <TableCell align="right">{email}</TableCell>
       <TableCell align="right">{joinDate}</TableCell>
       <TableCell align="right">{comicsCount}</TableCell>
       <TableCell align="right">{episodeCount}</TableCell>
-      <TableCell align="right">{viewCount}</TableCell>
       <TableCell align="right">{likeCount}</TableCell>
-      <TableCell align="right">{commentCount}</TableCell>
+      <TableCell align="right">{commentsCount}</TableCell>
       <TableCell align="right">
         <DeleteUser userID={id} userName={name} />
       </TableCell>
