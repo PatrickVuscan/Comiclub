@@ -20,6 +20,10 @@ const ComicsSummary = () => {
 
   React.useEffect(async () => {
     const comicResponse = await getComic(comicID);
+    if (!comicResponse) {
+      alert('This comic could not be found.');
+      history.push('/home');
+    }
     const comicLikedResponse = await userHasLiked(comicID);
     setComic(comicResponse);
     setIsLiked(comicLikedResponse);
