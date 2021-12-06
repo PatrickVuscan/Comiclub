@@ -5,9 +5,11 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { getUser } from '../../actions/HomeLoggedInActions';
+import ENV from '../../config';
 import AuthContext from '../../context';
 import styles from './HomeLoggedIn.module.css';
 // Images for Subscriptions
@@ -27,6 +29,21 @@ const HomeLoggedIn = () => {
     authState: { user },
   } = useContext(AuthContext);
   const history = useHistory();
+
+  const [currUser, setcurrUser] = React.useState({});
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const userResponse = await getUser(user);
+      setcurrUser(userResponse);
+    };
+
+    fetchData();
+  }, [user]);
+
+  console.log('Curr user is:');
+  console.log(currUser.username);
+  console.log('finish');
 
   const muiTheme = useTheme();
   const mediaQueries = [
