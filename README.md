@@ -1,3 +1,58 @@
+# Express Server Routes
+
+## Comics
+
+### POST '/'
+### POST '/update/:comicID'
+### POST '/thumbnail/:comicID'
+### POST '/like'
+### POST '/unlike'
+### GET '/retrieve/all-comics'
+### GET '/retrieve/top-comics'
+### GET '/retrieve/comics-by-genre'
+### GET '/userID'
+### GET '/:comicID'
+### GET '/user/likedComics'
+### GET '/userID/:userID'
+### GET '/liked/:comicID'
+### DELETE '/:comicID'
+
+## Comments
+
+### GET '/episodeID/:episodeID'
+### GET '/userID/:userID'
+### PUT '/'
+### DELETE '/comment'
+
+## Episodes
+
+### POST '/update/:episodeID'
+### POST '/thumbnail/:episodeID'
+### POST '/panels/:episodeID'
+### POST '/view'
+### GET '/:episodeID'
+### GET '/userID/:userID'
+### GET '/comicID/:comicID'
+### PUT '/episode'
+### DELETE '/:episodeID'
+
+## Users
+
+### POST '/'
+### POST '/login'
+### POST '/check-credentials'
+### POST '/profile-picture'
+### POST '/all-users'
+### GET '/'
+### GET '/logout'
+### GET '/check-session'
+### GET '/:username'
+### GET '/userID/:userID'
+### GET '/:username/likes'
+### GET '/email/:email'
+### DELETE '/:userID'
+
+
 # React Express Auth
 
 This example demonstrates how to:
