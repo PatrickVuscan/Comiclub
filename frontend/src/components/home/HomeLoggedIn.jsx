@@ -8,6 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { likeComic, unlikeComic } from '../../actions/ComicActions';
 import { Combined } from '../../actions/HomeLoggedInActions';
 import AuthContext from '../../context';
 import styles from './HomeLoggedIn.module.css';
@@ -35,6 +36,7 @@ const HomeLoggedIn = () => {
   const [currUser, setcurrUser] = React.useState({});
   const [comics, setComics] = React.useState({ likedComics: [], otherComics: [] });
   const [combinedComics, setCombinedComics] = React.useState([]);
+  const [updates, setUpdates] = React.useState(0);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +50,7 @@ const HomeLoggedIn = () => {
     };
 
     fetchData();
-  }, []);
+  }, [updates]);
 
   React.useEffect(() => {
     const tempCombinedComics = [];
@@ -59,6 +61,7 @@ const HomeLoggedIn = () => {
       for (let i = 0; i < remainingComics && i < comics.likedComics.length; i += 1) {
         if (!(comics.likedComics[i]._id in keys)) {
           keys[comics.likedComics[i]._id] = true;
+          comics.likedComics[i].isLiked = true;
           tempCombinedComics.push(comics.likedComics[i]);
           remainingComics -= 1;
         }
@@ -87,6 +90,15 @@ const HomeLoggedIn = () => {
   };
 
   console.log('Combined Comics are ', combinedComics);
+
+  const heartClicked = (comic) => {
+    if (comic.isLiked) {
+      unlikeComic(comic._id);
+    } else {
+      likeComic(comic._id);
+    }
+    setUpdates((updatesOldVal) => updatesOldVal + 1);
+  };
 
   return (
     <div className={styles.container}>
@@ -123,7 +135,14 @@ const HomeLoggedIn = () => {
                 title={comic.name}
                 position="top"
                 actionIcon={
-                  <IconButton sx={{ color: 'white' }} aria-label={`heart ${comic.name}`}>
+                  <IconButton
+                    sx={{ color: comic.isLiked ? 'red' : 'white' }}
+                    aria-label={`heart ${comic.name}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      heartClicked(comic);
+                    }}
+                  >
                     <FavoriteIcon />
                   </IconButton>
                 }

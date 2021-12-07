@@ -15,24 +15,28 @@ export async function userHasLiked(comicID) {
 }
 
 async function likeUnlikeComicHelper(comicID, likeOrUnlike) {
-  const likeRequest = new Request(`${ENV.api_host}/api/comics/${likeOrUnlike}`, {
-    credentials: 'include',
-    method: 'post',
-    body: JSON.stringify({ comicID }),
-    headers: {
-      Accept: 'application/json, text/plain, */*',
-      'Content-Type': 'application/json',
-    },
-  });
+  try {
+    const likeRequest = new Request(`${ENV.api_host}/api/comics/${likeOrUnlike}`, {
+      credentials: 'include',
+      method: 'post',
+      body: JSON.stringify({ comicID }),
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
+    const likeResponse = await fetch(likeRequest);
 
-  const likeResponse = await fetch(likeRequest);
+    if (!likeResponse.ok) {
+      console.log('There was an error liking the comic:', likeResponse);
+      return;
+    }
 
-  if (!likeResponse.ok) {
-    console.log('There was an error liking the comic:', likeResponse);
-    return;
+    return getComic(comicID);
+  } catch (error) {
+    console.log('LikeUnlike Error', error);
+    return {};
   }
-
-  return getComic(comicID);
 }
 
 export async function likeComic(comicID) {
