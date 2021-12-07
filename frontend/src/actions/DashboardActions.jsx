@@ -252,7 +252,6 @@ export const updateComic = async (id, thumb, name, description, genre) => {
     const comicResponseJSON = await comicResponse.json();
 
     if (typeof thumb !== 'object') {
-      console.log('In if thumb', typeof thumb !== 'object');
       return;
     }
 
