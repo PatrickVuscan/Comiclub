@@ -38,9 +38,9 @@
 .commentCard {
   border-bottom: solid black 1px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 5px 10px 0px 10px;
 }
 
 .submitButton {

@@ -1,17 +1,32 @@
 import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { uid } from 'react-uid';
 
 import { getEpisode, postComment, viewEpisode } from '../../actions/ComicActions';
+import { getUsername } from '../../actions/DashboardActions';
 import styles from './ComicsReader.module.css';
 
 const CommentCard = ({ commentData }) => {
+  const [username, setUsername] = React.useState('');
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const usernameResponse = await getUsername(commentData.userID);
+      setUsername(usernameResponse);
+    };
+    fetchData();
+  }, [commentData]);
+
   return (
     <div className={styles.commentCard}>
-      <p style={{ width: '40%' }}>{commentData.body}</p>
-      <p>{new Date(commentData.publishDate).toDateString()}</p>
+      <Typography variant="subtitle2">{new Date(commentData.publishDate).toDateString()}</Typography>
+      <Typography variant="h6" style={{ color: '#186ed1', marginBottom: 0 }}>
+        {username}
+      </Typography>
+      <p>{commentData.body}</p>
     </div>
   );
 };
@@ -44,6 +59,8 @@ const ComicsReader = () => {
     setCommentsArr(comments);
     viewEpisode(episodeID);
   }, [episodeID]);
+
+  console.log(commentsArr);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>

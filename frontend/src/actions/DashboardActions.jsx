@@ -50,31 +50,37 @@ export const getUsername = async (userID) => {
 export const getComic = async (comicID) => {
   console.log(`Getting the comic by ID ${comicID}`);
 
-  const comicResponse = await fetch(`${ENV.api_host}/api/comics/${comicID}`, {
-    credentials: 'include',
-  });
+  try {
+    const comicResponse = await fetch(`${ENV.api_host}/api/comics/${comicID}`, {
+      credentials: 'include',
+    });
 
-  if (!comicResponse.ok) {
-    console.log('There was an error retrieving your comics', comicResponse.error);
-    return;
+    if (!comicResponse.ok) {
+      console.log('There was an error retrieving your comics', comicResponse.error);
+      return;
+    }
+
+    const comicJSON = await comicResponse.json();
+
+    const { _id, name, description, genre, thumbImage, publishDate, episodes, meta } = comicJSON;
+
+    return {
+      id: _id,
+      name,
+      description,
+      genre,
+      thumb: thumbImage ? thumbImage.imageURL : undefined,
+      publishDate: new Date(publishDate).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      episodeCount: episodes ? episodes.length : 0,
+      episodes: episodes || [],
+      viewCount: meta ? meta.views : 0,
+      likeCount: meta ? meta.likes : 0,
+    };
+  } catch (error) {
+    console.log('Error retrieving the comic');
+    console.error(error);
+    return {};
   }
-
-  const comicJSON = await comicResponse.json();
-
-  const { _id, name, description, genre, thumbImage, publishDate, episodes, meta } = comicJSON;
-
-  return {
-    id: _id,
-    name,
-    description,
-    genre,
-    thumb: thumbImage ? thumbImage.imageURL : undefined,
-    publishDate: new Date(publishDate).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    episodeCount: episodes ? episodes.length : 0,
-    episodes: episodes || [],
-    viewCount: meta ? meta.views : 0,
-    likeCount: meta ? meta.likes : 0,
-  };
 };
 
 export const getEpisodesByComic = async (Comic) => {

@@ -7,7 +7,6 @@ import { uid } from 'react-uid';
 
 import { likeComic, unlikeComic, userHasLiked } from '../../actions/ComicActions';
 import { getComic } from '../../actions/DashboardActions';
-import ENV from '../../config';
 import formatMetric from '../../utilities';
 import placeholderImage from '../home/images/naruto.png';
 import ComicEpisodeCard from './ComicEpisodeCard';
@@ -24,14 +23,16 @@ const ComicsSummary = () => {
     history.push(path);
   };
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   React.useEffect(async () => {
     const comicResponse = await getComic(comicID);
     if (!comicResponse) {
       alert('This comic could not be found.');
       history.push('/home');
     }
-    const comicLikedResponse = await userHasLiked(comicID);
+
     setComic(comicResponse);
+    const comicLikedResponse = await userHasLiked(comicID);
     setIsLiked(comicLikedResponse);
   }, [comicID]);
 
