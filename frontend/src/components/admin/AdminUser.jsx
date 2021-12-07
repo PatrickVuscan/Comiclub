@@ -34,8 +34,7 @@ const AdminUser = () => {
         </Stack>
         <Stack spacing={4}>
           <Typography gutterBottom variant="h4" component="div">
-            {/* Comments by {username} */}
-            Comments by {userID}
+            {`Comments by ${username}`}
           </Typography>
           <AdminUserCommentTable userID={userID} />
         </Stack>
