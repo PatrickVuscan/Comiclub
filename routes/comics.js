@@ -166,8 +166,8 @@ router.get('/:comicID', async (req, res) => {
       return;
     }
 
-    const comics = await Comic.findOne({ userID: req.session.user, _id: comicID });
-    res.send(comics);
+    const comic = await Comic.findOne({ _id: comicID });
+    res.send(comic || {});
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
