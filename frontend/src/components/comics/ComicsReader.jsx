@@ -3,6 +3,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { uid } from 'react-uid';
+
 import { getEpisode, postComment, viewEpisode } from '../../actions/ComicActions';
 import styles from './ComicsReader.module.css';
 
@@ -20,7 +21,6 @@ const ComicsReader = () => {
   const [panel, setPanel] = React.useState();
   const [commentsArr, setCommentsArr] = React.useState([]);
   const [newComment, setNewComment] = React.useState('');
-  const history = useHistory();
 
   const finalDivRef = React.useRef();
   const history = useHistory();
