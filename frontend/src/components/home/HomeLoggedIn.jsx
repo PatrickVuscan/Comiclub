@@ -51,24 +51,27 @@ const HomeLoggedIn = () => {
   }, []);
 
   React.useEffect(() => {
-    let tempCombinedComics = [];
+    const tempCombinedComics = [];
+    const keys = {};
     let remainingComics = cols * 2;
 
     if (comics.likedComics) {
-      if (comics.likedComics.length > remainingComics) {
-        tempCombinedComics = [...comics.likedComics(remainingComics - 1)];
-        remainingComics = 0;
-      } else {
-        tempCombinedComics = [...comics.likedComics];
-        remainingComics -= comics.likedComics.length;
+      for (let i = 0; i < remainingComics && i < comics.likedComics.length; i += 1) {
+        if (!(comics.likedComics[i]._id in keys)) {
+          keys[comics.likedComics[i]._id] = true;
+          tempCombinedComics.push(comics.likedComics[i]);
+          remainingComics -= 1;
+        }
       }
     }
 
     if (comics.otherComics && remainingComics > 0) {
-      if (comics.otherComics.length > remainingComics) {
-        tempCombinedComics = [...tempCombinedComics, ...comics.otherComics(remainingComics - 1)];
-      } else {
-        tempCombinedComics = [...tempCombinedComics, ...comics.otherComics];
+      for (let i = 0; i < remainingComics && i < comics.otherComics.length; i += 1) {
+        if (!(comics.otherComics[i]._id in keys)) {
+          keys[comics.otherComics[i]._id] = true;
+          tempCombinedComics.push(comics.otherComics[i]);
+          remainingComics -= 1;
+        }
       }
     }
 
