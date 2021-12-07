@@ -84,7 +84,6 @@ const HomeLoggedIn = () => {
   const submit = (e) => {
     e.preventDefault();
 
-    // Find image name and redirect accordingly
     const comicID = e.target.id;
     history.push(`/comics/${comicID}`);
   };

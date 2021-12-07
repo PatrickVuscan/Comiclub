@@ -58,6 +58,21 @@ router.get('/retrieve/all-comics', async (req, res) => {
   }
 });
 
+// Get top comics - sorry for bad route name, didn't organize routes well at start.
+router.get('/retrieve/top-comics', async (req, res) => {
+  try {
+    const comics = await Comic.find({}, null, {
+      limit: 10,
+      sort: { 'meta.views': -1 },
+    });
+
+    res.send(comics);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Update a Comic
 router.post('/update/:comicID', async (req, res) => {
   const { comicID } = req.params;

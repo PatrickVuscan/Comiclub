@@ -13,6 +13,7 @@ import HomeLoggedIn from './components/home/HomeLoggedIn';
 import HomeNotLoggedIn from './components/home/HomeNotLoggedIn';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
+import Popular from './components/popular/Popular';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import SignupRoutes from './components/signup/SignupRoutes';
@@ -73,7 +74,9 @@ function App() {
                     <Genres />
                   </PrivateRoute>
 
-                  <PrivateRoute path="/popular">Here are our most popular comics!</PrivateRoute>
+                  <PrivateRoute path="/popular">
+                    <Popular />
+                  </PrivateRoute>
 
                   {/* I believe this acts as a redirect for all paths that do not match the above,
                       back to home, so that we don't show empty paths, empty screens. */}
