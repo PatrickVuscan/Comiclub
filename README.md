@@ -22,6 +22,29 @@
 ### GET '/episodeID/:episodeID'
 ### GET '/userID/:userID'
 ### PUT '/'
+Add a Comment to an Episode.
+
+Request: PUT
+Body: 
+
+```
+{
+    "episodeID": "61aed58da56b52c09c4010af",
+    "body": "hello world!"
+}
+```
+
+Response:
+```
+{
+    "_id": "61aff3739d3831d26462d58e",
+    "userID": "61aed51ea56b52c09c401094",
+    "episodeID": "61aed58da56b52c09c4010af",
+    "body": "hello world!",
+    "publishDate": "2021-12-07T23:51:15.664Z",
+    "__v": 0
+}
+```
 ### DELETE '/comment'
 
 ## Episodes
