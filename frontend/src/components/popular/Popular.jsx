@@ -25,10 +25,9 @@ const Popular = () => {
     fetchData();
   }, []);
 
-  const submit = (e) => {
+  const submit = (comicID) => (e) => {
     e.preventDefault();
 
-    const comicID = e.target.id;
     history.push(`/comics/${comicID}`);
   };
 
@@ -54,7 +53,7 @@ const Popular = () => {
           {comics.map((comic, index) => {
             return (
               <ListItem key={comic._id} disablePadding>
-                <ListItemButton onClick={submit}>
+                <ListItemButton onClick={submit(comic._id)}>
                   <ListItemAvatar>
                     <Avatar sx={{ width: 70, height: 70 }} alt={`${comic.name}`} src={`${comic.thumbImage?.imageURL}`}>
                       <Avatar sx={{ width: 70, height: 70 }} alt={`${comic.name}`} src="/imageNotFound.webp" />
