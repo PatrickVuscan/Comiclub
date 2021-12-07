@@ -168,6 +168,29 @@ export const GetLikedComics = async () => {
   }
 };
 
+export const GetGenreComics = async () => {
+  console.log(`Getting comics by genre`);
+
+  try {
+    const comicsResponse = await fetch(`${ENV.api_host}/api/comics/retrieve/comics-by-genre`, {
+      credentials: 'include',
+    });
+
+    if (!comicsResponse.ok) {
+      console.log('There was an error retrieving the user', comicsResponse.error);
+      return;
+    }
+
+    const comicsJSON = await comicsResponse.json();
+
+    return comicsJSON;
+  } catch (error) {
+    console.log('Error getting user information');
+    console.error(error);
+    return {};
+  }
+};
+
 export default {
   getUser,
   getLikedComicID,
@@ -175,4 +198,5 @@ export default {
   GetAllComics,
   GetTopComics,
   GetLikedComics,
+  GetGenreComics,
 };

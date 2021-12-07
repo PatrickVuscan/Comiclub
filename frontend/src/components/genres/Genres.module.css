@@ -5,12 +5,12 @@
     margin-top: 75px;
     margin-bottom: 1rem;
     justify-content: left;
-    margin-left: 100px;
+    margin-left: 50px;
+    margin-right: 50px;
   }
-  
+
   .subscriptions {
     display: flex;
     flex-direction: column;
     align-items: left;
-    width: 600px;
   }

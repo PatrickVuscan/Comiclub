@@ -73,6 +73,41 @@ router.get('/retrieve/top-comics', async (req, res) => {
   }
 });
 
+// Get comics sorted into the different genres
+// Returned as an object of key value pairs, where the
+// key is the genre string, and the value is the array of comics
+router.get('/retrieve/comics-by-genre', async (req, res) => {
+  try {
+    const comics = await Comic.aggregate([
+      {
+        $group: {
+          _id: '$genre',
+          fields: { $push: '$$ROOT' },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          root: { $push: { k: '$_id', v: '$fields' } },
+        },
+      },
+      {
+        $replaceRoot: { newRoot: { $arrayToObject: '$root' } },
+      },
+    ]);
+
+    if (comics.length === 0) {
+      res.send({});
+      return;
+    }
+
+    res.send(comics[0]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Update a Comic
 router.post('/update/:comicID', async (req, res) => {
   const { comicID } = req.params;
