@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { getEpisode } from '../../actions/ComicActions';
 import styles from './ComicsReader.module.css';
@@ -8,9 +8,14 @@ const ComicsReader = () => {
   const { comicID, episodeID } = useParams();
   const [panel, setPanel] = React.useState();
   const [commentsArr, setCommentsArr] = React.useState([]);
+  const history = useHistory();
 
   React.useEffect(async () => {
     const episodeResponse = await getEpisode(episodeID);
+    if (!episodeResponse) {
+      alert('This episode could not be found.');
+      history.push('/home');
+    }
     const {
       panels: { imageURL: panelPDF },
       comments,
