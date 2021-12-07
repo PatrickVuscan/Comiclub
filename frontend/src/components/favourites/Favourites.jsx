@@ -103,7 +103,7 @@ const Favourites = () => {
               />
             </ImageListItem>
           ))}
-          {comics.length % 3 !== 0 && (
+          {comics.length % cols !== 0 && (
             <ImageListItem key="uniqueModifier">
               <img id="uniqueModifier" alt=" " style={{ width: '100%', height: '459px' }} />
             </ImageListItem>

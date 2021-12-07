@@ -56,7 +56,9 @@ const SignupSuggestions = () => {
       })
       .then((json) => {
         if (json.email !== undefined) {
-          localStorage.setItem('LOGGED_IN_USERNAME', json.email);
+          localStorage.setItem('LOGGED_IN_USER', json.user);
+          localStorage.setItem('LOGGED_IN_USERNAME', json.username);
+          localStorage.setItem('LOGGED_IN_EMAIL', json.email);
           setAuthState(fetchAuthState());
           history.push('/');
         }

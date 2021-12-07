@@ -10,7 +10,7 @@ import React from 'react';
 
 import { deleteUserByID } from '../../actions/AdminActions';
 
-const DeleteComment = ({ userID, userName }) => {
+const DeleteUser = ({ userID, userName }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -21,15 +21,17 @@ const DeleteComment = ({ userID, userName }) => {
     setOpen(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async (e) => {
+    e.preventDefault();
     deleteUserByID(userID);
     setOpen(false);
+    window.location.reload(false);
   };
 
   return (
     <div>
       <Tooltip title="Delete User">
-        <DeleteIcon onClick={handleClickOpen} />
+        <DeleteIcon style={{ cursor: 'pointer' }} onClick={handleClickOpen} />
       </Tooltip>
       <Dialog
         open={open}
@@ -53,4 +55,4 @@ const DeleteComment = ({ userID, userName }) => {
     </div>
   );
 };
-export default DeleteComment;
+export default DeleteUser;

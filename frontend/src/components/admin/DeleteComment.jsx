@@ -31,7 +31,7 @@ const DeleteComment = (comment) => {
   return (
     <div>
       <Tooltip title="Delete Comment">
-        <DeleteIcon onClick={handleClickOpen} />
+        <DeleteIcon style={{ cursor: 'pointer' }} onClick={handleClickOpen} />
       </Tooltip>
       <Dialog
         open={open}
