@@ -10,8 +10,6 @@ class AdminUserCommentRow extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('props');
-    console.log(props);
     this.state = {
       episodeID: props.comment.episodeID,
       comicName: '',
@@ -20,15 +18,12 @@ class AdminUserCommentRow extends React.Component {
   }
 
   componentDidMount() {
-    console.log('getUserCommentRowData');
     getUserCommentRowData(this);
   }
 
   render() {
     const { episodeID, comicName, episodeName } = this.state;
     const { comment } = this.props;
-    console.log('commentRow');
-    console.log(comment);
     const { commentID, publishDate, commentContent } = comment;
 
     return (

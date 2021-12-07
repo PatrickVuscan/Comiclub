@@ -63,7 +63,6 @@ export const getUserCommentRowData = async (Row) => {
 
 export const getCommentsByUserID = async (User, creatorID) => {
   console.log(`getCommentsByUserID: ${creatorID}`);
-  console.log(User);
 
   const userComments = await fetch(`${ENV.api_host}/api/comments/userID/${creatorID}`, {
     credentials: 'include',
@@ -87,7 +86,6 @@ export const getCommentsByUserID = async (User, creatorID) => {
 };
 
 export const deleteCommentByID = async (comment) => {
-  console.log(comment);
   const { episodeID, userID, commentID } = comment.comment;
   console.log(`deleteCommentByID: ${userID} / ${episodeID} / ${commentID}`);
 

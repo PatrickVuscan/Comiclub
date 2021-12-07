@@ -19,13 +19,10 @@ const AdminUser = () => {
   React.useEffect(() => {
     const fetchData = async () => {
       const usernameResponse = await getUsername(userID);
-      console.log(`AdminUser:username: ${usernameResponse}`);
       setUsername(usernameResponse);
     };
     fetchData();
   }, [userID]);
-
-  console.log(`AdminUser:username2: ${username}`);
 
   return (
     <div>

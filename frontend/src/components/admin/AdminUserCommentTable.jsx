@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import React from 'react';
+import { uid } from 'react-uid';
 
 import { getCommentsByUserID } from '../../actions/AdminActions';
 import AdminUserCommentRow from './AdminUserCommentRow';
@@ -33,7 +34,6 @@ class AdminUserCommentTable extends React.Component {
 
   render() {
     const { userID, comments } = this.state;
-    console.log(userID);
     return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -48,7 +48,7 @@ class AdminUserCommentTable extends React.Component {
           </TableHead>
           <TableBody>
             {comments.map((comment) => (
-              <AdminUserCommentRow userID={userID} comment={comment} />
+              <AdminUserCommentRow key={uid(comment)} userID={userID} comment={comment} />
             ))}
           </TableBody>
         </Table>
