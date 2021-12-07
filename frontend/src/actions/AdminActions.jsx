@@ -115,8 +115,31 @@ export const deleteCommentByID = async (comment) => {
   return response;
 };
 
-export const deleteUserByID = (userID) => {
+export const deleteUserByID = async (userID) => {
   console.log(`deleteUserByID: ${userID}`);
+
+  try {
+    const deleteRequest = new Request(`${ENV.api_host}/api/users/${userID}`, {
+      credentials: 'include',
+      method: 'delete',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
+    const deleteResponse = await fetch(deleteRequest);
+
+    if (!deleteResponse.ok) {
+      console.log('There was an error deleting the user', deleteResponse.error);
+      const response = { msg: 'error' };
+      return response;
+    }
+    const response = { msg: 'deleted' };
+    return response;
+  } catch (error) {
+    console.log('Error Deleting User');
+    console.error(error);
+  }
 };
 
 export default { getAllUsers, getCommentsByUserID, deleteCommentByID, deleteUserByID, getUserCommentRowData };

@@ -110,7 +110,7 @@ function logoutHelper(req, res) {
 // A route to logout a user
 router.get('/logout', (req, res) => {
   // Remove the session
-  logoutHelper(req, res)
+  logoutHelper(req, res);
 });
 
 // A route to check if a user is logged in on the session
@@ -294,13 +294,13 @@ router.delete('/:userID', async (req, res) => {
   try {
     const comments = await Comment.find({ userID: { $eq: userID } });
     for (let i = 0; i < comments.length; i++) {
-      // Find the episode that this comment belongs to and delete 
+      // Find the episode that this comment belongs to and delete
       // the nested comment from the episode
       const episode = await Episode.findById(comments[i].episodeID);
       episode.comments.id(comments[i]._id).remove();
       episode.save();
 
-      // Find the comic that this comment belongs to and delete 
+      // Find the comic that this comment belongs to and delete
       // the nested comment from the relevant episode of the comic.
       const comic = await Comic.findById(episode.comicID);
       comic.episodes.id(episode._id).comments.id(comments[i]._id).remove();
@@ -315,7 +315,7 @@ router.delete('/:userID', async (req, res) => {
     if (user === userID) {
       // If the user is deleting their own account, log them out.
       logoutHelper(req, res);
-      return
+      return;
     }
     res.status(200).send('Successfully deleted user.');
   } catch (error) {
