@@ -7,6 +7,7 @@ const { Comment } = require('../models/comment');
 const { updateNestedEpisode } = require('./helpers');
 const { User } = require('../models/user');
 const { Episode, EpisodeSchema } = require('../models/episode');
+const { Comic } = require('../models/comic');
 
 const router = express.Router();
 
@@ -76,6 +77,12 @@ router.delete('/comment', async (req, res) => {
     nestedComment.remove();
     episode.save();
 
+    // remove comment from the Comic that this Episode is nested within
+    const comic = await Comic.findById(episode.comicID);
+    const nestedEpisodeComment = comic.episodes.id(episodeID).comments.id(commentID);
+    nestedEpisodeComment.remove();
+    comic.save();
+    
     // remove comment from Comments
     const comment = await Comment.findById(commentID);
     const { body } = comment;
