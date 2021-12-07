@@ -61,9 +61,38 @@ export async function getEpisode(episodeID) {
   return episodeJSON;
 }
 
+export async function postComment(episodeID, commentBody) {
+  const updatedCommentRequest = new Request(`${ENV.api_host}/api/comments/`, {
+    credentials: 'include',
+    method: 'put',
+    body: JSON.stringify({ episodeID, body: commentBody }),
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  const updatedCommentResponse = await fetch(updatedCommentRequest);
+  return updatedCommentResponse.json();
+}
+
+export function viewEpisode(episodeID) {
+  const viewEpisodeRequest = new Request(`${ENV.api_host}/api/episodes/view`, {
+    credentials: 'include',
+    method: 'post',
+    body: JSON.stringify({ episodeID }),
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  return fetch(viewEpisodeRequest);
+}
+
 export default {
   likeComic,
   unlikeComic,
   userHasLiked,
   getEpisode,
+  postComment,
+  viewEpisode,
 };
