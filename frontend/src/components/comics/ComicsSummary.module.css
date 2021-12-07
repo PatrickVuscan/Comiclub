@@ -25,6 +25,8 @@
 
 .headerMargin {
   margin-block-start: 10px;
+  margin-bottom: 0;
+  margin-right: 1rem;
 }
 
 .description {
