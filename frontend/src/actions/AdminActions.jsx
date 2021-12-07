@@ -61,20 +61,20 @@ export const getUserCommentRowData = async (Row) => {
   }
 };
 
-export const getCommentsByUserID = async (User) => {
-  const { userID } = User.state;
-  console.log(`getCommentsByUserID: ${userID}`);
+export const getCommentsByUserID = async (User, creatorID) => {
+  console.log(`getCommentsByUserID: ${creatorID}`);
   console.log(User);
 
-  const userComments = await fetch(`${ENV.api_host}/api/comments/userID/${userID}`, {
+  const userComments = await fetch(`${ENV.api_host}/api/comments/userID/${creatorID}`, {
     credentials: 'include',
   });
   const userCommentsJSON = await userComments.json();
   console.log(userCommentsJSON);
 
   // commentID, comicName, episodeNumber, panelNumber, publishDate, commentContent
-  const comments = userCommentsJSON.map(({ _id, episodeID, body, publishDate }) => ({
+  const comments = userCommentsJSON.map(({ _id, episodeID, userID, body, publishDate }) => ({
     commentID: _id,
+    userID,
     episodeID,
     publishDate,
     commentContent: body,
@@ -86,12 +86,23 @@ export const getCommentsByUserID = async (User) => {
   });
 };
 
-export const deleteCommentByID = async (commentID) => {
-  console.log(`deleteCommentByID: ${commentID}`);
+export const deleteCommentByID = async (comment) => {
+  console.log(comment);
+  const { episodeID, userID, commentID } = comment.comment;
+  console.log(`deleteCommentByID: ${userID} / ${episodeID} / ${commentID}`);
 
-  const deleteRequest = new Request(`${ENV.api_host}/api/comments/${commentID}`, {
+  const deleteRequest = new Request(`${ENV.api_host}/api/comments/comment`, {
     credentials: 'include',
     method: 'delete',
+    body: JSON.stringify({
+      userID,
+      episodeID,
+      commentID,
+    }),
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
   });
 
   const deleteResponse = await fetch(deleteRequest);
@@ -101,6 +112,7 @@ export const deleteCommentByID = async (commentID) => {
     const response = { msg: 'error' };
     return response;
   }
+
   const response = { msg: 'deleted' };
   return response;
 };

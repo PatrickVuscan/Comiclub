@@ -7,6 +7,12 @@ import { getUsername } from '../../actions/DashboardActions';
 import AdminUserCommentTable from './AdminUserCommentTable';
 
 const AdminUser = () => {
+  const [updates, setUpdates] = React.useState(0);
+
+  const update = () => {
+    setUpdates((prevCount) => prevCount + 1);
+  };
+
   const { userID } = useParams();
   const [username, setUsername] = React.useState({});
 
@@ -36,7 +42,7 @@ const AdminUser = () => {
           <Typography gutterBottom variant="h4" component="div">
             {`Comments by ${username}`}
           </Typography>
-          <AdminUserCommentTable userID={userID} />
+          <AdminUserCommentTable userID={userID} updates={updates} />
         </Stack>
       </Stack>
     </div>

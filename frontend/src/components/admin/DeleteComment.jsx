@@ -10,7 +10,7 @@ import React from 'react';
 
 import { deleteCommentByID } from '../../actions/AdminActions';
 
-const DeleteComment = ({ commentID, commentContent }) => {
+const DeleteComment = (comment) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -21,9 +21,11 @@ const DeleteComment = ({ commentID, commentContent }) => {
     setOpen(false);
   };
 
-  const handleDelete = () => {
-    deleteCommentByID(commentID);
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    deleteCommentByID(comment);
     setOpen(false);
+    window.location.reload(false);
   };
 
   return (
@@ -40,8 +42,7 @@ const DeleteComment = ({ commentID, commentContent }) => {
         <DialogTitle id="alert-dialog-title">Delete Comment?</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this comment? <br />
-            &quot;{commentContent}&quot;
+            Are you sure you want to delete this comment?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

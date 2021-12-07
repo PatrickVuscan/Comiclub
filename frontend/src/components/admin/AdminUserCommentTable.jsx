@@ -14,13 +14,21 @@ class AdminUserCommentTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userID: props.userID,
       comments: [],
     };
   }
 
   componentDidMount() {
-    getCommentsByUserID(this);
+    const { userID } = this.props;
+    getCommentsByUserID(this, userID);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { userID } = this.props;
+    // eslint-disable-next-line react/destructuring-assignment
+    if (prevProps.updates !== this.props.updates) {
+      getCommentsByUserID(this, userID);
+    }
   }
 
   render() {
@@ -40,7 +48,7 @@ class AdminUserCommentTable extends React.Component {
           </TableHead>
           <TableBody>
             {comments.map((comment) => (
-              <AdminUserCommentRow comment={comment} />
+              <AdminUserCommentRow userID={userID} comment={comment} />
             ))}
           </TableBody>
         </Table>
