@@ -1,10 +1,21 @@
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { useContext } from 'react';
+import { Redirect, Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 
+import AuthContext from '../../context';
 import AdminAllUsers from './AdminAllUsers';
 import AdminUser from './AdminUser';
 
 const AdminRoutes = () => {
   const { path } = useRouteMatch();
+  const {
+    authState: { loggedIn, username },
+  } = useContext(AuthContext);
+
+  const history = useHistory();
+
+  if (!loggedIn || username !== 'admin') {
+    history.replace('/home');
+  }
 
   return (
     <Switch>

@@ -8,7 +8,7 @@ import styles from './Footer.module.css';
 
 const Footer = () => {
   const {
-    authState: { loggedIn, user },
+    authState: { loggedIn, username },
     setAuthState,
   } = useContext(AuthContext);
 
@@ -17,7 +17,9 @@ const Footer = () => {
       credentials: 'include',
     })
       .then(() => {
+        localStorage.removeItem('LOGGED_IN_USER');
         localStorage.removeItem('LOGGED_IN_USERNAME');
+        localStorage.removeItem('LOGGED_IN_EMAIL');
         setAuthState(fetchAuthState());
       })
       .catch((error) => {
@@ -91,7 +93,7 @@ const Footer = () => {
         </div>
 
         {/* Administrative Panels */}
-        {user === 'admin' && (
+        {username === 'admin' && (
           <div className={styles.column}>
             <Typography variant="h6" gutterBottom>
               Admin
@@ -101,20 +103,10 @@ const Footer = () => {
               sx={{ cursor: 'pointer' }}
               gutterBottom
               onClick={() => {
-                history.push('/userspanel');
+                history.push('/admin');
               }}
             >
               Users Panel
-            </Typography>
-            <Typography
-              variant="body"
-              sx={{ cursor: 'pointer' }}
-              gutterBottom
-              onClick={() => {
-                history.push('/comicspanel');
-              }}
-            >
-              Comics Panel
             </Typography>
           </div>
         )}
