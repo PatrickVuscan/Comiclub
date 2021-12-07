@@ -20,18 +20,6 @@ const ComicsSummary = () => {
   const history = useHistory();
 
   const viewComic = (episode) => () => {
-    const likeRequest = new Request(`${ENV.api_host}/api/episodes/view`, {
-      credentials: 'include',
-      method: 'post',
-      body: JSON.stringify({ episodeID: episode._id }),
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-      },
-    });
-
-    fetch(likeRequest);
-
     const path = `${comicID}/${episode._id}`;
     history.push(path);
   };
