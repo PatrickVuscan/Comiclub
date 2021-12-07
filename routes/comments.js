@@ -65,4 +65,18 @@ router.put('/', async (req, res) => {
   }
 });
 
+router.delete('/:commentID', async (req, res) => {
+  const { commentID } = req.params;
+  console.log(commentID);
+  try {
+    const comment = await Comment.findById(commentID);
+    const { body } = comment;
+    comment.remove();
+    res.send(`Removed: "${body}"`);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send('Bad Request');
+  }
+});
+
 module.exports = router;

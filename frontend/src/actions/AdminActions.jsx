@@ -86,8 +86,23 @@ export const getCommentsByUserID = async (User) => {
   });
 };
 
-export const deleteCommentByID = (commentID) => {
+export const deleteCommentByID = async (commentID) => {
   console.log(`deleteCommentByID: ${commentID}`);
+
+  const deleteRequest = new Request(`${ENV.api_host}/api/comments/${commentID}`, {
+    credentials: 'include',
+    method: 'delete',
+  });
+
+  const deleteResponse = await fetch(deleteRequest);
+
+  if (!deleteResponse.ok) {
+    console.log('There was an error deleting this comic:', deleteResponse);
+    const response = { msg: 'error' };
+    return response;
+  }
+  const response = { msg: 'deleted' };
+  return response;
 };
 
 export const deleteUserByID = (userID) => {
