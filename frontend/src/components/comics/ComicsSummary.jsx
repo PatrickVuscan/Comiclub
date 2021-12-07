@@ -7,6 +7,7 @@ import { uid } from 'react-uid';
 
 import { likeComic, unlikeComic, userHasLiked } from '../../actions/ComicActions';
 import { getComic } from '../../actions/DashboardActions';
+import ENV from '../../config';
 import formatMetric from '../../utilities';
 import placeholderImage from '../home/images/naruto.png';
 import ComicEpisodeCard from './ComicEpisodeCard';
@@ -17,6 +18,23 @@ const ComicsSummary = () => {
   const [comic, setComic] = React.useState({});
   const [isLiked, setIsLiked] = React.useState(false);
   const history = useHistory();
+
+  const viewComic = (episode) => () => {
+    const likeRequest = new Request(`${ENV.api_host}/api/episodes/view`, {
+      credentials: 'include',
+      method: 'post',
+      body: JSON.stringify({ episodeID: episode._id }),
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    fetch(likeRequest);
+
+    const path = `${comicID}/${episode._id}`;
+    history.push(path);
+  };
 
   React.useEffect(async () => {
     const comicResponse = await getComic(comicID);
@@ -76,14 +94,7 @@ const ComicsSummary = () => {
         <div className={styles.comicList}>
           {comic.episodes && comic.episodes.length ? (
             comic.episodes.map((episode, idx) => (
-              <div
-                onClick={() => {
-                  const path = `${comicID}/${episode._id}`;
-                  history.push(path);
-                }}
-                style={{ marginBottom: '2vh' }}
-                key={uid(episode)}
-              >
+              <div onClick={viewComic(episode)} style={{ marginBottom: '2vh', cursor: 'pointer' }} key={uid(episode)}>
                 <ComicEpisodeCard episode={episode} number={idx + 1} />
               </div>
             ))

@@ -3,7 +3,6 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { uid } from 'react-uid';
-
 import { getEpisode, postComment, viewEpisode } from '../../actions/ComicActions';
 import styles from './ComicsReader.module.css';
 
@@ -24,6 +23,11 @@ const ComicsReader = () => {
   const history = useHistory();
 
   const finalDivRef = React.useRef();
+  const history = useHistory();
+
+  const navigateBack = () => {
+    history.go(-2);
+  };
 
   React.useEffect(async () => {
     const episodeResponse = await getEpisode(episodeID);
@@ -42,47 +46,52 @@ const ComicsReader = () => {
   }, [episodeID]);
 
   return (
-    <div className={styles.container}>
-      <iframe className={styles.comicPanel} src={panel} title={`${comicID}/${episodeID}`} />
-      <div className={styles.commentsContainer}>
-        <div className={styles.commentsBody}>
-          {commentsArr && commentsArr.length ? (
-            commentsArr.map((comment) => <CommentCard commentData={comment} key={uid(comment)} />)
-          ) : (
-            <p>No comments yet, be the first to comment!</p>
-          )}
-          <div ref={finalDivRef} />
-        </div>
-        <div className={styles.newCommentContainer}>
-          <div className={styles.innerNewCommentContainer}>
-            <OutlinedInput
-              value={newComment}
-              onChange={(e) => {
-                setNewComment(e.target.value);
-              }}
-            />
-            <Button
-              variant="outlined"
-              color="primary"
-              back
-              size="large"
-              type="submit"
-              onClick={async (e) => {
-                if (newComment) {
-                  const updatedComment = await postComment(episodeID, newComment);
-                  if (updatedComment) {
-                    setCommentsArr([...commentsArr, updatedComment]);
-                  } else {
-                    alert('Your comment could not be posted.');
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <Button variant="contained" color="secondary" onClick={navigateBack}>
+        Back!
+      </Button>
+      <div className={styles.container}>
+        <iframe className={styles.comicPanel} src={panel} title={`${comicID}/${episodeID}`} />
+        <div className={styles.commentsContainer}>
+          <div className={styles.commentsBody}>
+            {commentsArr && commentsArr.length ? (
+              commentsArr.map((comment) => <CommentCard commentData={comment} key={uid(comment)} />)
+            ) : (
+              <p>No comments yet, be the first to comment!</p>
+            )}
+            <div ref={finalDivRef} />
+          </div>
+          <div className={styles.newCommentContainer}>
+            <div className={styles.innerNewCommentContainer}>
+              <OutlinedInput
+                value={newComment}
+                onChange={(e) => {
+                  setNewComment(e.target.value);
+                }}
+              />
+              <Button
+                variant="outlined"
+                color="primary"
+                back
+                size="large"
+                type="submit"
+                onClick={async (e) => {
+                  if (newComment) {
+                    const updatedComment = await postComment(episodeID, newComment);
+                    if (updatedComment) {
+                      setCommentsArr([...commentsArr, updatedComment]);
+                    } else {
+                      alert('Your comment could not be posted.');
+                    }
+                    setNewComment('');
+                    console.log(finalDivRef.current);
+                    finalDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                   }
-                  setNewComment('');
-                  console.log(finalDivRef.current);
-                  finalDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-              }}
-            >
-              Submit Comment
-            </Button>
+                }}
+              >
+                Submit Comment
+              </Button>
+            </div>
           </div>
         </div>
       </div>

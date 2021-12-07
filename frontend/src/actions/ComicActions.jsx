@@ -53,7 +53,8 @@ export async function getEpisode(episodeID) {
     return;
   }
 
-  return episodeResponse.json();
+  const episodeJSON = await episodeResponse.json();
+  return episodeJSON;
 }
 
 export async function postComment(episodeID, commentBody) {

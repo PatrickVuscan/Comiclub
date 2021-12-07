@@ -31,6 +31,22 @@ export const getComicsByUser = async (comics) => {
   });
 };
 
+export const getUsername = async (userID) => {
+  console.log(`Getting username by ID ${userID}`);
+  const usernameResponse = await fetch(`${ENV.api_host}/api/users/userID/${userID}`, {
+    credentials: 'include',
+  });
+  if (!usernameResponse.ok) {
+    console.log('There was an error retrieving the username', usernameResponse.error);
+    return;
+  }
+
+  const usernameJSON = await usernameResponse.json();
+  const { username } = usernameJSON;
+  console.log(`actions: getUserName: username: ${username}`);
+  return username;
+};
+
 export const getComic = async (comicID) => {
   console.log(`Getting the comic by ID ${comicID}`);
 
@@ -372,4 +388,5 @@ export default {
   deleteEpisodeById,
   createComic,
   updateComic,
+  getUsername,
 };

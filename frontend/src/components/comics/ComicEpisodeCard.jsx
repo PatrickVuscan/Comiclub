@@ -7,14 +7,23 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 
 const ComicEpisodeCard = ({ episode, number }) => {
-  const {
-    name,
-    thumbImage: { imageURL: cover },
-    description,
-  } = episode;
+  const { name, thumbImage, description } = episode;
+  const { imageURL: cover } = thumbImage || {};
+
   return (
     <Card sx={{ display: 'flex' }}>
-      <CardMedia component="img" sx={{ height: 200, width: 300 }} image={cover} alt="placeholder" />
+      {cover && (
+        <CardMedia
+          component="img"
+          sx={{ height: 200, width: 300 }}
+          image={cover}
+          alt={name}
+          onError={(e) => {
+            e.target.src = 'imageNotFound.webp?w=350&h=400&fit=crop&auto=format';
+            e.target.srcSet = 'imageNotFound.webp??w=350&h=400&fit=crop&auto=format&dpr=2 2x';
+          }}
+        />
+      )}
       <CardContent sx={{ width: '100%' }}>
         <Typography gutterBottom variant="h5" component="div">
           Episode {number} - {name}.

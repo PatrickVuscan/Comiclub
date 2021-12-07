@@ -1,5 +1,6 @@
 /* Episodes API Routes */
 const express = require('express');
+const { ObjectId } = require('mongoose').Types;
 const { multipartMiddleware, cloudinary } = require('../db/cloudinary');
 const { mongoChecker, isMongoError } = require('../mongoHelpers');
 
@@ -7,6 +8,7 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 const { Comic } = require('../models/comic');
 const { Episode } = require('../models/episode');
 const { Image } = require('../models/image');
+const { User } = require('../models/user');
 
 const { updateNestedEpisode } = require('./helpers');
 
@@ -45,6 +47,11 @@ router.put('/episode', mongoChecker, async (req, res) => {
         },
       }
     );
+
+    // Update User Episode Count
+    const creator = await User.findById(creatorID);
+    creator.episodeCount += 1;
+    creator.save();
 
     res.send(newEpisode);
   } catch (error) {
@@ -182,7 +189,7 @@ router.get('/:episodeID', async (req, res) => {
     if (episode) {
       res.send(episode);
     } else {
-      res.status(404).send('Episode not found.');      
+      res.status(404).send('Episode not found.');
     }
   } catch (error) {
     console.log(error);
@@ -203,7 +210,14 @@ router.get('/userID/:userID', async (req, res) => {
 
 // GET episodes by comicID
 router.get('/comicID/:comicID', async (req, res) => {
+  const { comicID } = req.params;
+
   try {
+    if (!comicID || !ObjectId.isValid(comicID)) {
+      res.status(400).send('The comicID sent is not valid.');
+      return;
+    }
+
     const comic = await Comic.findById(req.params.comicID);
     if (comic) {
       res.send(comic.episodes);

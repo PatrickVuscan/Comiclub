@@ -53,6 +53,21 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Route to get the current user
+router.get('/', async (req, res) => {
+  try {
+    if (req.session.user) {
+      const user = await User.findById(req.session.user);
+      res.send(user);
+    } else {
+      res.status(401).send("You're not currently logged in");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // A route to login and create a session
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
@@ -166,6 +181,16 @@ router.post('/profile-picture', multipartMiddleware, async (req, res) => {
   }
 });
 
+router.get('/all-users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.send(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Get a user's ID by their username, for future calls
 router.get('/:username', (req, res) => {
   const { username } = req.params;
@@ -187,6 +212,29 @@ router.get('/:username', (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(400).send('There was an error trying to find a user by this username.');
+    });
+});
+
+// Get a user's ID by their username, for future calls
+router.get('/userID/:userID', (req, res) => {
+  const { userID } = req.params;
+
+  // Use the static method on the User model to find a user
+  // by their email and password
+  User.findById(userID)
+    .then((user) => {
+      if (!user) {
+        res.status(404).send('A user by this id does not exist.');
+        return;
+      }
+
+      res.send({
+        username: user.username,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(400).send('There was an error trying to find a user by their ID.');
     });
 });
 

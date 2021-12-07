@@ -3,7 +3,7 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import AdminAllUsers from './AdminAllUsers';
 import AdminUser from './AdminUser';
 
-const ComicsRoutes = () => {
+const AdminRoutes = () => {
   const { path } = useRouteMatch();
 
   return (
@@ -11,7 +11,7 @@ const ComicsRoutes = () => {
       <Route path={`${path}/`} exact>
         <AdminAllUsers />
       </Route>
-      <Route path={`${path}/:userID/`} exact>
+      <Route path={`${path}/:userID`} exact>
         <AdminUser />
       </Route>
       <Redirect to={`${path}/`} />
@@ -19,4 +19,4 @@ const ComicsRoutes = () => {
   );
 };
 
-export default ComicsRoutes;
+export default AdminRoutes;

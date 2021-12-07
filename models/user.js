@@ -34,6 +34,11 @@ const UserSchema = new mongoose.Schema({
   },
   genres: [String], // Genres Liked ("Action", "Horror", etc.)
   likes: [String], //  comicIDs of Comics Liked
+  joinDate: { type: Date, default: Date.now },
+  comicsCount: { type: Number, default: 0 },
+  episodeCount: { type: Number, default: 0 },
+  commentsCount: { type: Number, default: 0 },
+
   // notifications: [String], // TODO: NotificationSchema (string, URL)
 });
 
