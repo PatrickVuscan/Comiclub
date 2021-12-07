@@ -145,10 +145,34 @@ export const GetTopComics = async () => {
   }
 };
 
+export const GetLikedComics = async () => {
+  console.log(`Getting liked comics`);
+
+  try {
+    const likesResponse = await fetch(`${ENV.api_host}/api/comics/user/likedComics`, {
+      credentials: 'include',
+    });
+
+    if (!likesResponse.ok) {
+      console.log('There was an error retrieving the user', likesResponse.error);
+      return;
+    }
+
+    const likesJSON = await likesResponse.json();
+
+    return likesJSON;
+  } catch (error) {
+    console.log('Error getting user information');
+    console.error(error);
+    return {};
+  }
+};
+
 export default {
   getUser,
   getLikedComicID,
   Combined,
   GetAllComics,
   GetTopComics,
+  GetLikedComics,
 };

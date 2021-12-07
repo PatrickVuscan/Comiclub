@@ -8,13 +8,11 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { likeComic, unlikeComic } from '../../actions/ComicActions';
-import { Combined } from '../../actions/HomeLoggedInActions';
-import styles from './HomeLoggedIn.module.css';
+import { unlikeComic } from '../../actions/ComicActions';
+import { GetLikedComics } from '../../actions/HomeLoggedInActions';
+import styles from '../home/HomeLoggedIn.module.css';
 
-// Images for Recommendations
-
-const HomeLoggedIn = () => {
+const Favourites = () => {
   const history = useHistory();
 
   const muiTheme = useTheme();
@@ -29,53 +27,18 @@ const HomeLoggedIn = () => {
     return curr ? prev + 1 : prev;
   }, 0);
 
-  const [currUser, setcurrUser] = React.useState({});
-  const [comics, setComics] = React.useState({ likedComics: [], otherComics: [] });
-  const [combinedComics, setCombinedComics] = React.useState([]);
+  const [comics, setComics] = React.useState([]);
   const [updates, setUpdates] = React.useState(0);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const combinedResponse = await Combined();
-      console.log('combinedResponse', combinedResponse);
-      setcurrUser(combinedResponse.user);
-      setComics({
-        likedComics: combinedResponse.likedComics,
-        otherComics: combinedResponse.otherComics,
-      });
+      const allComics = await GetLikedComics();
+      console.log('Get Liked comics', allComics);
+      setComics(allComics);
     };
 
     fetchData();
   }, [updates]);
-
-  React.useEffect(() => {
-    const tempCombinedComics = [];
-    const keys = {};
-    let remainingComics = cols * 2;
-
-    if (comics.likedComics) {
-      for (let i = 0; remainingComics > 1 && i < comics.likedComics.length; i += 1) {
-        if (!(comics.likedComics[i]._id in keys)) {
-          keys[comics.likedComics[i]._id] = true;
-          comics.likedComics[i].isLiked = true;
-          tempCombinedComics.push(comics.likedComics[i]);
-          remainingComics -= 1;
-        }
-      }
-    }
-
-    if (comics.otherComics && remainingComics > 0) {
-      for (let i = 0; remainingComics > 1 && i < comics.otherComics.length; i += 1) {
-        if (!(comics.otherComics[i]._id in keys)) {
-          keys[comics.otherComics[i]._id] = true;
-          tempCombinedComics.push(comics.otherComics[i]);
-          remainingComics -= 1;
-        }
-      }
-    }
-
-    setCombinedComics(tempCombinedComics);
-  }, [comics, cols]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -85,11 +48,7 @@ const HomeLoggedIn = () => {
   };
 
   const heartClicked = (comic) => {
-    if (comic.isLiked) {
-      unlikeComic(comic._id);
-    } else {
-      likeComic(comic._id);
-    }
+    unlikeComic(comic._id);
     setUpdates((updatesOldVal) => updatesOldVal + 1);
   };
 
@@ -107,10 +66,12 @@ const HomeLoggedIn = () => {
             wordWrap: 'break-word',
             whiteSpace: 'pre-wrap',
           }}
-        >{`Welcome, ${currUser.username}!\nHere are some of your Subscriptions`}</p>
+        >
+          {comics.length === 0 ? 'You currently have no Subscriptions' : 'These are all your Subscriptions'}
+        </p>
 
         <ImageList sx={{ width: '90vw' }} cols={cols} gap={50}>
-          {combinedComics.map((comic) => (
+          {comics.map((comic) => (
             <ImageListItem key={comic._id} onClick={submit}>
               <img
                 id={comic._id}
@@ -129,7 +90,7 @@ const HomeLoggedIn = () => {
                 position="top"
                 actionIcon={
                   <IconButton
-                    sx={{ color: comic.isLiked ? 'red' : 'white' }}
+                    sx={{ color: 'red' }}
                     aria-label={`heart ${comic.name}`}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -142,7 +103,7 @@ const HomeLoggedIn = () => {
               />
             </ImageListItem>
           ))}
-          {combinedComics.length % 3 === 1 && (
+          {comics.length % 3 === 1 && (
             <ImageListItem key="uniqueModifier">
               <img id="uniqueModifier" alt=" " style={{ width: '100%', height: '459px' }} />
             </ImageListItem>
@@ -153,4 +114,4 @@ const HomeLoggedIn = () => {
   );
 };
 
-export default HomeLoggedIn;
+export default Favourites;

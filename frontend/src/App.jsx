@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
 import AdminRoutes from './components/admin/AdminRoutes';
 import ComicsRoutes from './components/comics/ComicsRoutes';
 import DashboardRoutes from './components/dashboard/DashboardRoutes';
+import Favourites from './components/favourites/Favourites';
 import Footer from './components/Footer';
 import Genres from './components/genres/Genres';
 import HomeLoggedIn from './components/home/HomeLoggedIn';
@@ -76,6 +77,10 @@ function App() {
 
                   <PrivateRoute path="/popular">
                     <Popular />
+                  </PrivateRoute>
+
+                  <PrivateRoute path="/favourites">
+                    <Favourites />
                   </PrivateRoute>
 
                   {/* I believe this acts as a redirect for all paths that do not match the above,

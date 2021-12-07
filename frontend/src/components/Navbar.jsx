@@ -172,7 +172,7 @@ const Navbar = () => {
                 </Link>
 
                 {/* Favourites Button */}
-                <Link to="/home" className={styles.flexCenter}>
+                <Link to="/favourites" className={styles.flexCenter}>
                   <Tooltip title="Favourites">
                     <FavoriteBorderIcon fontSize="large" className={styles.iconButton} />
                   </Tooltip>
