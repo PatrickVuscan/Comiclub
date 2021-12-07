@@ -6,6 +6,9 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 // Import models
 const { User } = require('../models/user');
 const { Image } = require('../models/image');
+const { Comic } = require('../models/comic');
+const { Comment } = require('../models/comment');
+const { Episode } = require('../models/episode');
 
 const router = express.Router();
 
@@ -94,9 +97,7 @@ router.post('/login', (req, res) => {
     });
 });
 
-// A route to logout a user
-router.get('/logout', (req, res) => {
-  // Remove the session
+function logoutHelper(req, res) {
   req.session.destroy((error) => {
     if (error) {
       res.status(500).send(error);
@@ -104,6 +105,12 @@ router.get('/logout', (req, res) => {
       res.send('Logged out!');
     }
   });
+}
+
+// A route to logout a user
+router.get('/logout', (req, res) => {
+  // Remove the session
+  logoutHelper(req, res)
 });
 
 // A route to check if a user is logged in on the session
@@ -268,6 +275,49 @@ router.get('/email/:email', async (req, res) => {
   try {
     const user = await User.findOne({ email });
     res.send(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Delete user via their ID
+router.delete('/:userID', async (req, res) => {
+  const { userID } = req.params;
+  const { user } = req.session;
+
+  if (!user) {
+    res.status(401).send('Please log in before trying to delete a user.');
+    return;
+  }
+
+  try {
+    const comments = await Comment.find({ userID: { $eq: userID } });
+    for (let i = 0; i < comments.length; i++) {
+      // Find the episode that this comment belongs to and delete 
+      // the nested comment from the episode
+      const episode = await Episode.findById(comments[i].episodeID);
+      episode.comments.id(comments[i]._id).remove();
+      episode.save();
+
+      // Find the comic that this comment belongs to and delete 
+      // the nested comment from the relevant episode of the comic.
+      const comic = await Comic.findById(episode.comicID);
+      comic.episodes.id(episode._id).comments.id(comments[i]._id).remove();
+      comic.save();
+
+      // Finally, delete the comment itself.
+      await comments[i].remove();
+    }
+    await Episode.deleteMany({ userID: { $eq: userID } });
+    await Comic.deleteMany({ userID: { $eq: userID } });
+    await User.findByIdAndDelete(userID);
+    if (user === userID) {
+      // If the user is deleting their own account, log them out.
+      logoutHelper(req, res);
+      return
+    }
+    res.status(200).send('Successfully deleted user.');
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');

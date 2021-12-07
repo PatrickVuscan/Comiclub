@@ -253,4 +253,29 @@ router.post('/view', async (req, res) => {
   }
 });
 
+// Delete user via their ID
+router.delete('/:episodeID', async (req, res) => {
+  const { episodeID } = req.params;
+  const { user } = req.session;
+
+  if (!user) {
+    res.status(401).send('Please log in before trying to delete an episode.');
+    return;
+  }
+
+  try {
+    const episode = await Episode.findById(episodeID);
+    const comic = await Comic.findById(episode.comicID)
+    const episodeInComic = await comic.episodes.id(episode._id)
+    episodeInComic.remove();
+    await comic.save();
+    episode.delete();
+    await Comment.deleteMany({ episodeID: { $eq: episodeID } });
+    res.status(200).send('Successfully deleted episode.');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 module.exports = router;

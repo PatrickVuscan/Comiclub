@@ -8,6 +8,8 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 const { User } = require('../models/user');
 const { Comic } = require('../models/comic');
 const { Image } = require('../models/image');
+const { Episode } = require('../models/episode');
+const { Comment } = require('../models/comment');
 
 const router = express.Router();
 
@@ -288,5 +290,31 @@ router.post('/unlike', async (req, res) => {
     }
   }
 });
+
+// Delete user via their ID
+router.delete('/:comicID', async (req, res) => {
+  const { comicID } = req.params;
+  const { user } = req.session;
+
+  if (!user) {
+    res.status(401).send('Please log in before trying to delete a comic.');
+    return;
+  }
+
+  try {
+    await Comic.findByIdAndDelete(comicID);
+    const episodes = await Episode.find({ comicID: { $eq: comicID } });
+    for (let i = 0; i < episodes.length; i++) {
+      await Comment.deleteMany({ episodeID: { $eq: episodes[i] } });
+      episode.delete();
+    }
+    await Episode.deleteMany({ comicID: { $eq: comicID } });
+    res.status(200).send('Successfully deleted comic.');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 module.exports = router;
