@@ -84,8 +84,6 @@ export const Combined = async () => {
 
     const otherComicsJSON = await otherComicsResponse.json();
 
-    console.log('Other Comics', otherComicsJSON);
-
     return {
       user: userJSON,
       username,

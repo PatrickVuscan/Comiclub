@@ -18,7 +18,6 @@ const Popular = () => {
   React.useEffect(() => {
     const fetchData = async () => {
       const topComics = await GetTopComics();
-      console.log('Get All comics', topComics);
       setComics(topComics);
     };
 

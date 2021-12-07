@@ -37,7 +37,6 @@ const HomeLoggedIn = () => {
   React.useEffect(() => {
     const fetchData = async () => {
       const combinedResponse = await Combined();
-      console.log('combinedResponse', combinedResponse);
       setcurrUser(combinedResponse.user);
       setComics({
         likedComics: combinedResponse.likedComics,
@@ -142,7 +141,7 @@ const HomeLoggedIn = () => {
               />
             </ImageListItem>
           ))}
-          {combinedComics.length % 3 === 1 && (
+          {combinedComics.length % 3 !== 0 && (
             <ImageListItem key="uniqueModifier">
               <img id="uniqueModifier" alt=" " style={{ width: '100%', height: '459px' }} />
             </ImageListItem>

@@ -80,7 +80,7 @@ const HomeNotLoggedIn = () => {
               <ImageListItemBar title={comic.name} position="top" />
             </ImageListItem>
           ))}
-          {comics.length % 3 === 1 && (
+          {comics.length % 3 !== 0 && (
             <ImageListItem key="uniqueModifier">
               <img id="uniqueModifier" alt=" " style={{ width: '100%', height: '459px' }} />
             </ImageListItem>

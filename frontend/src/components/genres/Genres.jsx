@@ -38,12 +38,9 @@ const Genres = () => {
     return createRef();
   });
 
-  console.log('genreRefs', genreRefs);
-
   useEffect(() => {
     const fetchData = async () => {
       const genreComics = await GetGenreComics();
-      console.log('Setting genreComics', genreComics);
       setGenres(genreComics);
     };
 
@@ -98,53 +95,50 @@ const Genres = () => {
             ))}
           </List>
         </Box>
-        {Object.entries(genres).map(([genre, comics]) => {
-          console.log('Genres and Comics', genre, comics);
-          return (
-            <>
-              <p
-                style={{
-                  fontSize: '20px',
-                  color: 'var(--blue)',
-                  fontWeight: 'bold',
-                  margin: '0',
-                  textAlign: 'left',
-                  // These following things are used for it to ensure that the \n is converted into an actual newline
-                  wordWrap: 'break-word',
-                  whiteSpace: 'pre-wrap',
-                }}
-                ref={genreRefs[genre]}
-              >
-                {genre}
-              </p>
+        {Object.entries(genres).map(([genre, comics]) => (
+          <>
+            <p
+              style={{
+                fontSize: '20px',
+                color: 'var(--blue)',
+                fontWeight: 'bold',
+                margin: '0',
+                textAlign: 'left',
+                // These following things are used for it to ensure that the \n is converted into an actual newline
+                wordWrap: 'break-word',
+                whiteSpace: 'pre-wrap',
+              }}
+              ref={genreRefs[genre]}
+            >
+              {genre}
+            </p>
 
-              <ImageList sx={{ width: '90vw', mb: '100px' }} cols={cols} gap={50}>
-                {comics.map((comic) => (
-                  <ImageListItem key={comic._id} onClick={submit}>
-                    <img
-                      id={comic._id}
-                      src={`${comic.thumbImage?.imageURL}?w=350&h=400&fit=crop&auto=format`}
-                      srcSet={`${comic.thumbImage?.imageURL}?w=350&h=400&fit=crop&auto=format&dpr=2 2x`}
-                      alt={comic.name}
-                      onError={(e) => {
-                        e.target.src = 'imageNotFound.webp?w=350&h=400&fit=crop&auto=format';
-                        e.target.srcSet = 'imageNotFound.webp?w=350&h=400&fit=crop&auto=format&dpr=2 2x';
-                      }}
-                      loading="lazy"
-                      style={{ cursor: 'pointer' }}
-                    />
-                    <ImageListItemBar title={comic.name} position="top" />
-                  </ImageListItem>
-                ))}
-                {comics.length % 3 === 1 && (
-                  <ImageListItem key="uniqueModifier">
-                    <img id="uniqueModifier" alt=" " style={{ width: '100%', height: '459px' }} />
-                  </ImageListItem>
-                )}
-              </ImageList>
-            </>
-          );
-        })}
+            <ImageList sx={{ width: '90vw', mb: '100px' }} cols={cols} gap={50}>
+              {comics.map((comic) => (
+                <ImageListItem key={comic._id} onClick={submit}>
+                  <img
+                    id={comic._id}
+                    src={`${comic.thumbImage?.imageURL}?w=350&h=400&fit=crop&auto=format`}
+                    srcSet={`${comic.thumbImage?.imageURL}?w=350&h=400&fit=crop&auto=format&dpr=2 2x`}
+                    alt={comic.name}
+                    onError={(e) => {
+                      e.target.src = 'imageNotFound.webp?w=350&h=400&fit=crop&auto=format';
+                      e.target.srcSet = 'imageNotFound.webp?w=350&h=400&fit=crop&auto=format&dpr=2 2x';
+                    }}
+                    loading="lazy"
+                    style={{ cursor: 'pointer' }}
+                  />
+                  <ImageListItemBar title={comic.name} position="top" />
+                </ImageListItem>
+              ))}
+              {comics.length % 3 !== 0 && (
+                <ImageListItem key="uniqueModifier">
+                  <img id="uniqueModifier" alt=" " style={{ width: '100%', height: '459px' }} />
+                </ImageListItem>
+              )}
+            </ImageList>
+          </>
+        ))}
       </div>
     </div>
   );
