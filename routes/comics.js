@@ -1,5 +1,6 @@
 /* Comics API Routes */
 const express = require('express');
+const { ObjectId } = require('mongoose').Types;
 const { multipartMiddleware, cloudinary } = require('../db/cloudinary');
 const { mongoChecker, isMongoError } = require('../mongoHelpers');
 
@@ -149,6 +150,10 @@ router.get('/:comicID', async (req, res) => {
   }
 
   try {
+    if (!ObjectId.isValid(comicID)) {
+      res.status(400).send('The comicID sent is not valid.');
+    }
+
     const comics = await Comic.findOne({ userID: req.session.user, _id: comicID });
     res.send(comics);
   } catch (error) {
