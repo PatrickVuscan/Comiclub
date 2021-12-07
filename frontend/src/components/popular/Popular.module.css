@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-grow: 1;
+    align-items: flex-start;
+    margin-top: 75px;
+    margin-bottom: 1rem;
+    justify-content: center;
+  }
+  
+  .subscriptions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+  }
