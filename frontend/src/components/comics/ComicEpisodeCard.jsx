@@ -20,7 +20,7 @@ const ComicEpisodeCard = ({ episode, number }) => {
           alt={name}
           onError={(e) => {
             e.target.src = 'imageNotFound.webp?w=350&h=400&fit=crop&auto=format';
-            e.target.srcSet = 'imageNotFound.webp??w=350&h=400&fit=crop&auto=format&dpr=2 2x';
+            e.target.srcSet = 'imageNotFound.webp?w=350&h=400&fit=crop&auto=format&dpr=2 2x';
           }}
         />
       )}

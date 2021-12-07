@@ -29,6 +29,7 @@ const ComicsReader = () => {
     history.go(-2);
   };
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   React.useEffect(async () => {
     const episodeResponse = await getEpisode(episodeID);
     if (!episodeResponse) {
@@ -36,10 +37,9 @@ const ComicsReader = () => {
       history.push('/home');
       return;
     }
-    const {
-      panels: { imageURL: panelPDF },
-      comments,
-    } = episodeResponse;
+
+    const { panels, comments } = episodeResponse;
+    const { imageURL: panelPDF } = panels || {};
     setPanel(panelPDF);
     setCommentsArr(comments);
     viewEpisode(episodeID);
@@ -51,7 +51,11 @@ const ComicsReader = () => {
         Back!
       </Button>
       <div className={styles.container}>
-        <iframe className={styles.comicPanel} src={panel} title={`${comicID}/${episodeID}`} />
+        {panel ? (
+          <iframe className={styles.comicPanel} src={panel} title={`${comicID}/${episodeID}`} />
+        ) : (
+          <iframe className={styles.comicPanel} src="/imageNotFound.webp" title={`${comicID}/${episodeID}`} />
+        )}
         <div className={styles.commentsContainer}>
           <div className={styles.commentsBody}>
             {commentsArr && commentsArr.length ? (
