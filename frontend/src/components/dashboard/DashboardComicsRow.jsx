@@ -30,7 +30,7 @@ const DashboardComicsRow = ({ comic, refreshComics }) => {
 
   const goToEpisode = (e) => {
     e.preventDefault();
-    const path = `dashboard/${e.target.alt}`;
+    const path = `dashboard/${id}`;
     history.push(path);
   };
 
@@ -67,7 +67,7 @@ const DashboardComicsRow = ({ comic, refreshComics }) => {
       {/* <TableCell align="right">{commentCount}</TableCell> */}
       <TableCell align="right">
         <EditComic comic={comic} refreshComics={refreshComics} />
-        <DeleteComic comicID={id} comicName={name} />
+        <DeleteComic comicID={id} comicName={name} refreshComics={refreshComics} />
       </TableCell>
     </TableRow>
   );

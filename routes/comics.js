@@ -341,7 +341,7 @@ router.post('/unlike', async (req, res) => {
   }
 });
 
-// Delete user via their ID
+// Delete comic via their ID
 router.delete('/:comicID', async (req, res) => {
   const { comicID } = req.params;
   const { user } = req.session;
@@ -352,19 +352,15 @@ router.delete('/:comicID', async (req, res) => {
   }
 
   try {
-    await Comic.findByIdAndDelete(comicID);
-    const episodes = await Episode.find({ comicID: { $eq: comicID } });
-    for (let i = 0; i < episodes.length; i++) {
-      await Comment.deleteMany({ episodeID: { $eq: episodes[i] } });
-      episode.delete();
-    }
+    // Delete all episodes of the comic first
     await Episode.deleteMany({ comicID: { $eq: comicID } });
+
+    await Comic.findByIdAndDelete(comicID);
     res.status(200).send('Successfully deleted comic.');
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
   }
 });
-
 
 module.exports = router;

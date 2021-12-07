@@ -6,6 +6,7 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 
 // Import models
 const { Comic } = require('../models/comic');
+const { Comment } = require('../models/comment');
 const { Episode } = require('../models/episode');
 const { Image } = require('../models/image');
 const { User } = require('../models/user');
@@ -265,8 +266,8 @@ router.delete('/:episodeID', async (req, res) => {
 
   try {
     const episode = await Episode.findById(episodeID);
-    const comic = await Comic.findById(episode.comicID)
-    const episodeInComic = await comic.episodes.id(episode._id)
+    const comic = await Comic.findById(episode.comicID);
+    const episodeInComic = await comic.episodes.id(episode._id);
     episodeInComic.remove();
     await comic.save();
     episode.delete();

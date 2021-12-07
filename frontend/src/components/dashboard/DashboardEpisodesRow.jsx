@@ -54,7 +54,7 @@ const DashboardEpisodesRow = ({ episode, refreshEpisodes }) => {
       <TableCell align="right">{comments.length}</TableCell>
       <TableCell align="right">
         <EditEpisode episode={episode} refreshEpisodes={refreshEpisodes} />
-        <DeleteEpisode episodeID={id} episodeName={name} />
+        <DeleteEpisode episodeID={id} episodeName={name} refreshEpisodes={refreshEpisodes} />
       </TableCell>
     </TableRow>
   );

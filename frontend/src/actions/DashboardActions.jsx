@@ -118,12 +118,62 @@ export const getEpisodesByComic = async (Comic) => {
   });
 };
 
-export const deleteComicById = (comicID) => {
+export const deleteComicById = async (comicID) => {
   console.log(`deleteComicById: ${comicID}`);
+
+  try {
+    const deleteRequest = new Request(`${ENV.api_host}/api/comics/${comicID}`, {
+      credentials: 'include',
+      method: 'delete',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const deleteResponse = await fetch(deleteRequest);
+
+    if (!deleteResponse.ok) {
+      console.log('There was an error deleting this comic:', deleteResponse);
+      const response = { msg: 'error' };
+      return response;
+    }
+
+    const response = { msg: 'deleted' };
+    return response;
+  } catch (error) {
+    console.log('Error in delete Comic by ID');
+    console.log(error);
+  }
 };
 
-export const deleteEpisodeById = (episodeID) => {
+export const deleteEpisodeById = async (episodeID) => {
   console.log(`deleteEpisodeById: ${episodeID}`);
+
+  try {
+    const deleteRequest = new Request(`${ENV.api_host}/api/episodes/${episodeID}`, {
+      credentials: 'include',
+      method: 'delete',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const deleteResponse = await fetch(deleteRequest);
+
+    if (!deleteResponse.ok) {
+      console.log('There was an error deleting this episode:', deleteResponse);
+      const response = { msg: 'error' };
+      return response;
+    }
+
+    const response = { msg: 'deleted' };
+    return response;
+  } catch (error) {
+    console.log('Error in delete episode by ID');
+    console.log(error);
+  }
 };
 
 export const createComic = async (thumb, name, description, genre) => {
@@ -201,7 +251,7 @@ export const updateComic = async (id, thumb, name, description, genre) => {
 
     const comicResponseJSON = await comicResponse.json();
 
-    if (typeof thumb !== 'object') {
+    if (thumb && typeof thumb !== 'object') {
       return;
     }
 
@@ -258,48 +308,52 @@ export const createEpisode = async (comicID, thumb, name, description, panels) =
     const episodeResponseJSON = await episodeResponse.json();
 
     // ! Send Thumbnail Image
-    const thumbImageData = new FormData();
-    // ! NOTE!!! IT HAS TO USE APPEND
-    // ! Using imageData.image = thumb for some reason does *NOT* work
-    thumbImageData.append('image', thumb);
+    if (thumb) {
+      const thumbImageData = new FormData();
+      // ! NOTE!!! IT HAS TO USE APPEND
+      // ! Using imageData.image = thumb for some reason does *NOT* work
+      thumbImageData.append('image', thumb);
 
-    // Create our request constructor with all the parameters we need
-    const thumbnailRequest = new Request(`${ENV.api_host}/api/episodes/thumbnail/${episodeResponseJSON._id}`, {
-      credentials: 'include',
-      method: 'post',
-      body: thumbImageData,
-    });
+      // Create our request constructor with all the parameters we need
+      const thumbnailRequest = new Request(`${ENV.api_host}/api/episodes/thumbnail/${episodeResponseJSON._id}`, {
+        credentials: 'include',
+        method: 'post',
+        body: thumbImageData,
+      });
 
-    const thumbnailResponse = await fetch(thumbnailRequest);
+      const thumbnailResponse = await fetch(thumbnailRequest);
 
-    if (thumbnailResponse.status !== 200) {
-      console.log('Error uploading the thumbnail of the comic');
-      return false;
+      if (thumbnailResponse.status !== 200) {
+        console.log('Error uploading the thumbnail of the comic');
+        return false;
+      }
+
+      await thumbnailResponse.json();
     }
 
-    await thumbnailResponse.json();
+    if (panels) {
+      // ! Send Panels
+      const panelsData = new FormData();
+      // ! NOTE!!! IT HAS TO USE APPEND
+      // ! Using imageData.image = thumb for some reason does *NOT* work
+      panelsData.append('panels', panels);
 
-    // ! Send Panels
-    const panelsData = new FormData();
-    // ! NOTE!!! IT HAS TO USE APPEND
-    // ! Using imageData.image = thumb for some reason does *NOT* work
-    panelsData.append('panels', panels);
+      // Create our request constructor with all the parameters we need
+      const panelsRequest = new Request(`${ENV.api_host}/api/episodes/panels/${episodeResponseJSON._id}`, {
+        credentials: 'include',
+        method: 'post',
+        body: panelsData,
+      });
 
-    // Create our request constructor with all the parameters we need
-    const panelsRequest = new Request(`${ENV.api_host}/api/episodes/panels/${episodeResponseJSON._id}`, {
-      credentials: 'include',
-      method: 'post',
-      body: panelsData,
-    });
+      const panelsResponse = await fetch(panelsRequest);
 
-    const panelsResponse = await fetch(panelsRequest);
+      if (panelsResponse.status !== 200) {
+        console.log('Error uploading the thumbnail of the comic');
+        return false;
+      }
 
-    if (panelsResponse.status !== 200) {
-      console.log('Error uploading the thumbnail of the comic');
-      return false;
+      panelsResponse.json();
     }
-
-    panelsResponse.json();
 
     return;
   } catch (error) {
@@ -331,7 +385,7 @@ export const updateEpisode = async (id, thumb, name, description, panels) => {
 
     const episodeResponseJSON = await episodeResponse.json();
 
-    if (typeof thumb === 'object') {
+    if (thumb && typeof thumb === 'object') {
       // The data we are going to send in our request
       const imageData = new FormData();
       // ! NOTE!!! IT HAS TO USE APPEND
@@ -355,7 +409,7 @@ export const updateEpisode = async (id, thumb, name, description, panels) => {
       await thumbnailResponse.json();
     }
 
-    if (typeof panels === 'object') {
+    if (panels && typeof panels === 'object') {
       // ! Send Panels
       const panelsData = new FormData();
       // ! NOTE!!! IT HAS TO USE APPEND

@@ -10,7 +10,7 @@ import React from 'react';
 
 import { deleteEpisodeById } from '../../actions/DashboardActions';
 
-const DeleteEpisode = ({ episodeID, episodeName }) => {
+const DeleteEpisode = ({ episodeID, episodeName, refreshEpisodes }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -21,8 +21,10 @@ const DeleteEpisode = ({ episodeID, episodeName }) => {
     setOpen(false);
   };
 
-  const handleDelete = () => {
-    deleteEpisodeById(episodeID);
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    await deleteEpisodeById(episodeID);
+    refreshEpisodes();
     setOpen(false);
   };
 

@@ -10,7 +10,7 @@ import React from 'react';
 
 import { deleteComicById } from '../../actions/DashboardActions';
 
-const DeleteComic = ({ comicID, comicName }) => {
+const DeleteComic = ({ comicID, comicName, refreshComics }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -21,8 +21,10 @@ const DeleteComic = ({ comicID, comicName }) => {
     setOpen(false);
   };
 
-  const handleDelete = () => {
-    deleteComicById(comicID);
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    await deleteComicById(comicID);
+    refreshComics();
     setOpen(false);
   };
 
