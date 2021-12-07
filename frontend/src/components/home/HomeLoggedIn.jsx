@@ -8,19 +8,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { Combined, getLikedComicID, getUser } from '../../actions/HomeLoggedInActions';
-import ENV from '../../config';
+import { Combined } from '../../actions/HomeLoggedInActions';
 import AuthContext from '../../context';
 import styles from './HomeLoggedIn.module.css';
-// Images for Subscriptions
-import aotImage from './images/aot.png';
-import batmanImage from './images/batman.png';
-import gohImage from './images/goh.png';
-import ironmanImage from './images/ironman.png';
-import marvelImage from './images/marvel.png';
-import narutoImage from './images/naruto.png';
-import opImage from './images/op.png';
-import togImage from './images/tog.png';
 
 // Images for Recommendations
 
@@ -29,66 +19,6 @@ const HomeLoggedIn = () => {
     authState: { user },
   } = useContext(AuthContext);
   const history = useHistory();
-
-  const [currUser, setcurrUser] = React.useState({});
-  const [comicIDs, setcomicIDs] = React.useState({});
-  let itemData = [];
-
-  // React.useEffect(() => {
-  //   const fetchData = async () => {
-  //     const userResponse = await getUser(user);
-  //     setcurrUser(userResponse);
-  //   };
-  //   console.log(`Running this ${count} times`);
-  //   fetchData();
-  // }, []);
-
-  // const { username } = currUser.username;
-
-  // React.useEffect(() => {
-  //   const fetchData1 = async () => {
-  //     const userResponse1 = await getLikedComicID(username);
-  //     setcomicIDs(userResponse1);
-  //   };
-  //   console.log(`Running this ${count} times`);
-  //   fetchData1();
-  // }, []);
-
-  // React.useEffect(() => {
-  //   const fetchData = async () => {
-  //     const userResponse = await Combined(user);
-  //     setcomicIDs(userResponse);
-  //   };
-  //   console.log(`Running this ${count} times`);
-  //   fetchData();
-  // }, []);
-
-  React.useEffect(() => {
-    fetchData();
-    return () => {
-      setcomicIDs({});
-    };
-  }, []);
-  const fetchData = async () => {
-    const userResponse = await Combined(user);
-    setcomicIDs(userResponse);
-  };
-
-  // useEffect(() => {
-  //   myFunction();
-  //   return () => {
-  //     setState({}); // This worked for me
-  //   };
-  // }, []);
-
-  // const myFunction = () => {
-  //   setState({
-  //     name: 'Jhon',
-  //     surname: 'Doe',
-  //   });
-  // };
-  console.log('The image URL');
-  // console.log(comicIDs.imageURL);
 
   const muiTheme = useTheme();
   const mediaQueries = [
@@ -102,138 +32,58 @@ const HomeLoggedIn = () => {
     return curr ? prev + 1 : prev;
   }, 0);
 
+  const [currUser, setcurrUser] = React.useState({});
+  const [comics, setComics] = React.useState({ likedComics: [], otherComics: [] });
+  const [combinedComics, setCombinedComics] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const combinedResponse = await Combined();
+      console.log('combinedResponse', combinedResponse);
+      setcurrUser(combinedResponse.user);
+      setComics({
+        likedComics: combinedResponse.likedComics,
+        otherComics: combinedResponse.otherComics,
+      });
+    };
+
+    fetchData();
+  }, []);
+
+  React.useEffect(() => {
+    let tempCombinedComics = [];
+    let remainingComics = cols * 2;
+
+    if (comics.likedComics) {
+      if (comics.likedComics.length > remainingComics) {
+        tempCombinedComics = [...comics.likedComics(remainingComics - 1)];
+        remainingComics = 0;
+      } else {
+        tempCombinedComics = [...comics.likedComics];
+        remainingComics -= comics.likedComics.length;
+      }
+    }
+
+    if (comics.otherComics && remainingComics > 0) {
+      if (comics.otherComics.length > remainingComics) {
+        tempCombinedComics = [...tempCombinedComics, ...comics.otherComics(remainingComics - 1)];
+      } else {
+        tempCombinedComics = [...tempCombinedComics, ...comics.otherComics];
+      }
+    }
+
+    setCombinedComics(tempCombinedComics);
+  }, [comics, cols]);
+
   const submit = (e) => {
     e.preventDefault();
 
     // Find image name and redirect accordingly
-    const path = comicId[e.target.alt];
-    history.push(path);
+    const comicID = e.target.id;
+    history.push(`/comics/${comicID}`);
   };
 
-  const comicId = {
-    'Batman Origins': '/comics/batman',
-    'One Piece': '/comics/op',
-    'Naruto ': '/comics/naruto',
-    'Attack on Titan': '/comics/aot',
-    'Tower of God': '/comics/tog',
-    'Marvel ': '/comics/marvel',
-    'Iron Man: The First Edition': '/comics/ironman1',
-    'God of High School': '/comics/goh',
-  };
-
-  // console.log(comicIDs.numComics === 0);
-  console.log(comicIDs);
-  if (!comicIDs) {
-    console.log('In if');
-    itemData = [
-      {
-        img: batmanImage,
-        title: 'Batman Origins',
-      },
-      {
-        img: opImage,
-        title: 'One Piece',
-      },
-      {
-        img: narutoImage,
-        title: 'Naruto ',
-      },
-      {
-        img: aotImage,
-        title: 'Attack on Titan',
-      },
-      {
-        img: togImage,
-        title: 'Tower of God',
-      },
-      {
-        img: marvelImage,
-        title: 'Marvel ',
-      },
-      {
-        img: ironmanImage,
-        title: 'Iron Man: The First Edition',
-      },
-      {
-        img: gohImage,
-        title: 'God of High School',
-      },
-    ];
-  } else {
-    console.log('In else');
-    itemData = [
-      {
-        img: comicIDs.imageURL,
-        title: comicIDs.name,
-      },
-      {
-        img: opImage,
-        title: 'One Piece',
-      },
-      {
-        img: narutoImage,
-        title: 'Naruto ',
-      },
-      {
-        img: aotImage,
-        title: 'Attack on Titan',
-      },
-      {
-        img: togImage,
-        title: 'Tower of God',
-      },
-      {
-        img: marvelImage,
-        title: 'Marvel ',
-      },
-      {
-        img: ironmanImage,
-        title: 'Iron Man: The First Edition',
-      },
-      {
-        img: gohImage,
-        title: 'God of High School',
-      },
-    ];
-    console.log(itemData);
-  }
-  console.log('The item data');
-  console.log(itemData);
-  console.log('Outside if/else');
-  // const itemData = [
-  //   {
-  //     img: comicIDs.imageURL,
-  //     title: comicIDs.name,
-  //   },
-  //   {
-  //     img: opImage,
-  //     title: 'One Piece',
-  //   },
-  //   {
-  //     img: narutoImage,
-  //     title: 'Naruto ',
-  //   },
-  //   {
-  //     img: aotImage,
-  //     title: 'Attack on Titan',
-  //   },
-  //   {
-  //     img: togImage,
-  //     title: 'Tower of God',
-  //   },
-  //   {
-  //     img: marvelImage,
-  //     title: 'Marvel ',
-  //   },
-  //   {
-  //     img: ironmanImage,
-  //     title: 'Iron Man: The First Edition',
-  //   },
-  //   {
-  //     img: gohImage,
-  //     title: 'God of High School',
-  //   },
-  // ];
+  console.log('Combined Comics are ', combinedComics);
 
   return (
     <div className={styles.container}>
@@ -249,23 +99,28 @@ const HomeLoggedIn = () => {
             wordWrap: 'break-word',
             whiteSpace: 'pre-wrap',
           }}
-        >{`Welcome, ${user}!\nHere are some of your Subscriptions`}</p>
+        >{`Welcome, ${currUser.username}!\nHere are some of your Subscriptions`}</p>
 
         <ImageList sx={{ width: '90vw' }} cols={cols} gap={50}>
-          {itemData.map((item) => (
-            <ImageListItem key={item.img} onClick={submit}>
+          {combinedComics.map((comic) => (
+            <ImageListItem key={comic._id} onClick={submit}>
               <img
-                src={`${item.img}?w=350&h=400&fit=crop&auto=format`}
-                srcSet={`${item.img}?w=350&h=400&fit=crop&auto=format&dpr=2 2x`}
-                alt={item.title}
+                id={comic._id}
+                src={`${comic.thumbImage?.imageURL}?w=350&h=400&fit=crop&auto=format`}
+                srcSet={`${comic.thumbImage?.imageURL}?w=350&h=400&fit=crop&auto=format&dpr=2 2x`}
+                alt={comic.name}
+                onError={(e) => {
+                  e.target.src = 'imageNotFound.webp?w=350&h=400&fit=crop&auto=format';
+                  e.target.srcSet = 'imageNotFound.webp??w=350&h=400&fit=crop&auto=format&dpr=2 2x';
+                }}
                 loading="lazy"
                 style={{ cursor: 'pointer' }}
               />
               <ImageListItemBar
-                title={item.title}
+                title={comic.name}
                 position="top"
                 actionIcon={
-                  <IconButton sx={{ color: 'white' }} aria-label={`heart ${item.title}`}>
+                  <IconButton sx={{ color: 'white' }} aria-label={`heart ${comic.name}`}>
                     <FavoriteIcon />
                   </IconButton>
                 }

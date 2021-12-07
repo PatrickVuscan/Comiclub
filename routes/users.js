@@ -53,6 +53,21 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Route to get the current user
+router.get('/', async (req, res) => {
+  try {
+    if (req.session.user) {
+      const user = await User.findById(req.session.user);
+      res.send(user);
+    } else {
+      res.status(401).send("You're not currently logged in");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // A route to login and create a session
 router.post('/login', (req, res) => {
   const { email, password } = req.body;

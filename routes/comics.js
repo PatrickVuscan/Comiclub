@@ -47,6 +47,17 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Get all comics - sorry for bad route name, didn't organize routes well at start.
+router.get('/retrieve/all-comics', async (req, res) => {
+  try {
+    const comics = await Comic.find();
+    res.send(comics);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Update a Comic
 router.post('/update/:comicID', async (req, res) => {
   const { comicID } = req.params;
@@ -152,10 +163,38 @@ router.get('/:comicID', async (req, res) => {
   try {
     if (!ObjectId.isValid(comicID)) {
       res.status(400).send('The comicID sent is not valid.');
+      return;
     }
 
     const comics = await Comic.findOne({ userID: req.session.user, _id: comicID });
     res.send(comics);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Get comic by given comicID
+router.get('/user/likedComics', async (req, res) => {
+  if (!req.session.user) {
+    res.status(401).send('Please log in before trying to access your comics.');
+    return;
+  }
+
+  try {
+    const user = await User.findById(req.session.user);
+
+    const { likes } = user;
+    const validLikes = [];
+
+    likes.forEach((like) => {
+      if (ObjectId.isValid(like)) {
+        validLikes.push(like);
+      }
+    });
+
+    const likedComics = await Comic.find({ _id: { $in: validLikes } });
+    res.send(likedComics || []);
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
@@ -173,7 +212,7 @@ router.get('/userID/:userID', async (req, res) => {
   }
 });
 
-// Like a Comic
+// Check if a comic is liked by the current user
 router.get('/liked/:comicID', async (req, res) => {
   const { comicID } = req.params;
   const { user } = req.session;

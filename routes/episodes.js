@@ -1,5 +1,6 @@
 /* Episodes API Routes */
 const express = require('express');
+const { ObjectId } = require('mongoose').Types;
 const { multipartMiddleware, cloudinary } = require('../db/cloudinary');
 const { mongoChecker, isMongoError } = require('../mongoHelpers');
 
@@ -209,7 +210,14 @@ router.get('/userID/:userID', async (req, res) => {
 
 // GET episodes by comicID
 router.get('/comicID/:comicID', async (req, res) => {
+  const { comicID } = req.params;
+
   try {
+    if (!comicID || !ObjectId.isValid(comicID)) {
+      res.status(400).send('The comicID sent is not valid.');
+      return;
+    }
+
     const comic = await Comic.findById(req.params.comicID);
     if (comic) {
       res.send(comic.episodes);

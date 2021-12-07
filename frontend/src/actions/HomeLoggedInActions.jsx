@@ -46,10 +46,10 @@ export const getLikedComicID = async (username) => {
   };
 };
 
-export const Combined = async (email) => {
-  console.log(`Getting the User by email ${email}`);
+export const Combined = async () => {
+  console.log(`Getting the combined comics`);
   try {
-    const userResponse = await fetch(`${ENV.api_host}/api/users/email/${email}`, {
+    const userResponse = await fetch(`${ENV.api_host}/api/users`, {
       credentials: 'include',
     });
 
@@ -60,48 +60,42 @@ export const Combined = async (email) => {
 
     const userJSON = await userResponse.json();
 
-    const { _id, username } = userJSON;
+    const { username } = userJSON;
 
-    const userResponse1 = await fetch(`${ENV.api_host}/api/users/${username}/likes`, {
+    const likesResponse = await fetch(`${ENV.api_host}/api/comics/user/likedComics`, {
       credentials: 'include',
     });
 
-    if (!userResponse1.ok) {
-      console.log('There was an error retrieving the user', userResponse1.error);
+    if (!likesResponse.ok) {
+      console.log('There was an error retrieving the user', likesResponse.error);
       return;
     }
 
-    const userJSON1 = await userResponse1.json();
+    const likesJSON = await likesResponse.json();
 
-    console.log('The JSON');
-    console.log(userJSON1);
-
-    const { likes } = userJSON1;
-    console.log(likes[0]);
-    const IDcomic = likes[0];
-    const path = `${ENV.api_host}/api/comics/${IDcomic}`;
-    console.log(path);
-    const userResponse2 = await fetch(`${ENV.api_host}/api/comics/${IDcomic}`, {
+    const otherComicsResponse = await fetch(`${ENV.api_host}/api/comics/retrieve/all-comics`, {
       credentials: 'include',
     });
-    if (!userResponse2.ok) {
-      console.log('There was an error retrieving the user', userResponse2.error);
+
+    if (!otherComicsResponse.ok) {
+      console.log('There was an error retrieving the user', otherComicsResponse.error);
       return;
     }
-    const userJSON2 = await userResponse2.json();
-    console.log(userJSON2.thumbImage.imageURL);
+
+    const otherComicsJSON = await otherComicsResponse.json();
+
+    console.log('Other Comics', otherComicsJSON);
+
     return {
-      name: userJSON2.name,
-      imageURL: userJSON2.thumbImage.imageURL,
-      username: userJSON.username,
-      numComics: userJSON1.likes ? userJSON1.likes.length : 0,
+      user: userJSON,
+      username,
+      likedComics: likesJSON,
+      otherComics: otherComicsJSON,
     };
-    //   return {
-    //     likes,
-    //   };
   } catch (error) {
     console.log('Error getting user information');
     console.error(error);
+    return {};
   }
 };
 
