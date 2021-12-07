@@ -26,7 +26,7 @@ const ComicsReader = () => {
   const history = useHistory();
 
   const navigateBack = () => {
-    history.go(-2);
+    history.push(`/comics/${comicID}`);
   };
 
   /* eslint-disable react-hooks/exhaustive-deps */
