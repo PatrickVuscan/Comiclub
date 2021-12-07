@@ -24,21 +24,33 @@ class AdminAllUsersTable extends React.Component {
     // When the component enters the DOM
     // get all comics
     getAllUsers(this);
-    console.log('mounted');
   }
 
+  // componentDidUpdate(prevProps) {
+  //   console.log('componentDidUpdate');
+  //   // eslint-disable-next-line react/destructuring-assignment
+  //   if (prevProps.updates !== this.props.updates) {
+  //     getAllUsers(this);
+  //   }
+  // }
+
+  // refreshUsers() {
+  //   console.log('refreshUsers');
+  //   getAllUsers(this);
+  // }
+
   render() {
-    const { users } = this.state;
+    const { users, userID } = this.state;
     return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Username</TableCell>
+              <TableCell align="right">Email</TableCell>
               <TableCell align="right">Join Date</TableCell>
               <TableCell align="right">Comics Uploaded</TableCell>
               <TableCell align="right">Episodes Uploaded</TableCell>
-              <TableCell align="right">Comics Viewed</TableCell>
               <TableCell align="right">Comics Liked</TableCell>
               <TableCell align="right">Comments Posted</TableCell>
               <TableCell align="right">Delete User</TableCell>
@@ -46,6 +58,7 @@ class AdminAllUsersTable extends React.Component {
           </TableHead>
           <TableBody>
             {users.map((user) => (
+              // eslint-disable-next-line react/jsx-no-bind
               <AdminUserRow key={uid(user)} user={user} />
             ))}
           </TableBody>

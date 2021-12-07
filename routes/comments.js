@@ -5,6 +5,7 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 // Import models
 const { Comment } = require('../models/comment');
 const { updateNestedEpisode } = require('./helpers');
+const { User } = require('../models/user');
 
 const router = express.Router();
 
@@ -46,6 +47,11 @@ router.put('/', async (req, res) => {
     const newComment = await comment.save();
 
     await updateNestedEpisode(req.body.episodeID, '$push', 'comments', comment);
+
+    // Update User Episode Count
+    const creator = await User.findById(user);
+    creator.commentsCount += 1;
+    creator.save();
 
     res.send(newComment);
   } catch (error) {

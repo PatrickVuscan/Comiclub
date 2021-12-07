@@ -3,17 +3,30 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-// import ComicTable from './ComicTable';
+import { getUsername } from '../../actions/DashboardActions';
 import AdminUserCommentTable from './AdminUserCommentTable';
 
 const AdminUser = () => {
   const { userID } = useParams();
+  const [username, setUsername] = React.useState({});
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const usernameResponse = await getUsername(userID);
+      console.log(`AdminUser:username: ${usernameResponse}`);
+      setUsername(usernameResponse);
+    };
+    fetchData();
+  }, [userID]);
+
+  console.log(`AdminUser:username2: ${username}`);
+
   return (
     <div>
       <Stack spacing={5} m={10} pt={3} sx={{ minWidth: 800 }}>
         <Stack spacing={1}>
           <Typography gutterBottom variant="h3" component="div">
-            Welcome to the Admin Panel for {userID}!
+            Admin Dashboard: User Comments
           </Typography>
           <Typography variant="body2" color="text.secondary">
             In the Admin User Dashboard, you can delete Comments.
@@ -21,16 +34,9 @@ const AdminUser = () => {
         </Stack>
         <Stack spacing={4}>
           <Typography gutterBottom variant="h4" component="div">
-            Comments by {userID}
+            {`Comments by ${username}`}
           </Typography>
           <AdminUserCommentTable userID={userID} />
-          {/* <Typography gutterBottom variant="h4" component="div">
-            Comics
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Comics that UserA has uploaded.
-          </Typography>
-          <ComicTable /> */}
         </Stack>
       </Stack>
     </div>

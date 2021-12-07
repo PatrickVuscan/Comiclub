@@ -28,6 +28,11 @@ router.post('/', async (req, res) => {
   });
 
   try {
+    // Update User Comics Count
+    const user = await User.findById(req.session.user);
+    user.comicsCount += 1;
+    user.save();
+
     // Save the user
     const newComic = await comic.save();
     res.send(newComic);
