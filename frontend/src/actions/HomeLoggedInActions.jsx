@@ -99,8 +99,32 @@ export const Combined = async () => {
   }
 };
 
+export const GetAllComics = async () => {
+  console.log(`Getting all comics`);
+
+  try {
+    const comicsResponse = await fetch(`${ENV.api_host}/api/comics/retrieve/all-comics`, {
+      credentials: 'include',
+    });
+
+    if (!comicsResponse.ok) {
+      console.log('There was an error retrieving the user', comicsResponse.error);
+      return;
+    }
+
+    const comics = await comicsResponse.json();
+
+    return comics;
+  } catch (error) {
+    console.log('Error getting user information');
+    console.error(error);
+    return {};
+  }
+};
+
 export default {
   getUser,
   getLikedComicID,
   Combined,
+  GetAllComics,
 };
