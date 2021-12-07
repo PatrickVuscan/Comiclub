@@ -5,9 +5,14 @@ const AuthContext = createContext(null);
 export default AuthContext;
 
 export function fetchAuthState() {
-  const email = localStorage.getItem('LOGGED_IN_USERNAME');
+  const user = localStorage.getItem('LOGGED_IN_USER');
+  const username = localStorage.getItem('LOGGED_IN_USERNAME');
+  const email = localStorage.getItem('LOGGED_IN_EMAIL');
+
   return {
-    loggedIn: email !== null,
-    user: email, // Might need to replace eventually with a userID
+    loggedIn: user !== null,
+    user,
+    username,
+    email,
   };
 }

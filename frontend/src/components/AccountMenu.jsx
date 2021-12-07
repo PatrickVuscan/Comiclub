@@ -10,7 +10,7 @@ import useComponentVisible from './useComponentVisible';
 const AccountMenu = ({ callback }) => {
   const { ref, isComponentVisible } = useComponentVisible(true, callback);
   const {
-    authState: { user },
+    authState: { username },
     setAuthState,
   } = useContext(AuthContext);
 
@@ -19,7 +19,9 @@ const AccountMenu = ({ callback }) => {
       credentials: 'include',
     })
       .then(() => {
+        localStorage.removeItem('LOGGED_IN_USER');
         localStorage.removeItem('LOGGED_IN_USERNAME');
+        localStorage.removeItem('LOGGED_IN_EMAIL');
         setAuthState(fetchAuthState());
         callback();
       })
@@ -36,17 +38,11 @@ const AccountMenu = ({ callback }) => {
             variant="h4"
             gutterBottom
             component="div"
-            style={{ margin: '0.5rem', borderBottom: '1px solid gray' }}
+            style={{ margin: '0.5rem', borderBottom: '1px solid gray', color: '#186ed1' }}
           >
-            {user}
+            {username}
           </Typography>
-          <div className={styles.item}>
-            <Link to="/user">
-              <Typography variant="h6" gutterBottom component="div">
-                User Profile
-              </Typography>
-            </Link>
-          </div>
+
           <div className={styles.item}>
             <Link to="/dashboard">
               <Typography variant="h6" gutterBottom component="div">
@@ -54,13 +50,7 @@ const AccountMenu = ({ callback }) => {
               </Typography>
             </Link>
           </div>
-          <div className={styles.item}>
-            <Link to="/settings">
-              <Typography variant="h6" gutterBottom component="div">
-                Settings
-              </Typography>
-            </Link>
-          </div>
+
           <div className={styles.item}>
             <Typography variant="h6" gutterBottom component="div" onClick={signOut}>
               Sign Out
