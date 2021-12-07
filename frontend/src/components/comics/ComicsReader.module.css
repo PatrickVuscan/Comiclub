@@ -5,10 +5,44 @@
 
 .comicPanel {
   width: 75vw;
+  height: 90vh;
 }
 
 .commentsContainer {
-  height: 100vh;
+  height: 90vh;
   width: 25vw;
-  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.commentsBody {
+  overflow: scroll;
+}
+
+.newCommentContainer {
+  background-color: #186ed1;
+}
+
+.innerNewCommentContainer {
+  background-color: white;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.newCommentInput {
+  height: 10vh;
+}
+
+.commentCard {
+  border-bottom: solid black 1px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.submitButton {
+  min-height: 50px;
 }
