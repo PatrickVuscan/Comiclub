@@ -3,7 +3,6 @@ import TableRow from '@mui/material/TableRow';
 import React from 'react';
 
 import { getUserCommentRowData } from '../../actions/AdminActions';
-import { getEpisode } from '../../actions/ComicActions';
 import DeleteComment from './DeleteComment';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -11,8 +10,6 @@ class AdminUserCommentRow extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('props');
-    console.log(props);
     this.state = {
       episodeID: props.comment.episodeID,
       comicName: '',
@@ -21,13 +18,11 @@ class AdminUserCommentRow extends React.Component {
   }
 
   componentDidMount() {
-    console.log('getUserCommentRowData');
     getUserCommentRowData(this);
   }
 
   render() {
     const { episodeID, comicName, episodeName } = this.state;
-    console.log(episodeID);
     const { comment } = this.props;
     const { commentID, publishDate, commentContent } = comment;
 
@@ -40,7 +35,7 @@ class AdminUserCommentRow extends React.Component {
         <TableCell align="right">{publishDate}</TableCell>
         <TableCell align="right">&quot;{commentContent}&quot;</TableCell>
         <TableCell align="right">
-          <DeleteComment commentID={commentID} commentContent={commentContent} />
+          <DeleteComment comment={comment} />
         </TableCell>
       </TableRow>
     );

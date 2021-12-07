@@ -6,6 +6,7 @@ const { mongoChecker, isMongoError } = require('../mongoHelpers');
 const { Comment } = require('../models/comment');
 const { updateNestedEpisode } = require('./helpers');
 const { User } = require('../models/user');
+const { Episode, EpisodeSchema } = require('../models/episode');
 
 const router = express.Router();
 
@@ -62,6 +63,33 @@ router.put('/', async (req, res) => {
       console.log(error);
       res.status(400).send('Could not add your comment.'); // bad request for changing the student.
     }
+  }
+});
+
+router.delete('/comment', async (req, res) => {
+  const { userID, episodeID, commentID } = req.body;
+
+  try {
+    // remove comment from Episode
+    const episode = await Episode.findById(episodeID);
+    const nestedComment = episode.comments.id(commentID);
+    nestedComment.remove();
+    episode.save();
+
+    // remove comment from Comments
+    const comment = await Comment.findById(commentID);
+    const { body } = comment;
+    comment.remove();
+
+    // decrement comment count from User
+    const creator = await User.findById(userID);
+    creator.commentsCount -= 1;
+    creator.save();
+
+    res.send(`Removed: "${body}"`);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send('Bad Request');
   }
 });
 

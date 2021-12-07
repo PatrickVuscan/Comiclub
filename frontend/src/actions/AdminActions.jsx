@@ -61,20 +61,19 @@ export const getUserCommentRowData = async (Row) => {
   }
 };
 
-export const getCommentsByUserID = async (User) => {
-  const { userID } = User.state;
-  console.log(`getCommentsByUserID: ${userID}`);
-  console.log(User);
+export const getCommentsByUserID = async (User, creatorID) => {
+  console.log(`getCommentsByUserID: ${creatorID}`);
 
-  const userComments = await fetch(`${ENV.api_host}/api/comments/userID/${userID}`, {
+  const userComments = await fetch(`${ENV.api_host}/api/comments/userID/${creatorID}`, {
     credentials: 'include',
   });
   const userCommentsJSON = await userComments.json();
   console.log(userCommentsJSON);
 
   // commentID, comicName, episodeNumber, panelNumber, publishDate, commentContent
-  const comments = userCommentsJSON.map(({ _id, episodeID, body, publishDate }) => ({
+  const comments = userCommentsJSON.map(({ _id, episodeID, userID, body, publishDate }) => ({
     commentID: _id,
+    userID,
     episodeID,
     publishDate,
     commentContent: body,
@@ -86,8 +85,34 @@ export const getCommentsByUserID = async (User) => {
   });
 };
 
-export const deleteCommentByID = (commentID) => {
-  console.log(`deleteCommentByID: ${commentID}`);
+export const deleteCommentByID = async (comment) => {
+  const { episodeID, userID, commentID } = comment.comment;
+  console.log(`deleteCommentByID: ${userID} / ${episodeID} / ${commentID}`);
+
+  const deleteRequest = new Request(`${ENV.api_host}/api/comments/comment`, {
+    credentials: 'include',
+    method: 'delete',
+    body: JSON.stringify({
+      userID,
+      episodeID,
+      commentID,
+    }),
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const deleteResponse = await fetch(deleteRequest);
+
+  if (!deleteResponse.ok) {
+    console.log('There was an error deleting this comic:', deleteResponse);
+    const response = { msg: 'error' };
+    return response;
+  }
+
+  const response = { msg: 'deleted' };
+  return response;
 };
 
 export const deleteUserByID = (userID) => {
