@@ -22,13 +22,6 @@ import AuthContext, { fetchAuthState } from './context';
 import theme from './mui';
 
 function App() {
-  // This is the entry into the app, so we have this bad boy making sure we
-  // import certain files only when we're in the development mode
-  const [loadedScripts, setLoadedScripts] = useState(false);
-  if (!loadedScripts && process.env.NODE_ENV === 'development') {
-    import('./random').then(() => setLoadedScripts(!loadedScripts));
-  }
-
   const [authState, setAuthState] = useState(fetchAuthState());
 
   return (

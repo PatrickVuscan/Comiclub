@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
+// The creation of our MuiTheme
 const theme = createTheme({
   typography: {
     // fontSize: `1rem`,

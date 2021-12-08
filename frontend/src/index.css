@@ -5,31 +5,7 @@
   --darkblue:#004ea7;
 
   font-size: calc(10px + 0.5vmin);
-
-
-  /* Pretty scrollbar firefox */
-  /* scrollbar-color: var(--blue) var(--lightblue); */
 }
-
-/* Pretty scrollbars, on all other browsers */
-/* ::-webkit-scrollbar {
-  width: 0.5rem;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--lightblue);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--darkblue);
-  border-radius: 1rem;
-  border: 1px solid var(--blue);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--blue);
-  border: 1px solid var(--darkblue);
-} */
 
 body {
   margin: 0;
@@ -40,9 +16,4 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
 
