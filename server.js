@@ -50,7 +50,6 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: env === 'production',
-      sameSite: env === 'production' ? 'none' : undefined,
       expires: 86400000, // One day
     },
     // Store the sessions on the database in production
@@ -91,6 +90,9 @@ const authenticate = (req, res, next) => {
 
 app.use((req, res, next) => {
   console.log('Session middleware: ', req.session);
+  console.log('User ', req.session.user);
+  console.log('Username ', req.session.username);
+  console.log('Email ', req.session.email);
   next();
 });
 
