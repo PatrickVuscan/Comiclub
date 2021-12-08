@@ -20,7 +20,6 @@ function loginHelper(user, req) {
   req.session.email = user.email;
   req.session.profilePicture = user.profilePicture;
   req.session.genres = user.genres;
-  req.session.save();
 }
 
 router.post('/', async (req, res) => {
@@ -93,12 +92,10 @@ router.post(
         loginHelper(user, req);
 
         console.log('Inside of login');
-
         console.log('User ', req.session.user);
         console.log('Username ', req.session.username);
-        console.log('Email ', req.session.email);
-
         console.log('Finished login');
+
         res.send({
           user: user._id,
           username: user.username,
@@ -310,6 +307,7 @@ router.delete('/:userID', async (req, res) => {
 
   try {
     const comments = await Comment.find({ userID: { $eq: userID } });
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < comments.length; i++) {
       // Find the episode that this comment belongs to and delete
       // the nested comment from the episode
