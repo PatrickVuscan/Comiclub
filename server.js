@@ -53,14 +53,9 @@ app.use(
       expires: 86400000, // One day
     },
     // Store the sessions on the database in production
-    store:
-      env === 'production'
-        ? MongoStore.create({
-            mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/ComiclubAPI',
-          })
-        : MongoStore.create({
-            mongoUrl: 'mongodb://localhost:27017/ComiclubAPI',
-          }),
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/ComiclubAPI',
+    }),
   })
 );
 
