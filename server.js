@@ -49,7 +49,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: env === 'production',
+      secure: false,
       expires: 86400000, // One day
     },
     // Store the sessions on the database in production
