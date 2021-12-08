@@ -20,17 +20,82 @@
 ## Comments
 
 ### GET '/episodeID/:episodeID'
+
+Get a list of Comments made on an Episode
+
+#### Request
+
+`GET` : `.../api/comments/episodeID/61ae7c4a5a128860f4c702ed`
+
+#### Response
+
+```JSON
+[
+    {
+        "_id": "61aff3739d3831d26462d58e",
+        "userID": "61aed51ea56b52c09c401094",
+        "episodeID": "61aed58da56b52c09c4010af",
+        "body": "hello world!",
+        "publishDate": "2021-12-07T23:51:15.664Z",
+        "__v": 0
+    },
+    {
+        "_id": "61aff6af15155016b1081b46",
+        "userID": "61aed51ea56b52c09c401094",
+        "episodeID": "61aed58da56b52c09c4010af",
+        "body": "hello world again!",
+        "publishDate": "2021-12-08T00:05:03.998Z",
+        "__v": 0
+    }
+]
+
+```
+---
+
 ### GET '/userID/:userID'
+
+Get all the comments made by a User.
+
+#### Request
+
+`GET` : `.../api/comments/userID/61aed51ea56b52c09c401094`
+
+#### Response
+
+```JSON
+[
+    {
+        "_id": "61aff3739d3831d26462d58e",
+        "userID": "61aed51ea56b52c09c401094",
+        "episodeID": "61aed58da56b52c09c4010af",
+        "body": "hello world!",
+        "publishDate": "2021-12-07T23:51:15.664Z",
+        "__v": 0
+    },
+    {
+        "_id": "61aff6af15155016b1081b46",
+        "userID": "61aed51ea56b52c09c401094",
+        "episodeID": "61aed58da56b52c09c4010af",
+        "body": "hello world again!",
+        "publishDate": "2021-12-08T00:05:03.998Z",
+        "__v": 0
+    }
+]
+```
+
+---
+
 ### PUT '/'
+
 Adds a Comment to an Episode.
 
 #### Request
 
-Type : `PUT`
+`PUT` : `.../api/comments/`
 
 Body: 
 
-```
+```JSON
 {
     "episodeID": "61aed58da56b52c09c4010af",
     "body": "hello world!"
@@ -38,7 +103,7 @@ Body:
 ```
 
 #### Response
-```
+```JSON
 {
     "_id": "61aff3739d3831d26462d58e",
     "userID": "61aed51ea56b52c09c401094",
@@ -48,8 +113,30 @@ Body:
     "__v": 0
 }
 ```
+---
 
 ### DELETE '/comment'
+
+Deletes a Comment from an Episode.
+
+#### Request
+`DELETE` : `.../api/comments/comment`
+
+Body: 
+
+```JSON
+{
+    "userID": "61aed51ea56b52c09c401094",
+    "episodeID": "61aed58da56b52c09c4010af",
+    "commentID": "61aff6af15155016b1081b46"
+}
+```
+
+#### Response
+```
+Removed: "hello world again!"
+```
+---
 
 ## Episodes
 
