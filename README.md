@@ -22,9 +22,12 @@
 ### GET '/episodeID/:episodeID'
 ### GET '/userID/:userID'
 ### PUT '/'
-Add a Comment to an Episode.
+Adds a Comment to an Episode.
 
-Request: PUT
+#### Request
+
+Type : `PUT`
+
 Body: 
 
 ```
@@ -34,7 +37,7 @@ Body:
 }
 ```
 
-Response:
+#### Response
 ```
 {
     "_id": "61aff3739d3831d26462d58e",
@@ -45,6 +48,7 @@ Response:
     "__v": 0
 }
 ```
+
 ### DELETE '/comment'
 
 ## Episodes
