@@ -28,15 +28,15 @@ const comments = require('./routes/comments');
 const app = express();
 
 // Enable CORS if in development, for React local development server to connect to the web server.
-// if (env !== 'production') {
-app.use(
-  cors({
-    origin: ['http://localhost:3000', 'http://localhost:5000', 'https://calm-springs-75379.herokuapp.com'],
-    methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
-    credentials: true,
-  })
-);
-// }
+if (env !== 'production') {
+  app.use(
+    cors({
+      origin: ['http://localhost:3000', 'http://localhost:5000', 'https://calm-springs-75379.herokuapp.com'],
+      methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
+      credentials: true,
+    })
+  );
+}
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // Parsing URL-encoded form data (from form POST requests)
@@ -49,7 +49,6 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false,
       expires: 86400000, // One day
     },
     // Store the sessions on the database in production
