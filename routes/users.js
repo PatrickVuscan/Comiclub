@@ -20,6 +20,7 @@ function loginHelper(user, req) {
   req.session.email = user.email;
   req.session.profilePicture = user.profilePicture;
   req.session.genres = user.genres;
+  req.session.save();
 }
 
 router.post('/', async (req, res) => {
