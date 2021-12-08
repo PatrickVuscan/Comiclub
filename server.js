@@ -89,6 +89,11 @@ const authenticate = (req, res, next) => {
   }
 };
 
+app.use((req, res, next) => {
+  console.log('Session middleware: ', req.session);
+  next();
+});
+
 // ! Add routes
 app.use('/api/users', users);
 app.use('/api/comics', comics);

@@ -72,30 +72,39 @@ router.get('/', async (req, res) => {
 });
 
 // A route to login and create a session
-router.post('/login', (req, res) => {
-  const { email, password } = req.body;
+router.post(
+  '/login',
+  (req, res, next) => {
+    // Addition loggin for first check
+    console.log('Process Environment: ', process.env);
+    console.log('Session middleware: ', req.session);
+    next();
+  },
+  (req, res) => {
+    const { email, password } = req.body;
 
-  // Use the static method on the User model to find a user
-  // by their email and password
-  User.findByEmailPassword(email, password)
-    .then((user) => {
-      // Add the user's id to the session.
-      // We can check later if this exists to ensure we are logged in.
-      loginHelper(user, req);
+    // Use the static method on the User model to find a user
+    // by their email and password
+    User.findByEmailPassword(email, password)
+      .then((user) => {
+        // Add the user's id to the session.
+        // We can check later if this exists to ensure we are logged in.
+        loginHelper(user, req);
 
-      res.send({
-        user: user._id,
-        username: user.username,
-        email: user.email,
-        profilePicture: user.profilePicture,
-        genres: user.genres,
+        res.send({
+          user: user._id,
+          username: user.username,
+          email: user.email,
+          profilePicture: user.profilePicture,
+          genres: user.genres,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(400).send('There was an error trying to log in');
       });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(400).send('There was an error trying to log in');
-    });
-});
+  }
+);
 
 function logoutHelper(req, res) {
   req.session.destroy((error) => {
