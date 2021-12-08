@@ -83,5 +83,5 @@ The `start` and `heroku-postbuild` scripts included in [package.json](package.js
 > heroku config:set MONGODB_URI='mongodb+srv://comiclub:<password>@comiclubcluster.lfyhj.mongodb.net/ComiclubAPI?retryWrites=true&w=majority'
 
 # deploy the latest committed version of your code to Heroku
-> git push heroku master
+> git push heroku main
 ```
