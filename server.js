@@ -48,7 +48,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      httpOnly: true,
+      httpOnly: false,
       secure: env === 'production',
       expires: 86400000, // One day
     },
