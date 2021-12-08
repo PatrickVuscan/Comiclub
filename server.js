@@ -48,9 +48,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: env === 'production',
-      expires: 86400000, // One day
       httpOnly: true,
+      secure: env === 'production',
+      sameSite: env === 'production' ? 'none' : undefined,
+      expires: 86400000, // One day
     },
     // Store the sessions on the database in production
     store:
