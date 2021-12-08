@@ -91,6 +91,13 @@ router.post(
         // We can check later if this exists to ensure we are logged in.
         loginHelper(user, req);
 
+        console.log('Inside of login');
+
+        console.log('User ', req.session.user);
+        console.log('Username ', req.session.username);
+        console.log('Email ', req.session.email);
+
+        console.log('Finished login');
         res.send({
           user: user._id,
           username: user.username,
