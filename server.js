@@ -31,7 +31,7 @@ const app = express();
 if (env !== 'production') {
   app.use(
     cors({
-      origin: ['http://localhost:3000', 'http://localhost:5000', 'https://calm-springs-75379.herokuapp.com'],
+      origin: ['http://localhost:3000', 'http://localhost:5000', 'https://comiclub.herokuapp.com'],
       methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE'],
       credentials: true,
     })
